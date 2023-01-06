@@ -4,46 +4,74 @@
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var app\models\LoginForm $model */
 
+use yii\helpers\Url;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-10">
+            <div class="card rounded-3 text-black">
+                <div class="row g-0">
+                    <div class="col-lg-6">
+                        <div class="card-body p-md-5 mx-md-4">
 
-    <p>Please fill out the following fields to login:</p>
+                            <div class="text-center">
+                                <h4 class="mt-1 mb-5 pb-1">Login</h4>
+                            </div>
 
-    <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
-        'layout' => 'horizontal',
-        'fieldConfig' => [
-            'template' => "{label}\n{input}\n{error}",
-            'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
-            'inputOptions' => ['class' => 'col-lg-3 form-control'],
-            'errorOptions' => ['class' => 'col-lg-7 invalid-feedback'],
-        ],
-    ]); ?>
+							<?php $form = ActiveForm::begin([
+								'id' => 'login-form',
+							]); ?>
+                            <p>Indica tus credenciales para iniciar sesión:</p>
 
-        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                            <div class="form-outline mb-4">
+                                <label for="email">Email:</label>
+								<?= $form->field($model, 'username')->textInput(['autofocus' => true, 'id'=>'email'])->label(false) ?>
+                            </div>
 
-        <?= $form->field($model, 'password')->passwordInput() ?>
+                            <div class="form-outline mb-4">
+                                <label for="pass">Contraseña:</label>
+								<?= $form->field($model, 'password')->passwordInput(['id'=>'pass'])->label(false) ?>
+                            </div>
+                            <div class="form-outline mb-4">
+								<?= $form->field($model, 'rememberMe')->label("Recordarme")->checkbox([
+								]) ?>
+                            </div>
 
-        <?= $form->field($model, 'rememberMe')->checkbox([
-            'template' => "<div class=\"offset-lg-1 col-lg-3 custom-control custom-checkbox\">{input} {label}</div>\n<div class=\"col-lg-8\">{error}</div>",
-        ]) ?>
+                            <div class="text-center pt-1 mb-5 pb-1">
+								<?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary btn-block fa-lg gradient-custom-2 mb-3', 'name' => 'login-button']) ?>
+                                <br>
+								<?php
+								if(isset($error))
+									echo $error;
+								?>
+                            </div>
 
-        <div class="form-group">
-            <div class="offset-lg-1 col-lg-11">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+
+                            <div class="d-flex align-items-center justify-content-center pb-4">
+                                <p class="mb-0 me-2">¿No tienes una cuenta?</p>
+
+                                <a class="btn btn-outline-danger" href="<?= Url::toRoute(['site/registro']);?>">Regístrate</a>
+                            </div>
+
+							<?php ActiveForm::end(); ?>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
+                        <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                            <h4 class="mb-4">Establecimientos hosteleros</h4>
+                            <p class="small mb-0">En esta aplicación se podrán ver, buscar y consultar
+                                diferentes establecimientos hosteleros (bares, restaurantes, etc.)
+                                con la intención de encontrar las opiniones sobre ellos y sobre todo recomendaciones.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-    <?php ActiveForm::end(); ?>
-
-    <div class="offset-lg-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
     </div>
 </div>
