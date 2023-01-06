@@ -7,7 +7,7 @@ namespace app\models;
  *
  * @see Usuario
  */
-class UsuariosQuery extends \yii\db\ActiveQuery
+class UsuarioQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
