@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use \app\models\Categoria;
 use Yii;
 
 /**
@@ -118,5 +119,11 @@ class Local extends \yii\db\ActiveRecord
 			8=>'Área',
 		);
 		return $zonas;
+	}
+
+	public function getCategoria(){
+		return $this->hasOne(Categoria::class, [
+			'id'=>'categoria_id',
+		]);
 	}
 }

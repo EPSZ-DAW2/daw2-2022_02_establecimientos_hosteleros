@@ -1,6 +1,7 @@
 <?php
 //Ficha resumida de un local
 use \app\models\Local;
+use yii\helpers\Url;
 use yii\helpers\Html; ?>
 
 <section class="mx-3 my-3" style="max-width: 23rem;">
@@ -14,18 +15,44 @@ use yii\helpers\Html; ?>
             <h5 class="card-title font-weight-bold"><a><?= Html::encode("{$local->titulo}")?></a></h5>
             <ul class="list-unstyled list-inline mb-0">
                 <li class="list-inline-item">
-                    <?php $valoracion=$local->sumaValores/$local->totalVotos; ?>
+                    <?php
+                        if($local->sumaValores/$local->totalVotos != null || $local->sumaValores/$local->totalVotos != 0)
+                            $valoracion=$local->sumaValores/$local->totalVotos;
+                        else
+                            $valoracion="Sin valoraciones";
+                    ?>
                     <p class="text-muted"><?= Html::encode("{$valoracion}")?> (<?= Html::encode("{$local->totalVotos}")?>)</p>
                 </li>
                 <li class="list-inline-item">
-                    <?php $zonas=Local::listaZonas(); ?>
+                    <?php
+                        if($local->categoria_id != 0){
+							$categoria=$local->getCategoria()->one();
+							$nombre=$categoria->nombre;
+                        }else
+                            $nombre="Sin categoría";
+                    ?>
+                    <p class="text-muted">Categoría: <?= Html::encode("{$nombre}")?></p>
+                </li>
+            </ul>
+            <ul class="list-unstyled list-inline mb-0">
+                <li class="list-inline-item">
+					<?php $zonas=Local::listaZonas(); ?>
                     <p class="text-muted">Zona: <?= Html::encode("{$zonas[$local->zona_id]}")?></p>
                 </li>
                 <li class="list-inline-item">
-                    <p class="text-muted"><a href="<?= Html::encode("{$local->url}")?>" target="_blank">Visita la web</a></p>
+					<?php if(isset($local->url) && $local->url != ''): ?>
+                        <p class="text-muted"><a href="<?= Html::encode("{$local->url}")?>" target="_blank">Visita la web</a></p>
+					<?php endif; ?>
                 </li>
             </ul>
-            <p class="mb-2"><?= Html::encode("{$local->lugar}")?></p>
+            <p class="mb-2">
+				<?php
+				if(isset($local->lugar) && $local->lugar!='')
+					echo Html::encode("{$local->lugar}");
+				else
+					echo Html::encode("No hay nada por el momento...");
+				?>
+            </p>
             <p class="card-text">
                 <?php
                     if(isset($local->descripcion) && $local->descripcion!='')
@@ -34,7 +61,7 @@ use yii\helpers\Html; ?>
                         echo Html::encode("No hay nada por el momento...");
                 ?>
             </p>
-            <a href="#!" class="btn btn-link link-secondary p-md-1 mb-0">Saber más</a>
+            <a href="<?= Url::toRoute(['local/detalle', 'id'=>$local->id]);?>" class="btn btn-link link-secondary p-md-1 mb-0">Saber más</a>
         </div>
     </div>
 

@@ -16,4 +16,9 @@ class LocalController extends \yii\web\Controller
 			'locales'=>$locales
 		]);
     }
+
+	public function actionDetalle()
+	{
+		//TODO
+	}
 }
