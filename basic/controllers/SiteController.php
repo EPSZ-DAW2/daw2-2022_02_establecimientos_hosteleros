@@ -98,6 +98,16 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+	/**
+	 * Registro action.
+	 *
+	 * @return Response|string
+	 */
+	public function actionRegistro()
+	{
+
+	}
+
     /**
      * Displays contact page.
      *
