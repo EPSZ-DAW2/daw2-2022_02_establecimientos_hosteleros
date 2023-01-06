@@ -191,7 +191,7 @@ class SiteController extends Controller
 		if ($model->load(Yii::$app->request->post())) {
 			$model->fecha_registro=date("Y-m-d H:i:s");
 			$model->confirmado=0;
-
+			$model->password=hash("sha1", $model->password);
 
 			if($model->validate()){
 				if($model->save()){
@@ -208,7 +208,6 @@ class SiteController extends Controller
 					'model' => $model,
 				]);
 			}
-
 
 		}else{
 			return $this->render('registro', [

@@ -57,13 +57,13 @@ $this->params['breadcrumbs'][] = $this->title;
 							<div class="form-outline mb-4">
 								<label for="usuario-fecha_nacimiento">Fecha de nacimiento</label>
 								<?= $form->field($model, 'fecha_nacimiento')->widget(\yii\jui\DatePicker::className(),
-									[ 'dateFormat' => 'php:d/m/Y',
+									[ 'dateFormat' => 'php:Y/m/d',
 										'language' => 'es',
 										'clientOptions' => [
 											'changeYear' => true,
 											'changeMonth' => true,
 											'yearRange' => '-50:-12',
-											'altFormat' => 'dd-mm-yy',
+											'altFormat' => 'yyyy-mm-dd',
 										]],['placeholder' => 'dd/mm/yyyy'])
 									->textInput(['placeholder' => \Yii::t('app', 'dd/mm/yyyy')])->label(false) ;?>
 							</div>

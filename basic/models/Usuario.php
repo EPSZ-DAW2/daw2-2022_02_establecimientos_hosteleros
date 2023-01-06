@@ -126,7 +126,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	}
 
 	public function validatePassword($password){
-		return $this->password === $password;//hash("sha1", $password);
+		return $this->password === hash("sha1", $password);
 	}
 
 	//Se actualiza la ultima conexion del usuario
