@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Usuario;
 use Yii;
+use yii\debug\models\search\Log;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -81,10 +82,21 @@ class SiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post())) {
 
-			//Comprobar si el usuario esta bloqueado y ha trascurrido el tiempo necesario para el desbloqueo
+			//Comprobar si el usuario está bloqueado y ha trascurrido el tiempo necesario para el desbloqueo
 			$usuarioAcceso=Usuario::find()->where(['email'=>$model->username])->one();
 			//Se comprueba si existe un usuario
 			if(isset($usuarioAcceso)) {
+
+				//Si el usuario no está confirmado no puede acceder
+				if($usuarioAcceso->confirmado==0){
+					$error='Tu cuenta aún no está confirmada, si tarda mucho contacta con un administrador';
+					Yii::error('Intento de inicio de sesión de la cuenta no confirmada con email: '.$usuarioAcceso->email);
+					return $this->render('login', [
+						'model' => $model,
+						'error'=>$error,
+					]);
+				}
+
 				//Si la fecha de bloqueo no es nula
 				if($usuarioAcceso->fecha_bloqueo!=null){
 					$tiempo = date_diff(date_create(date("Y-m-d H:i:s")), date_create($usuarioAcceso->fecha_bloqueo));	//Diferencia de fechas
@@ -104,12 +116,13 @@ class SiteController extends Controller
 					if($model->login()){
 						$usuario=Usuario::findOne(Yii::$app->user->identity->id);
 						$usuario->updateUltimaConexion();
-						$usuario->resetNumAccesos();
+						$usuario->resetNumAccesos();						//Numero de accesos = 0
+						$usuarioAcceso->updateFechaBloqueo('');		//Fecha de bloqueo null
 						Yii::$app->session->set('veces',0);
 						return $this->goBack();
 					}else{	//Si hay un fallo en login
 						Yii::$app->session->set('veces',Yii::$app->session->get('veces')+1);
-
+						Yii::error('Intento de inicio de sesión fallido');
 						if(Yii::$app->session->get('veces')>Yii::$app->params['intentos'])
 							$error = "Te quedan 0 intentos.";
 						else
@@ -124,6 +137,7 @@ class SiteController extends Controller
 
 					}
 				}else{
+					Yii::error('Intento de inicio de sesión fallido, superado número máximo de intentos.');
 					$usuarioAcceso->bloquear(1);
 					$error="Has superado el número máximo de intentos.";
 				}
@@ -138,6 +152,7 @@ class SiteController extends Controller
 
 				if(Yii::$app->session->get('veces')>Yii::$app->params['intentos']-1){
 					$error="Has superado el número máximo de intentos.";
+					Yii::error('Intento de inicio de sesión fallido, superado número máximo de intentos en sesión.');
 				}
 			}
 		}
@@ -167,7 +182,38 @@ class SiteController extends Controller
 	 */
 	public function actionRegistro()
 	{
+		if (!Yii::$app->user->isGuest) {
+			return $this->goHome();
+		}
 
+		$model = new Usuario();
+
+		if ($model->load(Yii::$app->request->post())) {
+			$model->fecha_registro=date("Y-m-d H:i:s");
+			$model->confirmado=0;
+			$model->password=hash("sha1", $model->password);
+
+			if($model->validate()){
+				if($model->save()){
+					return $this->redirect(['login']);
+				}else{
+					//$model->email=null;
+					return $this->render('registro', [
+						'model' => $model,
+					]);
+				}
+			}else{
+				//$model->email=null;
+				return $this->render('registro', [
+					'model' => $model,
+				]);
+			}
+
+		}else{
+			return $this->render('registro', [
+				'model' => $model,
+			]);
+		}
 	}
 
     /**

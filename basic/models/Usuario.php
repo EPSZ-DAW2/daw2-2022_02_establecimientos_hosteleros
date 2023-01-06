@@ -48,7 +48,8 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			['zona_id','required', 'message'=>'Debes indicar tu zona geográfica'],
             [['email', 'password', 'nick', 'nombre', 'apellidos', 'zona_id', 'confirmado'], 'required'],
             [['fecha_nacimiento', 'fecha_registro', 'fecha_acceso', 'fecha_bloqueo'], 'safe'],
-			[['email', 'nick'], 'unique'],
+			['nick', 'unique', 'message'=>'Este nick ya ya está en uso. Prueba con otro'],
+			['email', 'unique', 'message'=>'Este email ya está en uso. Prueba con otro'],
             [['direccion', 'notas_bloqueo'], 'string'],
             [['zona_id', 'confirmado', 'num_accesos', 'bloqueado'], 'integer'],
             [['email'], 'string', 'max' => 255],
@@ -88,11 +89,11 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
     /**
      * {@inheritdoc}
-     * @return UsuariosQuery the active query used by this AR class.
+     * @return UsuarioQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UsuariosQuery(get_called_class());
+        return new UsuarioQuery(get_called_class());
     }
 
 	public static function findIdentity($id)
@@ -125,7 +126,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	}
 
 	public function validatePassword($password){
-		return $this->password === $password;//hash("sha1", $password);
+		return $this->password === hash("sha1", $password);
 	}
 
 	//Se actualiza la ultima conexion del usuario
