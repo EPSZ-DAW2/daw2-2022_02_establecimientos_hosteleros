@@ -8,8 +8,12 @@ use yii\helpers\Html; ?>
 
     <div class="card">
         <div>
-            <?php //Poner la url de donde se guarda la foto?>
-            <img src="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1600" class="img-fluid" />
+            <?php //Poner la url de donde se guarda la foto
+            if(isset($local->imagen_id) && $local->imagen_id!=''): ?>
+                <img src="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1600" class="img-fluid"/>
+            <?php else:?>
+                <img src="images/sinfoto.jpg" class="img-fluid" style="width: 100%; height: 15rem" />
+            <?php endif; ?>
         </div>
         <div class="card-body">
             <h5 class="card-title font-weight-bold"><a><?= Html::encode("{$local->titulo}")?></a></h5>
