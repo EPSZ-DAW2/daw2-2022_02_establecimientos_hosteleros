@@ -22,7 +22,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'apellidos')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'fecha_nacimiento')->textInput() ?>
+	<?= $form->field($model, 'fecha_nacimiento')->widget(\yii\jui\DatePicker::className(),
+		[ 'dateFormat' => 'php:Y/m/d',
+			'language' => 'es',
+			'clientOptions' => [
+				'changeYear' => true,
+				'changeMonth' => true,
+				'yearRange' => '-50:-12',
+				'altFormat' => 'yyyy-mm-dd',
+			]],['placeholder' => 'dd/mm/yyyy'])
+		->textInput(['placeholder' => \Yii::t('app', 'dd/mm/yyyy')]) ;?>
 
     <?= $form->field($model, 'direccion')->textarea(['rows' => 6]) ?>
 
@@ -30,11 +39,29 @@ use yii\widgets\ActiveForm;
 
 	<?= $form->field($model, 'zona_id')->dropDownList($model::listaZonas()) ?>
 
-    <?= $form->field($model, 'fecha_registro')->textInput() ?>
+	<?= $form->field($model, 'fecha_registro')->widget(\yii\jui\DatePicker::className(),
+		[ 'dateFormat' => 'php:Y/m/d',
+			'language' => 'es',
+			'clientOptions' => [
+				'changeYear' => true,
+				'changeMonth' => true,
+				'yearRange' => '-50:-12',
+				'altFormat' => 'yyyy-mm-dd',
+			]],['placeholder' => 'dd/mm/yyyy'])
+		->textInput(['placeholder' => \Yii::t('app', 'dd/mm/yyyy')]) ;?>
 
 	<?= $form->field($model, 'confirmado')->dropDownList($model::listaOpciones()) ?>
 
-    <?= $form->field($model, 'fecha_acceso')->textInput() ?>
+	<?= $form->field($model, 'fecha_acceso')->widget(\yii\jui\DatePicker::className(),
+		[ 'dateFormat' => 'php:Y/m/d',
+			'language' => 'es',
+			'clientOptions' => [
+				'changeYear' => true,
+				'changeMonth' => true,
+				'yearRange' => '-50:-12',
+				'altFormat' => 'yyyy-mm-dd',
+			]],['placeholder' => 'dd/mm/yyyy'])
+		->textInput(['placeholder' => \Yii::t('app', 'dd/mm/yyyy')]) ;?>
 
     <?= $form->field($model, 'num_accesos')->textInput() ?>
 
