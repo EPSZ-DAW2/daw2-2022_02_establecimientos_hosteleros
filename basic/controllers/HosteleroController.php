@@ -27,6 +27,7 @@ class HosteleroController extends \yii\web\Controller
 			'hosteleros' => $hosteleros,
 		]);
 	}
+
 	public function actionDetalle()
 	{
 		//TODO

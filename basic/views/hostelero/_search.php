@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\HostelerosSearch $model */
@@ -44,7 +45,7 @@ use yii\widgets\ActiveForm;
 
         <div class="form-group">
 			<?= Html::submitButton(Yii::t('app', 'Buscar'), ['class' => 'btn btn-primary mt-2']) ?>
-			<?= Html::resetButton(Yii::t('app', 'Resetear'), ['class' => 'btn btn-outline-secondary mt-2']) ?>
+            <a href="<?= Url::toRoute(['hostelero/index']);?>" class="btn btn-outline-secondary mt-2">Resetear</a>
         </div>
 
 		<?php ActiveForm::end(); ?>
