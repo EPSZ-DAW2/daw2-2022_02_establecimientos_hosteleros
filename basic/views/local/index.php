@@ -1,7 +1,25 @@
 <?php
 /** @var yii\web\View $this */
+use \app\models\Hostelero;
+
+$this->title = 'Listado Locales';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Listado de locales</h1>
+<h1>
+    <?php
+    if(Yii::$app->request->get('id')) {
+		$hostelero = Hostelero::findOne(['id' => Yii::$app->request->get('id')]);
+		if (isset($hostelero)) {
+			$usuario = $hostelero->getUsuario()->one();
+			echo 'Listado de locales del hostelero ' . $usuario->nombre . " " . $usuario->apellidos;
+		} else {
+			echo 'No existe el hostelero indicado';
+			return 0;
+		}
+	}else
+        echo 'Listado de locales';
+    ?>
+</h1>
 
 <div class="container">
     <div class="row">

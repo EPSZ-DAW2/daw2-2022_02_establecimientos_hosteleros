@@ -13,9 +13,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 	<div class="row">
 		<?php
-		foreach ($hosteleros as $hostelero){
-			echo $this->render('ficha_resumida', ['hostelero'=>$hostelero]);
-		}
+        if(empty($hosteleros)){
+            echo '<h2>No se han encontrado hosteleros...</h2>';
+        }else{
+			foreach ($hosteleros as $hostelero){
+				echo $this->render('ficha_resumida', ['hostelero'=>$hostelero]);
+			}
+        }
 		?>
 	</div>
 </div>
