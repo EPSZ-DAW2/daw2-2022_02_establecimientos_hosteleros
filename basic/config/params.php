@@ -6,4 +6,5 @@ return [
     'senderName' => 'Example.com mailer',
 	'intentos'=>5,
 	'tiempoMinutos'=>2,
+	'paginacionHosteleros'=>10,
 ];
