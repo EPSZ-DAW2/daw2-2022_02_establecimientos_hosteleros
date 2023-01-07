@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(Yii::t('app', 'Actualizar'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', 'Borrar'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('app', '¿Estás seguro de querer borrar este usuario?'),
                 'method' => 'post',
             ],
         ]) ?>
@@ -37,13 +37,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'apellidos',
             'fecha_nacimiento',
             'direccion:ntext',
-            'rol',
-            'zona_id',
+			[
+				'attribute'=>'rol',
+				'value'=> $model->rol.'-'.$model->getDescripcionRol(),
+			],
+			[
+				'attribute'=>'zona_id',
+				'value'=> $model->zona_id.'-'.$model->getDescripcionZona(),
+			],
             'fecha_registro',
-            'confirmado',
+			[
+				'attribute'=>'confirmado',
+				'value'=> $model->descripcionOpcion($model->confirmado),
+			],
             'fecha_acceso',
             'num_accesos',
-            'bloqueado',
+			[
+				'attribute'=>'bloqueado',
+				'value'=> $model->descripcionOpcion($model->bloqueado),
+			],
             'fecha_bloqueo',
             'notas_bloqueo:ntext',
         ],
