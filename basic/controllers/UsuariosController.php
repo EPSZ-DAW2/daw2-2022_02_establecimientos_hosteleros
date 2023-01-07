@@ -48,12 +48,19 @@ class UsuariosController extends Controller
         ]);
     }
 
-	public function actionConfirmarusuarios(){
+	public function actionConfirmarusuarios($id=null){
+
+		if(isset($id) && $id!=null){
+			$model = $this->findModel($id);
+			$model->confirmado=1;
+			$model->save();
+		}
+
 		$searchModel = new UsuariosSearch();
 		$dataProvider = $searchModel->search($this->request->queryParams);
 		$dataProvider->query->where(['confirmado'=>0])->all();
 
-		return $this->render('index', [
+		return $this->render('confirmar', [
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 		]);
