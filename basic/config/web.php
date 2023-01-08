@@ -54,6 +54,8 @@ $config = [
         */
     ],
     'params' => $params,
+	'sourceLanguage'=>'es-ES',
+	'defaultRoute'=>'local/index',
 ];
 
 if (YII_ENV_DEV) {
