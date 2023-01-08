@@ -39,6 +39,9 @@ class UsuariosController extends Controller
      */
     public function actionIndex()
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $searchModel = new UsuariosSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -49,6 +52,9 @@ class UsuariosController extends Controller
     }
 
 	public function actionConfirmarusuarios($id=null){
+
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
 
 		if(isset($id) && $id!=null){
 			$model = $this->findModel($id);
@@ -74,6 +80,9 @@ class UsuariosController extends Controller
      */
     public function actionView($id)
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -86,6 +95,9 @@ class UsuariosController extends Controller
      */
     public function actionCreate()
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $model = new Usuario();
 
         if ($this->request->isPost) {
@@ -110,6 +122,9 @@ class UsuariosController extends Controller
      */
     public function actionUpdate($id)
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $model = $this->findModel($id);
 		$contraAnterior=$model->password;
         if ($this->request->isPost && $model->load($this->request->post())){
@@ -137,6 +152,9 @@ class UsuariosController extends Controller
      */
     public function actionDelete($id)
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

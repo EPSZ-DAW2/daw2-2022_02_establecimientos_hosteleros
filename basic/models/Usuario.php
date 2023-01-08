@@ -219,4 +219,27 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		return static::getOpcion($id);
 	}
 
+	/********************************************
+	 * Funciones para comprobar rol del usuario
+	 *
+	 *******************************************/
+	public static function esRolNormal($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==0;
+	}
+
+	public static function esRolModerador($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==1;
+	}
+
+	public static function esRolPatrocinador($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==2;
+	}
+
+	public static function esRolAdmin($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==3;
+	}
 }
