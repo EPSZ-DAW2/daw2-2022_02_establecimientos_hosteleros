@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\Configuracion;
 use app\models\ConfiguracionesSearch;
+use app\models\Usuario;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,6 +40,9 @@ class ConfiguracionesController extends Controller
      */
     public function actionIndex()
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $searchModel = new ConfiguracionesSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -55,6 +60,9 @@ class ConfiguracionesController extends Controller
      */
     public function actionView($variable)
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         return $this->render('view', [
             'model' => $this->findModel($variable),
         ]);
@@ -67,6 +75,9 @@ class ConfiguracionesController extends Controller
      */
     public function actionCreate()
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $model = new Configuracion();
 
         if ($this->request->isPost) {
@@ -91,6 +102,9 @@ class ConfiguracionesController extends Controller
      */
     public function actionUpdate($variable)
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $model = $this->findModel($variable);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -111,6 +125,9 @@ class ConfiguracionesController extends Controller
      */
     public function actionDelete($variable)
     {
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
         $this->findModel($variable)->delete();
 
         return $this->redirect(['index']);
