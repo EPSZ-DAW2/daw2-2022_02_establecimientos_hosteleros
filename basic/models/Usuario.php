@@ -15,6 +15,7 @@ use Yii;
  * @property string $apellidos
  * @property string|null $fecha_nacimiento Fecha de nacimiento del usuario o NULL si no lo quiere informar.
  * @property string|null $direccion Direccion del usuario o NULL si no quiere informar.
+ * @property string|null $rol Rol del usuario: 0=Normal, 1=Moderador, 2=Patrocinador, 3=Admin
  * @property int $zona_id Area/Zona de localización del usuario o CERO si no lo quiere informar (como si fuera NULL), aunque es recomendable.
  * @property string|null $fecha_registro Fecha y Hora de registro del usuario o NULL si no se conoce por algún motivo (que no debería ser).
  * @property int $confirmado Indicador de usuario ha confirmado su registro o no.
@@ -46,12 +47,12 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			['nick','required', 'message'=>'Debes indicar tu nick'],
 			['password','required', 'message'=>'Debes indicar una contraseña'],
 			['zona_id','required', 'message'=>'Debes indicar tu zona geográfica'],
-            [['email', 'password', 'nick', 'nombre', 'apellidos', 'zona_id', 'confirmado'], 'required'],
+            [['email', 'password', 'nick', 'nombre', 'apellidos', 'zona_id', 'rol', 'confirmado'], 'required'],
             [['fecha_nacimiento', 'fecha_registro', 'fecha_acceso', 'fecha_bloqueo'], 'safe'],
 			['nick', 'unique', 'message'=>'Este nick ya ya está en uso. Prueba con otro'],
 			['email', 'unique', 'message'=>'Este email ya está en uso. Prueba con otro'],
             [['direccion', 'notas_bloqueo'], 'string'],
-            [['zona_id', 'confirmado', 'num_accesos', 'bloqueado'], 'integer'],
+            [['zona_id','rol', 'confirmado', 'num_accesos', 'bloqueado'], 'integer'],
             [['email'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 60],
             [['nick'], 'string', 'max' => 25],
@@ -70,13 +71,13 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             'id' => Yii::t('app', 'ID'),
             'email' => Yii::t('app', 'Email'),
-            'password' => Yii::t('app', 'Password'),
+            'password' => Yii::t('app', 'Contraseña'),
             'nick' => Yii::t('app', 'Nick'),
             'nombre' => Yii::t('app', 'Nombre'),
             'apellidos' => Yii::t('app', 'Apellidos'),
             'fecha_nacimiento' => Yii::t('app', 'Fecha Nacimiento'),
             'direccion' => Yii::t('app', 'Direccion'),
-            'zona_id' => Yii::t('app', 'Zona ID'),
+            'zona_id' => Yii::t('app', 'Zona'),
             'fecha_registro' => Yii::t('app', 'Fecha Registro'),
             'confirmado' => Yii::t('app', 'Confirmado'),
             'fecha_acceso' => Yii::t('app', 'Fecha Acceso'),
@@ -156,8 +157,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		$this->save();
 	}
 
-	public static function listaZonas()
-	{
+	public static function listaZonas(){
 		$zonas= array(
 			0=>'Sin informar',
 			1=>'Continente',
@@ -170,5 +170,76 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			8=>'Área',
 		);
 		return $zonas;
+	}
+
+	public static function getNombreZona($id){
+		$lista=self::listaZonas();
+		$res= (isset($lista[$id]) ? $lista[$id] : '<Nombre_Zona_'.$id.'>');
+		return $res;
+	}
+
+	public function getDescripcionZona(){
+		return static::getNombreZona($this->zona_id);
+	}
+
+	public static function listaRoles(){
+		$roles= array(
+			0=>'Normal',
+			1=>'Moderador',
+			2=>'Patrocinador',
+			3=>'Admin',
+		);
+		return $roles;
+	}
+	public static function getNombreRol($inicial){
+		$lista=self::listaRoles();
+		$res= (isset($lista[$inicial]) ? $lista[$inicial] : '<Rol_'.$inicial.'>');
+		return $res;
+	}
+
+	public function getDescripcionRol(){
+		return static::getNombreRol($this->rol);
+	}
+
+	public static function listaOpciones(){
+		$opciones= array(
+			0=>'No',
+			1=>'Sí',
+		);
+		return $opciones;
+	}
+
+	public static function getOpcion($num){
+		$lista=self::listaOpciones();
+		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
+		return $res;
+	}
+
+	public function descripcionOpcion($id){
+		return static::getOpcion($id);
+	}
+
+	/********************************************
+	 * Funciones para comprobar rol del usuario
+	 *
+	 *******************************************/
+	public static function esRolNormal($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==0;
+	}
+
+	public static function esRolModerador($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==1;
+	}
+
+	public static function esRolPatrocinador($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==2;
+	}
+
+	public static function esRolAdmin($id){
+		$usuario=Usuario::findOne(['id'=>$id]);
+		return $usuario->rol==3;
 	}
 }

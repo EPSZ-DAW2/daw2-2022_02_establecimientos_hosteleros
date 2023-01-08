@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Configuracion;
 use app\models\Usuario;
 use Yii;
 use yii\debug\models\search\Log;
@@ -82,6 +83,10 @@ class SiteController extends Controller
 
 		if ($model->load(Yii::$app->request->post())) {
 
+			//Variables de configuracion
+			$numVeces=Configuracion::getValorConfiguracion('numero_intentos_usuario');
+			$minutos=Configuracion::getValorConfiguracion('tiempo_desbloqueo_usuario');
+
 			//Comprobar si el usuario está bloqueado y ha trascurrido el tiempo necesario para el desbloqueo
 			$usuarioAcceso=Usuario::find()->where(['email'=>$model->username])->one();
 			//Se comprueba si existe un usuario
@@ -102,7 +107,7 @@ class SiteController extends Controller
 					$tiempo = date_diff(date_create(date("Y-m-d H:i:s")), date_create($usuarioAcceso->fecha_bloqueo));	//Diferencia de fechas
 
 					//Si los minutos de diferencia son mayores que x y el usuario esta bloqueado
-					if ($tiempo->i >= Yii::$app->params['tiempoMinutos'] && $usuarioAcceso->bloqueado == 1) {
+					if ($tiempo->i >= $minutos && $usuarioAcceso->bloqueado == 1) {
 						Yii::$app->session->set('veces', 0);		//Veces en sesion a 0
 						$usuarioAcceso->updateFechaBloqueo('');		//Fecha de bloqueo null
 						$usuarioAcceso->bloquear(0);		//bloqueado = 0
@@ -110,8 +115,8 @@ class SiteController extends Controller
 					}
 				}
 
-				//Si el usuario no esta bloqueado y las veces en sesión son válidas
-				if($usuarioAcceso->bloqueado==0 && Yii::$app->session->get('veces')<Yii::$app->params['intentos']-1){
+				//Si el usuario no está bloqueado y las veces en sesión son válidas
+				if($usuarioAcceso->bloqueado==0 && $usuarioAcceso->num_accesos<$numVeces && Yii::$app->session->get('veces')<$numVeces-1){
 					//Si el login es correcto
 					if($model->login()){
 						$usuario=Usuario::findOne(Yii::$app->user->identity->id);
@@ -123,10 +128,10 @@ class SiteController extends Controller
 					}else{	//Si hay un fallo en login
 						Yii::$app->session->set('veces',Yii::$app->session->get('veces')+1);
 						Yii::error('Intento de inicio de sesión fallido');
-						if(Yii::$app->session->get('veces')>Yii::$app->params['intentos'])
+						if(Yii::$app->session->get('veces')>$numVeces)
 							$error = "Te quedan 0 intentos.";
 						else
-							$error = "Te quedan ".(Yii::$app->params['intentos']-Yii::$app->session->get('veces'))." intentos.";
+							$error = "Te quedan ".($numVeces-Yii::$app->session->get('veces'))." intentos.";
 
 						//Se incrementa en 1 el número de accesos
 						$usuarioAcceso->incrementNumAccesos();
@@ -145,12 +150,12 @@ class SiteController extends Controller
 			}else{	//Si el usuario no se encuentra en la base de datos
 
 				Yii::$app->session->set('veces',Yii::$app->session->get('veces')+1);
-				if(Yii::$app->session->get('veces')>Yii::$app->params['intentos'])
+				if(Yii::$app->session->get('veces')>$numVeces)
 					$error = "Te quedan 0 intentos.";
 				else
-					$error = "Te quedan ".(Yii::$app->params['intentos']-Yii::$app->session->get('veces'))." intentos.";
+					$error = "Te quedan ".($numVeces-Yii::$app->session->get('veces'))." intentos.";
 
-				if(Yii::$app->session->get('veces')>Yii::$app->params['intentos']-1){
+				if(Yii::$app->session->get('veces')>$numVeces-1){
 					$error="Has superado el número máximo de intentos.";
 					Yii::error('Intento de inicio de sesión fallido, superado número máximo de intentos en sesión.');
 				}
