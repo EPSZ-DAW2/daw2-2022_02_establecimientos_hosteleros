@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'num_accesos',
 			[
 				'attribute'=>'bloqueado',
-				'value'=> $model->descripcionOpcion($model->bloqueado),
+				'value'=> $model->descripcionOpcionBloqueo($model->bloqueado),
 			],
             'fecha_bloqueo',
             'notas_bloqueo:ntext',

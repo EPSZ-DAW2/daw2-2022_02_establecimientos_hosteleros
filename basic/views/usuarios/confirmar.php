@@ -67,10 +67,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'attribute'=>'bloqueado',
 				'content'=> function($model, $key, $index, $column){
-					return $model->descripcionOpcion($model->bloqueado);
+					return $model->descripcionOpcionBloqueo($model->bloqueado);
 				},
 				'contentOptions'=>['class'=>'text-center'],
-				'filter'=>\app\models\Usuario::listaOpciones(),
+				'filter'=>\app\models\Usuario::listaOpcionesBloqueo(),
 			],
 			[
 				'class' => 'yii\grid\ActionColumn',

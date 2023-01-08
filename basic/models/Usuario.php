@@ -201,6 +201,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		return static::getNombreRol($this->rol);
 	}
 
+	//Lista de opciones para ver si el usuario está confirmado
 	public static function listaOpciones(){
 		$opciones= array(
 			0=>'No',
@@ -217,6 +218,27 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	public function descripcionOpcion($id){
 		return static::getOpcion($id);
+	}
+
+	//Lista de opciones para ver si el usuario está bloqueado
+	public static function listaOpcionesBloqueo(){
+		$opciones= array(
+			0=>'No',
+			1=>'Sí (Accesos)',
+			2=>'Sí (Exceso establecimientos)',
+			3=>'Sí (Comentarios denunciados)',
+		);
+		return $opciones;
+	}
+
+	public static function getOpcionBloqueo($num){
+		$lista=self::listaOpcionesBloqueo();
+		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
+		return $res;
+	}
+
+	public function descripcionOpcionBloqueo($id){
+		return static::getOpcionBloqueo($id);
 	}
 
 	/********************************************
