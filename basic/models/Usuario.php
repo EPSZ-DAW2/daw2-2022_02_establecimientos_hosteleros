@@ -264,4 +264,13 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		$usuario=Usuario::findOne(['id'=>$id]);
 		return $usuario->rol==3;
 	}
+
+	/****************************
+	* Obtener avisos del usuario
+ 	*****************************/
+	public function getAvisos(){
+		return $this->hasMany(UsuarioAviso::class, [
+			'destino_usuario_id'=>'id',
+		]);
+	}
 }

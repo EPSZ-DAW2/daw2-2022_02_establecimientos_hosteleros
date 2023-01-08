@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\data\ArrayDataProvider;
+use yii\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var app\models\Usuario $model */
@@ -63,6 +65,28 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="container">
         <h2>Avisos del usuario</h2>
+        <?php
+            $avisosProvider= new ArrayDataProvider([
+                'allModels'=>$model->avisos,
+                'pagination'=>false,
+                'sort'=>false,
+            ]);
 
+        ?>
+
+		<?= GridView::widget([
+			'dataProvider' => $avisosProvider,
+			'columns' => [
+				['class' => 'yii\grid\SerialColumn'],
+				'id',
+                'clase_aviso_id',
+                'origen_usuario_id',
+                'texto',
+                'comentario_id',
+				'fecha_aviso',
+                'fecha_lectura',
+                'fecha_aceptado',
+			],
+		]); ?>
     </div>
 </div>
