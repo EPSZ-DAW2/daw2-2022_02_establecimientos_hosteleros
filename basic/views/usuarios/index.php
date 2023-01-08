@@ -73,8 +73,6 @@ $this->params['breadcrumbs'][] = $this->title;
 				'contentOptions'=>['class'=>'text-center'],
 				'filter'=>\app\models\Usuario::listaOpcionesBloqueo(),
 			],
-            //'fecha_bloqueo',
-            //'notas_bloqueo:ntext',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
