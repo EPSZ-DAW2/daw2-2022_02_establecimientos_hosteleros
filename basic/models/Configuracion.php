@@ -53,39 +53,24 @@ class Configuracion extends \yii\db\ActiveRecord
         return new ConfiguracionQuery(get_called_class());
     }
 
-	//Se obtiene las veces de intento de la configuración si existen.
-	//Si no se usan los valores definidos en params.php
-	public static function getNumIntentosUsuario(){
-		$numVeces=10;
-		if($configNumVeces=Configuracion::findOne(['variable'=>'numero_intentos_usuario'])){
-			if(isset($configNumVeces->valor) && $configNumVeces->valor != ''){
-				$numVeces=$configNumVeces->valor;
+	/*
+	 * Función para obtener el valor de una variable indicada de la configuración
+	 * Debe tener el mismo nombre en la base de datos y en params.php si se define
+	 * Por defecto es 10
+	 * */
+	public static function getValorConfiguracion($variable){
+		$num=10;
+		if($config=Configuracion::findOne(['variable'=>$variable])){
+			if(isset($config->valor) && $config->valor != ''){
+				$num=$config->valor;
 			}else{
-				if(isset(Yii::$app->params['numero_intentos_usuario']))
-					$numVeces=Yii::$app->params['numero_intentos_usuario'];
+				if(isset(Yii::$app->params[$variable]))
+					$num=Yii::$app->params[$variable];
 			}
 		}else{
-			if(isset(Yii::$app->params['numero_intentos_usuario']))
-				$numVeces=Yii::$app->params['numero_intentos_usuario'];
+			if(isset(Yii::$app->params[$variable]))
+				$num=Yii::$app->params[$variable];
 		}
-		return $numVeces;
-	}
-
-	//Se obtienen los minutos de la configuración si existen.
-	//Si no se usan los valores definidos en params.php
-	public static function getTiempoDesbloqueoUsuario(){
-		$tiempo=5;
-		if($configTiempo=Configuracion::findOne(['variable'=>'tiempo_desbloqueo_usuario'])){
-			if(isset($configTiempo->valor) && $configTiempo->valor != ''){
-				$tiempo=$configTiempo->valor;
-			}else{
-				if(isset(Yii::$app->params['tiempo_desbloqueo_usuario']))
-					$tiempo=Yii::$app->params['tiempo_desbloqueo_usuario'];
-			}
-		}else{
-			if(isset(Yii::$app->params['tiempo_desbloqueo_usuario']))
-				$tiempo=Yii::$app->params['tiempo_desbloqueo_usuario'];
-		}
-		return $tiempo;
+		return $num;
 	}
 }

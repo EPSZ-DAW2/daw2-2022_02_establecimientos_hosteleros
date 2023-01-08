@@ -84,8 +84,8 @@ class SiteController extends Controller
 		if ($model->load(Yii::$app->request->post())) {
 
 			//Variables de configuracion
-			$numVeces=Configuracion::getNumIntentosUsuario();
-			$minutos=Configuracion::getTiempoDesbloqueoUsuario();
+			$numVeces=Configuracion::getValorConfiguracion('numero_intentos_usuario');
+			$minutos=Configuracion::getValorConfiguracion('tiempo_desbloqueo_usuario');
 
 			//Comprobar si el usuario está bloqueado y ha trascurrido el tiempo necesario para el desbloqueo
 			$usuarioAcceso=Usuario::find()->where(['email'=>$model->username])->one();
