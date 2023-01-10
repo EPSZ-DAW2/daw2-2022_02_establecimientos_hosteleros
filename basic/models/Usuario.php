@@ -27,6 +27,9 @@ use Yii;
  */
 class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+
+	public $authKey;
+
     /**
      * {@inheritdoc}
      */
@@ -114,12 +117,12 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	public function getAuthKey()
 	{
-		return null;
+		return $this->authKey;
 	}
 
 	public function validateAuthKey($authKey)
 	{
-		throw new \yii\base\NotSupportedException("No existe");
+		return $this->authKey === $authKey;
 	}
 
 	public static function findByUsername($user){
