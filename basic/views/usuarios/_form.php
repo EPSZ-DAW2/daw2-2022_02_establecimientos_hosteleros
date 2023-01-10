@@ -65,7 +65,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'num_accesos')->textInput() ?>
 
-	<?= $form->field($model, 'bloqueado')->dropDownList($model::listaOpciones()) ?>
+	<?= $form->field($model, 'bloqueado')->dropDownList($model::listaOpcionesBloqueo()) ?>
 
     <?= $form->field($model, 'fecha_bloqueo')->textInput() ?>
 

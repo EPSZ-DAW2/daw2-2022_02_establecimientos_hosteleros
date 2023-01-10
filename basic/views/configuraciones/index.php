@@ -10,7 +10,7 @@ use yii\widgets\Pjax;
 /** @var app\models\ConfiguracionesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = Yii::t('app', 'Configuracions');
+$this->title = Yii::t('app', 'Configuraciones');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="configuracion-index">
@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Configuracion'), ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Html::a(Yii::t('app', 'Crear configuración'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'valor:ntext',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Configuracion $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'variable' => $model->variable]);
                  }
             ],

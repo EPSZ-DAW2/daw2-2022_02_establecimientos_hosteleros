@@ -2,11 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\data\ArrayDataProvider;
+use yii\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var app\models\Usuario $model */
 
-$this->title = $model->id;
+$this->title = 'Usuario: '.$model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarios'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -54,11 +56,37 @@ $this->params['breadcrumbs'][] = $this->title;
             'num_accesos',
 			[
 				'attribute'=>'bloqueado',
-				'value'=> $model->descripcionOpcion($model->bloqueado),
+				'value'=> $model->descripcionOpcionBloqueo($model->bloqueado),
 			],
             'fecha_bloqueo',
             'notas_bloqueo:ntext',
         ],
     ]) ?>
 
+    <div class="container">
+        <h2>Avisos del usuario</h2>
+        <?php
+            $avisosProvider= new ArrayDataProvider([
+                'allModels'=>$model->avisos,
+                'pagination'=>false,
+                'sort'=>false,
+            ]);
+
+        ?>
+
+		<?= GridView::widget([
+			'dataProvider' => $avisosProvider,
+			'columns' => [
+				['class' => 'yii\grid\SerialColumn'],
+				'id',
+                'clase_aviso_id',
+                'origen_usuario_id',
+                'texto',
+                'comentario_id',
+				'fecha_aviso',
+                'fecha_lectura',
+                'fecha_aceptado',
+			],
+		]); ?>
+    </div>
 </div>

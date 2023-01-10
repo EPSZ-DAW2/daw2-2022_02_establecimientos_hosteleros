@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "usuarios".
@@ -27,6 +28,9 @@ use Yii;
  */
 class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+
+	public $authKey;
+
     /**
      * {@inheritdoc}
      */
@@ -114,12 +118,12 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	public function getAuthKey()
 	{
-		return null;
+		return $this->authKey;
 	}
 
 	public function validateAuthKey($authKey)
 	{
-		throw new \yii\base\NotSupportedException("No existe");
+		return $this->authKey === $authKey;
 	}
 
 	public static function findByUsername($user){
@@ -158,18 +162,9 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	}
 
 	public static function listaZonas(){
-		$zonas= array(
-			0=>'Sin informar',
-			1=>'Continente',
-			2=>'País',
-			3=>'Estado',
-			4=>'Región',
-			5=>'Provincia',
-			6=>'Municipio',
-			7=>'Barrio',
-			8=>'Área',
-		);
-		return $zonas;
+		$tipos=Zona::listaZonas();
+		$lista=ArrayHelper::map($tipos,'clase_zona_id', 'nombre');
+		return $lista;
 	}
 
 	public static function getNombreZona($id){
@@ -201,6 +196,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		return static::getNombreRol($this->rol);
 	}
 
+	//Lista de opciones para ver si el usuario está confirmado
 	public static function listaOpciones(){
 		$opciones= array(
 			0=>'No',
@@ -217,6 +213,27 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	public function descripcionOpcion($id){
 		return static::getOpcion($id);
+	}
+
+	//Lista de opciones para ver si el usuario está bloqueado
+	public static function listaOpcionesBloqueo(){
+		$opciones= array(
+			0=>'No',
+			1=>'Sí (Accesos)',
+			2=>'Sí (Exceso establecimientos)',
+			3=>'Sí (Comentarios denunciados)',
+		);
+		return $opciones;
+	}
+
+	public static function getOpcionBloqueo($num){
+		$lista=self::listaOpcionesBloqueo();
+		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
+		return $res;
+	}
+
+	public function descripcionOpcionBloqueo($id){
+		return static::getOpcionBloqueo($id);
 	}
 
 	/********************************************
@@ -241,5 +258,14 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	public static function esRolAdmin($id){
 		$usuario=Usuario::findOne(['id'=>$id]);
 		return $usuario->rol==3;
+	}
+
+	/****************************
+	* Obtener avisos del usuario
+ 	*****************************/
+	public function getAvisos(){
+		return $this->hasMany(UsuarioAviso::class, [
+			'destino_usuario_id'=>'id',
+		]);
 	}
 }
