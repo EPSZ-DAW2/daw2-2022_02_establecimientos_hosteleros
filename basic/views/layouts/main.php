@@ -35,9 +35,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     <?php
 	if(!Yii::$app->user->isGuest && Usuario::esRolAdmin(Yii::$app->user->id)):
 		NavBar::begin([
-			'brandLabel' => Yii::$app->name,
+			'brandLabel' => '<img src="images/logo.png" class="pull-left" style="height: 50px"/> '.Yii::$app->name,
 			'brandUrl' => Yii::$app->homeUrl,
-			'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
+			'options' => ['class' => 'navbar-expand-md fixed-top navbar-light gradient-custom-2'],
 		]);
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav'],
