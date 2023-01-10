@@ -4,6 +4,7 @@
 /** @var yii\bootstrap5\ActiveForm $form */
 /** @var app\models\LoginForm $model */
 
+use app\models\Usuario;
 use yii\helpers\Url;
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
@@ -71,11 +72,12 @@ $this->params['breadcrumbs'][] = $this->title;
 								<?= $form->field($model, 'direccion')->textInput(['autofocus' => true])->label("Dirección") ?>
 							</div>
 
-							<?php $zonas=\app\models\Usuario::listaZonas();?>
+							<?php $zonas=Usuario::listaZonas();?>
 
 							<div class="form-outline mb-4">
 								<label for="zona">Zona Geográfica *</label>
-								<?= $form->field($model, 'zona_id')->dropDownList($zonas,['id'=>'zona','autofocus' => true])->label(false) ?>
+								<?= $form->field($model, 'zona_id')->dropDownList($zonas,['id'=>'zona','autofocus' => true,
+									'prompt'=>'Selecciona una ...'])->label(false) ?>
 							</div>
 
 							<div class="form-outline mb-4">
