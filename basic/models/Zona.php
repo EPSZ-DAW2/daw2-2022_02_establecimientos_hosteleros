@@ -56,4 +56,9 @@ class Zona extends \yii\db\ActiveRecord
     {
         return new ZonaQuery(get_called_class());
     }
+
+	public static function listaZonas(){
+		$tipos=Zona::find()->orderBy('clase_zona_id')->all();
+		return $tipos;
+	}
 }
