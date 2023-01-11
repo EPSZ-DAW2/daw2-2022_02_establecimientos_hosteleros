@@ -268,4 +268,13 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			'destino_usuario_id'=>'id',
 		]);
 	}
+
+	/*****************************************************+
+	 * Obtener la zona de moderación asociada al usuario
+	 * ****************************************************/
+	public function getZonasModeracion(){
+		return $this->hasOne(UsuarioAreaModeracion::class, [
+			'usuario_id'=>'id',
+		]);
+	}
 }
