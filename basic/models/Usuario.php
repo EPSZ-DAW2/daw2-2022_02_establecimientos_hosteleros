@@ -146,37 +146,44 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		$this->save();
 	}
 
+	//Reseteo de numero de accesos
 	public function resetNumAccesos(){
 		$this->num_accesos=0;
 		$this->save();
 	}
 
+	//Se actualiza la fecha de bloqueo dada una
 	public function updateFechaBloqueo($date){
 		$this->fecha_bloqueo=$date;
 		$this->save();
 	}
 
+	//Se bloquea un usuario según el tipo indicado
 	public function bloquear($tipo){
 		$this->bloqueado=$tipo;
 		$this->save();
 	}
 
+	//Se obtiene la lista de zonas
 	public static function listaZonas(){
 		$tipos=Zona::listaZonas();
 		$lista=ArrayHelper::map($tipos,'clase_zona_id', 'nombre');
 		return $lista;
 	}
 
+	//Se obtiene el nombre de las zonas
 	public static function getNombreZona($id){
 		$lista=self::listaZonas();
 		$res= (isset($lista[$id]) ? $lista[$id] : '<Nombre_Zona_'.$id.'>');
 		return $res;
 	}
 
+	//Funcion estática para obtener el nombre de las zonas
 	public function getDescripcionZona(){
 		return static::getNombreZona($this->zona_id);
 	}
 
+	//Se obtiene la lista de roles predefinidos
 	public static function listaRoles(){
 		$roles= array(
 			0=>'Normal',
@@ -186,12 +193,15 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		);
 		return $roles;
 	}
+
+	//Se obtiene el nombre de los roles
 	public static function getNombreRol($inicial){
 		$lista=self::listaRoles();
 		$res= (isset($lista[$inicial]) ? $lista[$inicial] : '<Rol_'.$inicial.'>');
 		return $res;
 	}
 
+	//Funcion estática para obtener el nombre de los roles
 	public function getDescripcionRol(){
 		return static::getNombreRol($this->rol);
 	}
@@ -205,12 +215,14 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		return $opciones;
 	}
 
+	//Se obtiene la opcion
 	public static function getOpcion($num){
 		$lista=self::listaOpciones();
 		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
 		return $res;
 	}
 
+	//Se obtiene la opcion
 	public function descripcionOpcion($id){
 		return static::getOpcion($id);
 	}
@@ -240,21 +252,25 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	 * Funciones para comprobar rol del usuario
 	 *
 	 *******************************************/
+	//Comporbar que el usuario indicado tenga rol normal
 	public static function esRolNormal($id){
 		$usuario=Usuario::findOne(['id'=>$id]);
 		return $usuario->rol==0;
 	}
 
+	//Comporbar que el usuario indicado tenga rol moderador
 	public static function esRolModerador($id){
 		$usuario=Usuario::findOne(['id'=>$id]);
 		return $usuario->rol==1;
 	}
 
+	//Comporbar que el usuario indicado tenga rol patrocinador
 	public static function esRolPatrocinador($id){
 		$usuario=Usuario::findOne(['id'=>$id]);
 		return $usuario->rol==2;
 	}
 
+	//Comporbar que el usuario indicado tenga rol admin
 	public static function esRolAdmin($id){
 		$usuario=Usuario::findOne(['id'=>$id]);
 		return $usuario->rol==3;

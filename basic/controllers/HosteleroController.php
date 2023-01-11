@@ -9,6 +9,7 @@ use yii\data\Pagination;
 
 class HosteleroController extends \yii\web\Controller
 {
+	//Acción que muestra los hosteleros de manera paginada teniendo en cuenta los filtros aplicados
 	public function actionIndex()
 	{
 		$searchModel = new HostelerosSearch();
@@ -21,6 +22,7 @@ class HosteleroController extends \yii\web\Controller
 		$hosteleros=$dataProvider->query->offset($pagination->offset)
 			->limit($pagination->limit)->all();
 
+		//Se carga la página indicada con los parámetros
 		return $this->render('listado_hosteleros', [
 			'searchModel' => $searchModel,
 			'pagination' => $pagination,
@@ -28,7 +30,7 @@ class HosteleroController extends \yii\web\Controller
 		]);
 	}
 
-	public function actionDetalle()
+	public function actionMensaje()
 	{
 		//TODO
 	}

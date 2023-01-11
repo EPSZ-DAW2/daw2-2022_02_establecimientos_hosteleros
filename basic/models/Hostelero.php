@@ -69,6 +69,7 @@ class Hostelero extends \yii\db\ActiveRecord
         return new HosteleroQuery(get_called_class());
     }
 
+	//Se obtiene el usuario asociado al hostelero
 	public function getUsuario(){
 		return $this->hasOne(Usuario::class, [
 			'id'=>'usuario_id',
