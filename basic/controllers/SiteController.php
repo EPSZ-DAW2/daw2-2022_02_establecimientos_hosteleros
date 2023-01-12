@@ -199,7 +199,6 @@ class SiteController extends Controller
 			//Se crean campos del modelo de importancia
 			$model->fecha_registro=date("Y-m-d H:i:s");
 			$model->confirmado=0;
-			$model->rol=0;
 			$model->password=hash("sha1", $model->password);	//Contraseña cifrada por sha1
 
 			//Se valida el modelo

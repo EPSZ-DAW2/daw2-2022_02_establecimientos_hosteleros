@@ -16,7 +16,6 @@ use yii\helpers\ArrayHelper;
  * @property string $apellidos
  * @property string|null $fecha_nacimiento Fecha de nacimiento del usuario o NULL si no lo quiere informar.
  * @property string|null $direccion Direccion del usuario o NULL si no quiere informar.
- * @property string|null $rol Rol del usuario: 0=Normal, 1=Moderador, 2=Patrocinador, 3=Admin
  * @property int $zona_id Area/Zona de localización del usuario o CERO si no lo quiere informar (como si fuera NULL), aunque es recomendable.
  * @property string|null $fecha_registro Fecha y Hora de registro del usuario o NULL si no se conoce por algún motivo (que no debería ser).
  * @property int $confirmado Indicador de usuario ha confirmado su registro o no.
@@ -51,12 +50,12 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			['nick','required', 'message'=>'Debes indicar tu nick'],
 			['password','required', 'message'=>'Debes indicar una contraseña'],
 			['zona_id','required', 'message'=>'Debes indicar tu zona geográfica'],
-            [['email', 'password', 'nick', 'nombre', 'apellidos', 'zona_id', 'rol', 'confirmado'], 'required'],
+            [['email', 'password', 'nick', 'nombre', 'apellidos', 'zona_id', 'confirmado'], 'required'],
             [['fecha_nacimiento', 'fecha_registro', 'fecha_acceso', 'fecha_bloqueo'], 'safe'],
 			['nick', 'unique', 'message'=>'Este nick ya ya está en uso. Prueba con otro'],
 			['email', 'unique', 'message'=>'Este email ya está en uso. Prueba con otro'],
             [['direccion', 'notas_bloqueo'], 'string'],
-            [['zona_id','rol', 'confirmado', 'num_accesos', 'bloqueado'], 'integer'],
+            [['zona_id', 'confirmado', 'num_accesos', 'bloqueado'], 'integer'],
             [['email'], 'string', 'max' => 255],
             [['password'], 'string', 'max' => 60],
             [['nick'], 'string', 'max' => 25],
@@ -185,13 +184,9 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	//Se obtiene la lista de roles predefinidos
 	public static function listaRoles(){
-		$roles= array(
-			0=>'Normal',
-			1=>'Moderador',
-			2=>'Patrocinador',
-			3=>'Admin',
-		);
-		return $roles;
+		$roles=Rol::listaRoles();
+		$lista=ArrayHelper::map($roles,'id', 'nombre');
+		return $lista;
 	}
 
 	//Se obtiene el nombre de los roles
@@ -202,9 +197,9 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	}
 
 	//Funcion estática para obtener el nombre de los roles
-	public function getDescripcionRol(){
+	/*public function getDescripcionRol(){
 		return static::getNombreRol($this->rol);
-	}
+	}*/
 
 	//Lista de opciones para ver si el usuario está confirmado
 	public static function listaOpciones(){
@@ -252,28 +247,31 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	 * Funciones para comprobar rol del usuario
 	 *
 	 *******************************************/
-	//Comporbar que el usuario indicado tenga rol normal
-	public static function esRolNormal($id){
-		$usuario=Usuario::findOne(['id'=>$id]);
-		return $usuario->rol==0;
-	}
-
 	//Comporbar que el usuario indicado tenga rol moderador
 	public static function esRolModerador($id){
-		$usuario=Usuario::findOne(['id'=>$id]);
-		return $usuario->rol==1;
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>1]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
 	}
 
 	//Comporbar que el usuario indicado tenga rol patrocinador
 	public static function esRolPatrocinador($id){
-		$usuario=Usuario::findOne(['id'=>$id]);
-		return $usuario->rol==2;
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>2]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
 	}
 
 	//Comporbar que el usuario indicado tenga rol admin
 	public static function esRolAdmin($id){
-		$usuario=Usuario::findOne(['id'=>$id]);
-		return $usuario->rol==3;
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>3]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
 	}
 
 	/****************************

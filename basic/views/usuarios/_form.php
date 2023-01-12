@@ -36,9 +36,7 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'direccion')->textarea(['rows' => 6]) ?>
 
-	<?= $form->field($model, 'rol')->dropDownList($model::listaRoles()) ?>
-
-    <?php if($model::esRolModerador($model->id) || $model::esRolAdmin($model->id)):?>
+    <?php if(empty($model) && ($model::esRolModerador($model->id) || $model::esRolAdmin($model->id))):?>
     <p>Zona de moderación: <?php
 		$zonas=$model::listaZonas();
 		$zona=$model->getZonasModeracion()->one();

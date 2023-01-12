@@ -40,10 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'fecha_nacimiento',
             'direccion:ntext',
 			[
-				'attribute'=>'rol',
-				'value'=> $model->rol.'-'.$model->getDescripcionRol(),
-			],
-			[
 				'attribute'=>'zona_id',
 				'value'=> $model->zona_id.'-'.$model->getDescripcionZona(),
 			],
@@ -62,31 +58,4 @@ $this->params['breadcrumbs'][] = $this->title;
             'notas_bloqueo:ntext',
         ],
     ]) ?>
-
-    <div class="container">
-        <h2>Avisos del usuario</h2>
-        <?php
-            $avisosProvider= new ArrayDataProvider([
-                'allModels'=>$model->avisos,
-                'pagination'=>false,
-                'sort'=>false,
-            ]);
-
-        ?>
-
-		<?= GridView::widget([
-			'dataProvider' => $avisosProvider,
-			'columns' => [
-				['class' => 'yii\grid\SerialColumn'],
-				'id',
-                'clase_aviso_id',
-                'origen_usuario_id',
-                'texto',
-                'comentario_id',
-				'fecha_aviso',
-                'fecha_lectura',
-                'fecha_aceptado',
-			],
-		]); ?>
-    </div>
 </div>

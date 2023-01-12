@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= Html::a(Yii::t('app', 'Inicio'), ['index'], ['class' => 'btn btn-success']) ?>
 		<?= Html::a(Yii::t('app', 'Confirmar Usuarios'), ['confirmarusuarios'], ['class' => 'btn btn-success']) ?>
         <?= Html::a(Yii::t('app', 'Crear Usuario'), ['create'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'RBAC'), ['rbac'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php Pjax::begin(); ?>
@@ -31,23 +32,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'email:email',
-            //'password',
             'nick',
             'nombre',
             'apellidos',
             'fecha_nacimiento',
             'direccion:ntext',
-			[
-				'attribute'=>'rol',
-				'content'=> function($model, $key, $index, $column){
-					return $model->descripcionRol;
-				},
-				'contentOptions'=>['class'=>'text-center'],
-				'filter'=>\app\models\Usuario::listaRoles(),
-			],
 			[
 				'attribute'=>'zona_id',
 				'content'=> function($model, $key, $index, $column){

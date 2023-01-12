@@ -101,8 +101,12 @@ class UsuariosController extends Controller
         $model = new Usuario();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+				$model->password=hash("sha1", $model->password);	//Se genera la nueva contraseña cifrada
+				if($model->save()){
+					return $this->redirect(['view', 'id' => $model->id]);
+				}
+
             }
         } else {
             $model->loadDefaultValues();
