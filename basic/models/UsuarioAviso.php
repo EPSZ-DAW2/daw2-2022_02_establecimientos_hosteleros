@@ -18,7 +18,7 @@ use Yii;
  * @property string|null $fecha_lectura Fecha y Hora de lectura del aviso o NULL si no se ha leido o se ha desmarcado como tal.
  * @property string|null $fecha_aceptado Fecha y Hora de aceptación del aviso o NULL si no se ha aceptado para su gestión por un moderador o administrador. No se usa en otros usuarios.
  */
-class UsuarioAviso extends \yii\db\ActiveRecord
+class Usuarioaviso extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -58,15 +58,53 @@ class UsuarioAviso extends \yii\db\ActiveRecord
             'comentario_id' => Yii::t('app', 'Comentario ID'),
             'fecha_lectura' => Yii::t('app', 'Fecha Lectura'),
             'fecha_aceptado' => Yii::t('app', 'Fecha Aceptado'),
+            
+            //Atributos virtuales
+            'nombreAviso' => Yii::t('app', 'Aviso'),
         ];
     }
 
     /**
      * {@inheritdoc}
-     * @return UsuariosAvisosQuery the active query used by this AR class.
+     * @return UsuarioavisoQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new UsuariosAvisosQuery(get_called_class());
+        return new UsuarioavisoQuery(get_called_class());
     }
+
+    /**
+     * Lista de posibles avisos.
+     */
+    public static function listaAvisos()
+    {
+        return [
+            'A' => 'Aviso'
+            , 'N' => 'Notificación'
+            , 'D' => 'Denuncia'
+            , 'C' => 'Consulta'
+            , 'M' => 'Mensaje'
+            , 'B' => 'Bloqueo'
+        ];
+    }//listaAvisos
+
+    /**
+     * Nombre del código de clase de aviso.
+     */
+    public static function nombreAviso( $aviso)
+    {
+        $lista= static::listaAvisos();
+ 
+        $res= (isset( $lista[$aviso]) ? $lista[$aviso] : null);
+        return $res;
+    }//nombreAviso
+  
+    /**
+     * Atributo virtual con la descripcion del código de clase de aviso.
+     */
+    public function getNombreAviso()
+    {
+        return static::nombreAviso( $this->clase_aviso_id);
+    }//getNombreAviso
+
 }

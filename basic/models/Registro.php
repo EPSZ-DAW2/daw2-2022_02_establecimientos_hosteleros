@@ -49,7 +49,7 @@ class Registro extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'fecha_registro' => Yii::t('app', 'Fecha y Hora'),
-            'clase_log_id' => Yii::t('app', 'Calase de log'),
+            'clase_log_id' => Yii::t('app', 'Clase de log'),
 
             'modulo' => Yii::t('app', 'Modulo o Sección de la aplicación'),
             'texto' => Yii::t('app', 'Mensaje de registro.'),
@@ -94,7 +94,7 @@ class Registro extends \yii\db\ActiveRecord
     }//nombreEstado
 
     /**
-     * Atributo virtual con la escripcion del estado del Regsitro.
+     * Atributo virtual con la descripcion del estado del Regsitro.
      */
     public function getDescripcionEstado()
     {
