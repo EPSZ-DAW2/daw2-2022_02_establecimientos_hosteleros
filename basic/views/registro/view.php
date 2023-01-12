@@ -31,11 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'fecha_registro',
-            'clase_log_id',
+            [ 'attribute'=>'clase_log_id', 'value'=>$model->descripcionEstado ],
             'modulo',
             'texto:ntext',
             'ip',
             'browser:ntext',
+
         ],
     ]) ?>
 
