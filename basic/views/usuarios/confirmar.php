@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{confirmar}',
+				'template' => '{view} {update} {confirmar}',
 				'buttons' => [
 					'confirmar' => function($url, $model, $key) {
 						return Html::a(Yii::t('app', 'Confirmar'), ['confirmarusuarios', 'id'=>$model->id], ['class' => 'btn btn-success']);
