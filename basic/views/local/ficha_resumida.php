@@ -15,7 +15,7 @@ use yii\helpers\Html; ?>
                 <img src="images/sinfoto.jpg" class="img-fluid" style="width: 100%; height: 15rem" />
             <?php endif; ?>
         </div>
-        <div class="card-body">
+        <div class="card-body info">
             <h5 class="card-title font-weight-bold"><a><?= Html::encode("{$local->titulo}")?></a></h5>
             <ul class="list-unstyled list-inline mb-0">
                 <li class="list-inline-item">

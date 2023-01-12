@@ -38,7 +38,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 		NavBar::begin([
 			'brandLabel' => '<img src="images/logo.png" class="pull-left" style="height: 50px"/> '.Yii::$app->name,
 			'brandUrl' => Yii::$app->homeUrl,
-			'options' => ['class' => 'navbar-expand-md fixed-top navbar-light gradient-custom-2'],
+			'options' => ['class' => 'navbar-expand-md fixed-top navbar-light navcolor'],
 		]);
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav'],
@@ -64,7 +64,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 			'brandLabel' => '<img src="images/logo.png" class="pull-left" style="height: 50px"/> '.Yii::$app->name,
 			//'brandLabel' => Yii::$app->name,
             'brandUrl' => Yii::$app->homeUrl,
-            'options' => ['class' => 'navbar-expand-md fixed-top navbar-light gradient-custom-2'],
+            'options' => ['class' => 'navbar-expand-md fixed-top navbar-light navcolor'],
         ]);
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav'],

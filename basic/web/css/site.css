@@ -107,4 +107,11 @@ a.desc:after {
 .navtextcolor{
     color: white;
 }
+.navcolor{
+    background-color: #eeeeee;
+}
+
+.info{
+    background-color: #E8E7E0;
+}
 
