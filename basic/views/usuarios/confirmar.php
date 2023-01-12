@@ -40,14 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
 			'fecha_nacimiento',
 			'direccion:ntext',
 			[
-				'attribute'=>'rol',
-				'content'=> function($model, $key, $index, $column){
-					return $model->descripcionRol;
-				},
-				'contentOptions'=>['class'=>'text-center'],
-				'filter'=>\app\models\Usuario::listaRoles(),
-			],
-			[
 				'attribute'=>'zona_id',
 				'content'=> function($model, $key, $index, $column){
 					return $model->descripcionZona;

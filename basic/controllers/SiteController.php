@@ -187,28 +187,34 @@ class SiteController extends Controller
 	 */
 	public function actionRegistro()
 	{
+		//Si el usuario está logeado no se puede acceder al registro
 		if (!Yii::$app->user->isGuest) {
 			return $this->goHome();
 		}
 
 		$model = new Usuario();
 
+		//Se cargan los datos por post en el modelo
 		if ($model->load(Yii::$app->request->post())) {
+			//Se crean campos del modelo de importancia
 			$model->fecha_registro=date("Y-m-d H:i:s");
 			$model->confirmado=0;
-			$model->rol=0;
-			$model->password=hash("sha1", $model->password);
+			$model->password=hash("sha1", $model->password);	//Contraseña cifrada por sha1
 
+			//Se valida el modelo
 			if($model->validate()){
+				//Si se valida correctamente se guarda
 				if($model->save()){
-					return $this->redirect(['login']);
+					return $this->redirect(['login']);		//Se redirige al login
 				}else{
+					//Si hay error se pone la password a null y se vuelve al registro
 					$model->password=null;
 					return $this->render('registro', [
 						'model' => $model,
 					]);
 				}
 			}else{
+				//Si hay error se pone la password a null y se vuelve al registro
 				$model->password=null;
 				return $this->render('registro', [
 					'model' => $model,
@@ -216,6 +222,7 @@ class SiteController extends Controller
 			}
 
 		}else{
+			//Si hay error se vuelve al registro
 			return $this->render('registro', [
 				'model' => $model,
 			]);

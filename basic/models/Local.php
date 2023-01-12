@@ -4,6 +4,7 @@ namespace app\models;
 
 use \app\models\Categoria;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "locales".
@@ -105,22 +106,15 @@ class Local extends \yii\db\ActiveRecord
         return new LocalQuery(get_called_class());
     }
 
+	//Lista de zonas mapeada
 	public static function listaZonas()
 	{
-		$zonas= array(
-			0=>'Sin informar',
-			1=>'Continente',
-			2=>'País',
-			3=>'Estado',
-			4=>'Región',
-			5=>'Provincia',
-			6=>'Municipio',
-			7=>'Barrio',
-			8=>'Área',
-		);
-		return $zonas;
+		$tipos=Zona::listaZonas();
+		$lista=ArrayHelper::map($tipos,'clase_zona_id', 'nombre');
+		return $lista;
 	}
 
+	//Se obtiene la categoria del local
 	public function getCategoria(){
 		return $this->hasOne(Categoria::class, [
 			'id'=>'categoria_id',

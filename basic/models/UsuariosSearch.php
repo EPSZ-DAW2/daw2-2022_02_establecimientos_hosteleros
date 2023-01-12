@@ -75,7 +75,6 @@ class UsuariosSearch extends Usuario
             ->andFilterWhere(['like', 'nombre', $this->nombre])
             ->andFilterWhere(['like', 'apellidos', $this->apellidos])
             ->andFilterWhere(['like', 'direccion', $this->direccion])
-            ->andFilterWhere(['like', 'rol', $this->rol])
             ->andFilterWhere(['like', 'notas_bloqueo', $this->notas_bloqueo]);
 
         return $dataProvider;

@@ -33,6 +33,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <header id="header">
     <?php
+    //NavBar para usuario administrador
 	if(!Yii::$app->user->isGuest && Usuario::esRolAdmin(Yii::$app->user->id)):
 		NavBar::begin([
 			'brandLabel' => '<img src="images/logo.png" class="pull-left" style="height: 50px"/> '.Yii::$app->name,
@@ -58,6 +59,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 		]);
 		NavBar::end();
     else:
+		//NavBar para demás usuarios
         NavBar::begin([
 			'brandLabel' => '<img src="images/logo.png" class="pull-left" style="height: 50px"/> '.Yii::$app->name,
 			//'brandLabel' => Yii::$app->name,

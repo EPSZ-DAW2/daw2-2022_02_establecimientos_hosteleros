@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\Usuario $model */
@@ -35,7 +36,20 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'direccion')->textarea(['rows' => 6]) ?>
 
-	<?= $form->field($model, 'rol')->dropDownList($model::listaRoles()) ?>
+    <?php if(empty($model) && ($model::esRolModerador($model->id) || $model::esRolAdmin($model->id))):?>
+    <p>Zona de moderación: <?php
+		$zonas=$model::listaZonas();
+		$zona=$model->getZonasModeracion()->one();
+        if (isset($zona) && $zona!=null)
+		    echo $zonas[$zona->zona_id];
+        else
+            echo 'No tiene zona asignada';
+        ?>
+        <?php //TODO Cambiar URL a la ruta de mantenimento de zonas de moderación para usuarios admin y moderadores ?>
+        <a href="<?= Url::toRoute(['usuarios/view', 'id'=>$model->id]);?>"> Asigna una zona</a>
+    </p>
+
+    <?php endif; ?>
 
 	<?= $form->field($model, 'zona_id')->dropDownList($model::listaZonas()) ?>
 
@@ -71,8 +85,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'notas_bloqueo')->textarea(['rows' => 6]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+    <div class="form-group mt-2">
+        <?= Html::submitButton(Yii::t('app', 'Guardar'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -41,7 +41,7 @@ use yii\helpers\Html; ?>
             <ul class="list-unstyled list-inline mb-0">
                 <li class="list-inline-item">
 					<?php $zonas=Local::listaZonas(); ?>
-                    <p class="text-muted">Zona: <?= Html::encode("{$zonas[$local->zona_id]}")?></p>
+                    <p class="text-muted">Zona: <?php echo ($local->zona_id!=0) ? Html::encode("{$zonas[$local->zona_id]}") : 'Sin informar'?></p>
                 </li>
                 <li class="list-inline-item">
 					<?php if(isset($local->url) && $local->url != ''): ?>
