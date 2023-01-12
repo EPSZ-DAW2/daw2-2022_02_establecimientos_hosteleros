@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	<p>
 		<?= Html::a(Yii::t('app', 'Inicio'), ['index'], ['class' => 'btn btn-success']) ?>
 		<?= Html::a(Yii::t('app', 'Confirmar Usuarios'), ['confirmarusuarios'], ['class' => 'btn btn-success']) ?>
+		<?= Html::a(Yii::t('app', 'RBAC'), ['rbac'], ['class' => 'btn btn-success']) ?>
 		<?= Html::a(Yii::t('app', 'Crear Usuario'), ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
@@ -66,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			],
 			[
 				'class' => 'yii\grid\ActionColumn',
-				'template' => '{confirmar}',
+				'template' => '{view} {update} {confirmar}',
 				'buttons' => [
 					'confirmar' => function($url, $model, $key) {
 						return Html::a(Yii::t('app', 'Confirmar'), ['confirmarusuarios', 'id'=>$model->id], ['class' => 'btn btn-success']);

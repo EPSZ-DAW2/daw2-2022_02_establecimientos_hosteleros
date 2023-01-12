@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Usuario;
+use app\models\UsuarioRol;
 use app\models\UsuariosSearch;
 use Yii;
 use yii\web\Controller;
@@ -163,6 +164,40 @@ class UsuariosController extends Controller
 
         return $this->redirect(['index']);
     }
+
+	public function actionRbac($id=null, $rol=null, $accion=null){
+
+		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+
+		//Se comprueba si llegan id y rol por url para actualizar el rol del usuario dado
+		if(isset($id) && $id!=null && isset($rol) && $rol!=null && isset($accion) && $accion!=null && ($accion==1 || $accion==0)){
+			$model = $this->findModel($id);
+
+			//Comprobar si existe
+			$comprobar=UsuarioRol::find()->where(['id_usuario'=>$id, 'id_rol'=>$rol]);
+
+			//Si existe hay que borrarlo
+			if($comprobar->count()==1 && $accion==0){
+				$comprobar->one()->delete();
+
+			}else if($comprobar->count()!=1 && $accion==1){
+				//Si no existe se crea
+				$relacion=new UsuarioRol();
+				$relacion->id_usuario=$id;
+				$relacion->id_rol=$rol;
+				$relacion->save();
+			}
+		}
+
+		$searchModel = new UsuariosSearch();
+		$dataProvider = $searchModel->search($this->request->queryParams);
+
+		return $this->render('rbac', [
+			'searchModel' => $searchModel,
+			'dataProvider' => $dataProvider,
+		]);
+	}
 
     /**
      * Finds the Usuario model based on its primary key value.
