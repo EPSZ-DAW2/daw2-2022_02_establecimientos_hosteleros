@@ -28,14 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
+            
             'id',
             'fecha_registro',
-            'clase_log_id',
+            [ 'attribute'=>'clase_log_id',
+                'filter'=> \app\models\Registro::listaEstados(),
+                'content'=>function($model, $key, $index, $column) {
+                    return $model->descripcionEstado;
+                }
+                , 'contentOptions' => ['class'=>'text-center']
+            ],
             'modulo',
             'texto:ntext',
-            //'ip',
-            //'browser:ntext',
+            'ip',
+            'browser:ntext',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Registro $model, $key, $index, $column) {

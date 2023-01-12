@@ -17,6 +17,7 @@ use Yii;
  */
 class Registro extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -47,12 +48,15 @@ class Registro extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'fecha_registro' => Yii::t('app', 'Fecha y Hora del registro de acceso.'),
-            'clase_log_id' => Yii::t('app', 'código de clase de log: E=Error, A=Aviso, S=Seguimiento, I=Información, D=Depuración, ...'),
-            'modulo' => Yii::t('app', 'Modulo o Sección de la aplicación que ha generado el mensaje de registro.'),
-            'texto' => Yii::t('app', 'Texto con el mensaje de registro.'),
-            'ip' => Yii::t('app', 'Dirección IP desde donde accede el usuario (vale para IPv4 e IPv6.'),
-            'browser' => Yii::t('app', 'Texto con información del navegador utilizado en el acceso.'),
+            'fecha_registro' => Yii::t('app', 'Fecha y Hora'),
+            'clase_log_id' => Yii::t('app', 'Calase de log'),
+
+            'modulo' => Yii::t('app', 'Modulo o Sección de la aplicación'),
+            'texto' => Yii::t('app', 'Mensaje de registro.'),
+            'ip' => Yii::t('app', 'Dirección IP'),
+            'browser' => Yii::t('app', 'Navegador utilizado.'),
+            //Etiquetas de atributos Virtuales
+            'descripcionEstado' => Yii::t('app', 'Estado'),
         ];
     }
 
@@ -64,4 +68,36 @@ class Registro extends \yii\db\ActiveRecord
     {
         return new RegistroQuery(get_called_class());
     }
+
+    /**
+     * Lista de posibles estados del pedido.
+     */
+    public static function listaEstados()
+    {
+        return [
+            'E' => 'Error'
+            , 'A' => 'Aviso'
+            , 'S' => 'Seguimiento'
+            , 'I' => 'Información'
+            , 'D' => 'Depuración'
+        ];
+    }//listaEstados
+
+    /**
+     * Nombre de  de estados del Registro.
+     */
+    public static function nombreEstado( $estado)
+    {
+        $lista= static::listaEstados();
+        $res= (isset( $lista[$estado]) ? $lista[$estado] : null);
+        return $res;
+    }//nombreEstado
+
+    /**
+     * Atributo virtual con la escripcion del estado del Regsitro.
+     */
+    public function getDescripcionEstado()
+    {
+        return static::nombreEstado( $this->clase_log_id);
+    }//getDescripcionEstado
 }

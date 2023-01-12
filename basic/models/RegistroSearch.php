@@ -11,6 +11,7 @@ use app\models\Registro;
  */
 class RegistroSearch extends Registro
 {
+    public $descripcionEstado;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +19,7 @@ class RegistroSearch extends Registro
     {
         return [
             [['id'], 'integer'],
-            [['fecha_registro', 'clase_log_id', 'modulo', 'texto', 'ip', 'browser'], 'safe'],
+            [['fecha_registro', 'clase_log_id','descripcionEstado', 'modulo', 'texto', 'ip', 'browser'], 'safe'],
         ];
     }
 
@@ -46,8 +47,15 @@ class RegistroSearch extends Registro
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
 
+        ]);
+        //amplia ordenacion
+        $sort= $dataProvider->sort;
+        //Ordenación para atributos de descripciond estado
+        $sort->attributes['descripcionEstado']= [
+            'asc' => ['clase_log_id' => SORT_ASC],
+            'desc' => ['clase_log_id' => SORT_DESC],
+        ];
         $this->load($params);
 
         if (!$this->validate()) {
@@ -60,6 +68,7 @@ class RegistroSearch extends Registro
         $query->andFilterWhere([
             'id' => $this->id,
             'fecha_registro' => $this->fecha_registro,
+            'clase_log_id' => $this->clase_log_id,
         ]);
 
         $query->andFilterWhere(['like', 'clase_log_id', $this->clase_log_id])
