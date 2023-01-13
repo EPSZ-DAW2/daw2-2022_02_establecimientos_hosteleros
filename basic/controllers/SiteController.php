@@ -126,7 +126,7 @@ class SiteController extends Controller
 						Yii::$app->session->set('veces',0);
 
 						//IMPORTANTE - Se cambia el homeURL dependiendo si el usuario es admin o no
-						if(Usuario::esRolAdmin($usuario->id))
+						if(Usuario::esRolAdmin($usuario->id) || Usuario::esRolSistema($usuario->id))
 							Yii::$app->homeUrl=array('usuarios/index');
 						else
 							Yii::$app->homeUrl=array('local/index');

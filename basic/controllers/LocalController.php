@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Local;
 use app\models\Usuario;
+use Yii;
 
 class LocalController extends \yii\web\Controller
 {
@@ -13,15 +14,15 @@ class LocalController extends \yii\web\Controller
 	 * */
 	public function beforeAction($action)
 	{
-		if(!\Yii::$app->user->isGuest){
-			if(Usuario::esRolAdmin(\Yii::$app->user->id)){
+		if(!Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
 				$this->layout='privada';
-				\Yii::$app->homeUrl=array('usuarios/index');
+				Yii::$app->homeUrl=array('usuarios/index');
 			}
 
 		}else{
 			$this->layout='publica';
-			\Yii::$app->homeUrl=array('local/index');
+			Yii::$app->homeUrl=array('local/index');
 		}
 
 		return parent::beforeAction($action);
