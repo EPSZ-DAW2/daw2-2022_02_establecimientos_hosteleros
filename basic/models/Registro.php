@@ -100,4 +100,18 @@ class Registro extends \yii\db\ActiveRecord
     {
         return static::nombreEstado( $this->clase_log_id);
     }//getDescripcionEstado
+    public static function  descargarTodo(){
+        $query = "SELECT * FROM registros";
+        $data = Yii::$app->db->createCommand($query)->queryAll();
+        $file = fopen("Registros.txt", "w");
+        foreach ($data as $line) {
+            fputcsv($file, $line);
+        }
+        fclose($file);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="Registros.txt"');
+
+        \Yii::$app->response->sendFile('Registros.txt');
+        return 1;
+    }
 }

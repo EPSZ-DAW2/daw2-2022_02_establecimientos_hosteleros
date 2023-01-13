@@ -7,6 +7,9 @@ use app\models\RegistroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\RegistroQuery;
+use app\controllers\Yii;
+use app\models\Post;
 
 /**
  * RegistroController implements the CRUD actions for Registro model.
@@ -130,5 +133,27 @@ class RegistroController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionExportarTodo()
+    {
+
+        $searchModel = new RegistroSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+
+        Registro::descargarTodo();
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    /**
+     * {@inheritdoc}
+     * @return RegistroQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new RegistroQuery(get_called_class());
     }
 }

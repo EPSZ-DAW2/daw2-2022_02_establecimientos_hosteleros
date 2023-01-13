@@ -6,6 +6,7 @@ use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
+
 /** @var yii\web\View $this */
 /** @var app\models\RegistroSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -18,12 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Registro'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Crear Registro'), ['create'], ['class' => 'btn btn-success']) ?>
+        <a href="<?= Url::to(['registro/exportar-todo'])?>" class="btn btn-primary">Exportar Todo</a>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);?>
 
-    <?= GridView::widget([
+    <?=
+
+    GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
