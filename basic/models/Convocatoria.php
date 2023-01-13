@@ -76,4 +76,53 @@ class Convocatoria extends \yii\db\ActiveRecord
     {
         return new ConvocatoriaQuery(get_called_class());
     }
+
+    /**
+     * Función que se encarga de modificar el numero de denuncias
+     * 
+     */
+    public function setnum_denuncias($num){
+        
+        $this->num_denuncias = $num;
+
+    }
+    /**
+     * Función que se encarga de modificar la fecha de la denuncia
+     * 
+     */
+    public function setfecha_denuncia1($fecha){
+        
+        $this->fecha_denuncia1 = $fecha;
+
+    }
+    public function getfecha_denuncia1(){
+        
+        return $this->fecha_denuncia1;
+
+    }
+    public function getnum_denuncias(){
+        
+        return $this->num_denuncias;
+
+    }
+    /**
+     *  Función que "reporta" una convocatoria     * 
+     * 
+     */
+    public function report(){
+        print_r($this->getnum_denuncias());
+        //si el numero de denuncias es 0, 
+        if($this->getfecha_denuncia1()==0){
+            //Se guarda la fecha en la que se realiza la denuncia
+            //$this->setfecha_denuncia1(getdate());
+        }
+        //Seteamos el valor de las denuncias al que tenía + 1
+        $this->setnum_denuncias($this->getnum_denuncias() + 1);
+        
+        print_r( $this->getfecha_denuncia1());
+        print_r($this->getnum_denuncias());
+
+        //$this->save();
+
+    }
 }

@@ -49,6 +49,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],
+            [
+                'label' => '',
+                'format' => 'raw',
+                'value' => function($model){
+                    $btn = '<a href="'.Url::toRoute(["reportar", 'id' => $model->id]).'"
+                    data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm"
+                    btn-info ">Reportar</a>';
+                    return $btn;
+                 }
+            ],
         ],
     ]); ?>
 

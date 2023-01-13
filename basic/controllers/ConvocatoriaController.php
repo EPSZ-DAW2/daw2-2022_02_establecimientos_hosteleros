@@ -115,6 +115,29 @@ class ConvocatoriaController extends Controller
 
         return $this->redirect(['index']);
     }
+        /**
+     * Reporta una convocatoria
+     * 
+     * @param int $id ID
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionReportar($id)
+    {
+        
+
+        $model = $this->findModel($id);
+   
+        // $id not found in database   
+        if($model === null)   
+            throw new NotFoundHttpException('The requested page does not exist.');
+            
+        $model->report();
+           
+        $model->update();   
+
+        //return $this->redirect(['index']);
+    }
 
     /**
      * Finds the Convocatoria model based on its primary key value.
