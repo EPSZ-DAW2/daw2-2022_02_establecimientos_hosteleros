@@ -27,6 +27,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 <head>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300,500,800|Old+Standard+TT' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300,500,800' rel='stylesheet' type='text/css'>
 </head>
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
@@ -51,7 +53,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 					. Html::beginForm(['/site/logout'])
 					. Html::submitButton(
 						'Cerrar Sesión (' . Yii::$app->user->identity->nick . ')',
-						['class' => 'nav-link btn btn-link logout']
+						['class' => 'nav-link btn btn-link logout text-black']
 					)
 					. Html::endForm()
 					. '</li>',
@@ -77,7 +79,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                         . Html::beginForm(['/site/logout'])
                         . Html::submitButton(
                             'Cerrar Sesión (' . Yii::$app->user->identity->nick . ')',
-                            ['class' => 'nav-link btn btn-link logout']
+                            ['class' => 'nav-link btn btn-link logout text-black']
                         )
                         . Html::endForm()
                         . '</li>',

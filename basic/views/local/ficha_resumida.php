@@ -65,7 +65,9 @@ use yii\helpers\Html; ?>
                         echo Html::encode("No hay nada por el momento...");
                 ?>
             </p>
-            <a href="<?= Url::toRoute(['local/detalle', 'id'=>$local->id]);?>" class="btn btn-link link-secondary p-md-1 mb-0">Saber más</a>
+            <div class="d-flex justify-content-center">
+                <a href="<?= Url::toRoute(['local/detalle', 'id'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>
+            </div>
         </div>
     </div>
 

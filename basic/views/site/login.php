@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                             <div class="text-center pt-1 mb-5 pb-1">
-								<?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-primary btn-block fa-lg gradient-custom-2 mb-3', 'name' => 'login-button']) ?>
+								<?= Html::submitButton('Iniciar sesión', ['class' => 'btn btn-default btn-block fa-lg mb-3 text-black', 'name' => 'login-button']) ?>
                                 <br>
 								<?php
 								if(isset($error))
@@ -62,10 +62,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         </div>
                     </div>
-                    <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
-                        <div class="text-white px-3 py-4 p-md-5 mx-md-4">
+                    <div class="col-lg-6 d-flex align-items-center colorlogin">
+                        <div class=" px-3 py-4 p-md-5 mx-md-4 ">
                             <h4 class="mb-4">Establecimientos hosteleros</h4>
-                            <p class="small mb-0">En esta aplicación se podrán ver, buscar y consultar
+                            <p class="mb-0 lh-base">En esta aplicación se podrán ver, buscar y consultar
                                 diferentes establecimientos hosteleros (bares, restaurantes, etc.)
                                 con la intención de encontrar las opiniones sobre ellos y sobre todo recomendaciones.</p>
                         </div>
