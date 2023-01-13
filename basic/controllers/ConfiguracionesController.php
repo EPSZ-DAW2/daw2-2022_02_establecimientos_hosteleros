@@ -15,6 +15,27 @@ use yii\filters\VerbFilter;
  */
 class ConfiguracionesController extends Controller
 {
+
+	/*
+	 * Función sobreescrita para comprobar que layout usar
+	 * y que homeUrl definir según el rol del usuario
+	 * */
+	public function beforeAction($action)
+	{
+		if(!Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+				$this->layout='privada';
+				Yii::$app->homeUrl=array('usuarios/index');
+			}
+
+		}else{
+			$this->layout='publica';
+			Yii::$app->homeUrl=array('local/index');
+		}
+
+		return parent::beforeAction($action);
+	}
+
     /**
      * @inheritDoc
      */
@@ -40,16 +61,17 @@ class ConfiguracionesController extends Controller
      */
     public function actionIndex()
     {
-		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
-			return $this->goHome();
+		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
 
-        $searchModel = new ConfiguracionesSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+			$searchModel = new ConfiguracionesSearch();
+			$dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+			return $this->render('index', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+			]);
+		}else
+			$this->goHome();
     }
 
     /**
@@ -60,12 +82,13 @@ class ConfiguracionesController extends Controller
      */
     public function actionView($variable)
     {
-		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
-			return $this->goHome();
+		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
 
-        return $this->render('view', [
-            'model' => $this->findModel($variable),
-        ]);
+			return $this->render('view', [
+				'model' => $this->findModel($variable),
+			]);
+		}else
+			$this->goHome();
     }
 
     /**
@@ -75,22 +98,23 @@ class ConfiguracionesController extends Controller
      */
     public function actionCreate()
     {
-		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
-			return $this->goHome();
+		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
 
-        $model = new Configuracion();
+			$model = new Configuracion();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'variable' => $model->variable]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
+			if ($this->request->isPost) {
+				if ($model->load($this->request->post()) && $model->save()) {
+					return $this->redirect(['view', 'variable' => $model->variable]);
+				}
+			} else {
+				$model->loadDefaultValues();
+			}
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+			return $this->render('create', [
+				'model' => $model,
+			]);
+		}else
+			$this->goHome();
     }
 
     /**
@@ -102,18 +126,19 @@ class ConfiguracionesController extends Controller
      */
     public function actionUpdate($variable)
     {
-		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
-			return $this->goHome();
+		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
 
-        $model = $this->findModel($variable);
+			$model = $this->findModel($variable);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'variable' => $model->variable]);
-        }
+			if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+				return $this->redirect(['view', 'variable' => $model->variable]);
+			}
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+			return $this->render('update', [
+				'model' => $model,
+			]);
+		}else
+			$this->goHome();
     }
 
     /**
@@ -125,12 +150,13 @@ class ConfiguracionesController extends Controller
      */
     public function actionDelete($variable)
     {
-		if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
-			return $this->goHome();
+		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
 
-        $this->findModel($variable)->delete();
+			$this->findModel($variable)->delete();
 
-        return $this->redirect(['index']);
+			return $this->redirect(['index']);
+		}else
+			$this->goHome();
     }
 
     /**
