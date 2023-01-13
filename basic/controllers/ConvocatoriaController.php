@@ -1,7 +1,8 @@
 <?php
 
 namespace app\controllers;
-
+use app\models\Asistente;
+use app\models\AsistenteSearch;
 use app\models\Convocatoria;
 use app\models\ConvocatoriaSearch;
 use yii\web\Controller;
@@ -153,5 +154,15 @@ class ConvocatoriaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    /*********************************************************** 
+     * ESTO ES PARA PODER VER LOS ASISTENTES EN UNA CONVOCATORIA
+    *************************************************************/
+    public function ver_asistentes($id)
+    {
+        return $this->render('view', [
+            'model' => $this->findModel($id),
+        ]);
     }
 }
