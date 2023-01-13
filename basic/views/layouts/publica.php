@@ -42,24 +42,24 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 		'brandUrl' => Yii::$app->homeUrl,
 		'options' => ['class' => 'navbar-expand-md fixed-top navbar-light navcolor'],
 	]);
+
+    //Definir items de la barra de navegación en un array
+    //TODO Poner un item de las funcionalidades publicas asignadas
+    $items=[
+		['label' => 'Locales', 'url' => ['/local/index']],
+		['label' => 'Hosteleros', 'url' => ['/hostelero/index']],
+    ];
+
+    //Si el usuario es invitado se añaden opciones de login y registro, si no de logout
+    if(Yii::$app->user->isGuest){
+        array_push($items, ['label' => 'Login', 'url' => ['/site/login']], ['label' => 'Registro', 'url' => ['/site/registro']]);
+    }else{
+        array_push($items, '<li class="nav-item">'. Html::beginForm(['/site/logout']). Html::submitButton('Cerrar Sesión (' . Yii::$app->user->identity->nick . ')', ['class' => 'nav-link btn btn-link logout text-black']) . Html::endForm() . '</li>');
+    }
+
 	echo Nav::widget([
 		'options' => ['class' => 'navbar-nav'],
-		'items' => [
-			['label' => 'Locales', 'url' => ['/local/index']],
-			['label' => 'Hosteleros', 'url' => ['/hostelero/index']],
-			Yii::$app->user->isGuest
-				? ['label' => 'Login', 'url' => ['/site/login']]
-				: '<li class="nav-item">'
-				. Html::beginForm(['/site/logout'])
-				. Html::submitButton(
-					'Cerrar Sesión (' . Yii::$app->user->identity->nick . ')',
-					['class' => 'nav-link btn btn-link logout text-black']
-				)
-				. Html::endForm()
-				. '</li>',
-			Yii::$app->user->isGuest
-				? ['label' => 'Registro', 'url' => ['/site/registro']]:"",
-		]
+		'items' => $items
 	]);
 	NavBar::end();
 
