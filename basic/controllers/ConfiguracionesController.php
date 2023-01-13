@@ -15,6 +15,27 @@ use yii\filters\VerbFilter;
  */
 class ConfiguracionesController extends Controller
 {
+
+	/*
+	 * Función sobreescrita para comprobar que layout usar
+	 * y que homeUrl definir según el rol del usuario
+	 * */
+	public function beforeAction($action)
+	{
+		if(!\Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(\Yii::$app->user->id)){
+				$this->layout='privada';
+				\Yii::$app->homeUrl=array('usuarios/index');
+			}
+
+		}else{
+			$this->layout='publica';
+			\Yii::$app->homeUrl=array('local/index');
+		}
+
+		return parent::beforeAction($action);
+	}
+
     /**
      * @inheritDoc
      */

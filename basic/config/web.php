@@ -6,13 +6,13 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
 	'name'=>'Establecimientos Hosteleros',
-	'homeUrl'=>array('local/index'),
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+	'layout' => 'publica',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation

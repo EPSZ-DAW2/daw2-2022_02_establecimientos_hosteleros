@@ -124,7 +124,14 @@ class SiteController extends Controller
 						$usuario->resetNumAccesos();						//Numero de accesos = 0
 						$usuarioAcceso->updateFechaBloqueo('');		//Fecha de bloqueo null
 						Yii::$app->session->set('veces',0);
-						return $this->goBack();
+
+						//IMPORTANTE - Se cambia el homeURL dependiendo si el usuario es admin o no
+						if(Usuario::esRolAdmin($usuario->id))
+							Yii::$app->homeUrl=array('usuarios/index');
+						else
+							Yii::$app->homeUrl=array('local/index');
+
+						return $this->goHome();
 					}else{	//Si hay un fallo en login
 						Yii::$app->session->set('veces',Yii::$app->session->get('veces')+1);
 						Yii::error('Intento de inicio de sesión fallido');
@@ -175,6 +182,10 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
+		//Se cambia el layout y homeUrl
+		Yii::$app->layout='publica';
+		Yii::$app->homeUrl=array('local/index');
+
         Yii::$app->user->logout();
 
         return $this->goHome();
