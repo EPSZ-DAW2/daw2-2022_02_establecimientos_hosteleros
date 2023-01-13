@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Configuracion;
 use app\models\Hostelero;
 use app\models\HostelerosSearch;
 use Yii;
@@ -15,7 +16,7 @@ class HosteleroController extends \yii\web\Controller
 		$searchModel = new HostelerosSearch();
 		$dataProvider = $searchModel->search($this->request->queryParams);
 		$pagination = new Pagination([
-			'defaultPageSize' => Yii::$app->params['paginacionHosteleros'],
+			'defaultPageSize' => Configuracion::getValorConfiguracion('numero_paginacion_hosteleros'),
 			'totalCount' => $dataProvider->query->count(),
 		]);
 
