@@ -15,7 +15,7 @@ use yii\helpers\Html; ?>
                 <img src="images/sinfoto.jpg" class="img-fluid" style="width: 100%; height: 15rem" />
             <?php endif; ?>
         </div>
-        <div class="card-body">
+        <div class="card-body info">
             <h5 class="card-title font-weight-bold"><a><?= Html::encode("{$local->titulo}")?></a></h5>
             <ul class="list-unstyled list-inline mb-0">
                 <li class="list-inline-item">
@@ -65,7 +65,9 @@ use yii\helpers\Html; ?>
                         echo Html::encode("No hay nada por el momento...");
                 ?>
             </p>
-            <a href="<?= Url::toRoute(['local/detalle', 'id'=>$local->id]);?>" class="btn btn-link link-secondary p-md-1 mb-0">Saber más</a>
+            <div class="d-flex justify-content-center">
+                <a href="<?= Url::toRoute(['local/detalle', 'id'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>
+            </div>
         </div>
     </div>
 
