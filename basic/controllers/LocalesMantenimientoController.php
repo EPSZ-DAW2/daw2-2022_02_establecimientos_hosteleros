@@ -4,9 +4,11 @@ namespace app\controllers;
 
 use app\models\LocalesMantenimiento;
 use app\models\LocalesMantenimientoSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Yii;
 
 /**
  * LocalesMantenimientoController implements the CRUD actions for LocalesMantenimiento model.
@@ -38,6 +40,9 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionIndex()
     {
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+        
         $searchModel = new LocalesMantenimientoSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -55,6 +60,9 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionView($id)
     {
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -67,6 +75,9 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionCreate()
     {
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+        
         $model = new LocalesMantenimiento();
 
         if ($this->request->isPost) {
@@ -91,6 +102,9 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionUpdate($id)
     {
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+			return $this->goHome();
+        
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -110,7 +124,9 @@ class LocalesMantenimientoController extends \yii\web\Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {
+    {   
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+            return $this->goHome();
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -131,4 +147,5 @@ class LocalesMantenimientoController extends \yii\web\Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
 }
