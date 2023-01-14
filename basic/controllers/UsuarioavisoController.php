@@ -57,13 +57,16 @@ class UsuarioavisoController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        //$usuario = $model->usuario;
-        $fecha_lectura = date('Y-m-d H:i:s');
-        $model->fecha_lectura = $fecha_lectura;
-        $model->save();
+        $user = $_SESSION['__id']; //id del destino_usuario_id
+        
+        if($user==$model->destino_usuario_id)
+        {
+            $fecha_lectura = date('Y-m-d H:i:s');
+            $model->fecha_lectura = $fecha_lectura;
+            $model->save();
+        }
         return $this->render('view', [
             'model' => $model,
-            //'usuario' => $usuario,
             //'model' => $this->findModel($id),
         ]);
     }
@@ -77,7 +80,7 @@ class UsuarioavisoController extends Controller
     {
         $model = new Usuarioaviso();
 
-        $user = $_SESSION['__id']; //id del usuario_origen
+        $user = $_SESSION['__id']; //id del origen_usuario_id
         $model->origen_usuario_id = $user;
 
         if ($this->request->isPost) {
@@ -124,6 +127,23 @@ class UsuarioavisoController extends Controller
     {
         $model = $this->findModel($id);
         $model->fecha_lectura=null;
+        $model->save();
+
+        return $this->redirect(['index']);
+    }
+    
+    /**
+     * Updates an existing Usuarioaviso model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param int $id ID
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionAceptar($id)
+    {
+        $model = $this->findModel($id);
+        $fecha_aceptado = date('Y-m-d H:i:s');
+        $model->fecha_aceptado= $fecha_aceptado;
         $model->save();
 
         return $this->redirect(['index']);

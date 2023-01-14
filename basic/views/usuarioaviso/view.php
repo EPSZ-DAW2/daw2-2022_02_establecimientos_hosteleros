@@ -41,6 +41,7 @@ NavBar::end();
             ],
         ]) ?>
         <?= Html::a(Yii::t('app', "Marcar como 'No leído'"), ['desleer', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(Yii::t('app', "Aceptar"), ['aceptar', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
