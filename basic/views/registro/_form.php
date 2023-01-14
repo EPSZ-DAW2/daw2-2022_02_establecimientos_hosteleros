@@ -19,7 +19,8 @@ use yii\web\UserAgent;
 
     <?= $form->field($model, 'texto')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'ip')->textInput(['maxlength' => true]) ?>
+    <?php $userIP = Yii::$app->request->userIP;?>
+    <?= $form->field($model, 'ip')->textInput(['value' =>$userIP ,'maxlength' => true]) ?>
     <?php
     //$userAgent = Yii::$app->request->getUserAgent();
     //$browserName = $userAgent->getBrowser();

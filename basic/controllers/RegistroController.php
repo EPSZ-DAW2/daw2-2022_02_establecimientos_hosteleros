@@ -8,8 +8,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\RegistroQuery;
-use app\controllers\Yii;
+
 use app\models\Post;
+
 
 /**
  * RegistroController implements the CRUD actions for Registro model.
@@ -41,6 +42,7 @@ class RegistroController extends Controller
      */
     public function actionIndex()
     {
+        Registro::eliminarAntiguo();
         $searchModel = new RegistroSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -155,5 +157,28 @@ class RegistroController extends Controller
     public static function find()
     {
         return new RegistroQuery(get_called_class());
+    }
+
+    public function actionElimianarFiltro(){
+
+        $registro= (isset($_GET['Registro']) ? $_GET['Registro'] : NULL);
+        $fecha=(isset($registro['fecha']) ? $registro['fecha'] : NULL);
+        $log=(isset($registro['clase_log_id']) ? $registro['clase_log_id'] : NULL);
+
+        $modulo =(isset($registro['modulo']) ? $registro['modulo'] : NULL);
+        $texto = (isset($registro['texto']) ? $registro['texto'] : NULL);
+        $ip= (isset($registro['ip']) ? $registro['ip'] : NULL);
+        $browser = (isset($registro['browser']) ? $registro['browser'] : NULL);
+
+        Registro::eliminarFiltro($fecha,$log,$modulo,$texto,$ip,$browser);
+
+
+       $searchModel = new RegistroSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
     }
 }
