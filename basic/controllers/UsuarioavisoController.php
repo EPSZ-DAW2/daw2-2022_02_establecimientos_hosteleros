@@ -114,6 +114,22 @@ class UsuarioavisoController extends Controller
     }
 
     /**
+     * Updates an existing Usuarioaviso model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param int $id ID
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDesleer($id)
+    {
+        $model = $this->findModel($id);
+        $model->fecha_lectura=null;
+        $model->save();
+
+        return $this->redirect(['index']);
+    }
+
+    /**
      * Deletes an existing Usuarioaviso model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID

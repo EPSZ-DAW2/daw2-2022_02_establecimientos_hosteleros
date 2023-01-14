@@ -1,5 +1,6 @@
 <?php
-
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -10,6 +11,21 @@ $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarioavisos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+?>
+<?php
+NavBar::begin([
+	'brandLabel' => 'Administración Avisos',
+	'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+]);
+$items=[
+	['label' => 'Avisos', 'url' => ['/usuarioaviso/index']],
+	['label' => 'Crear aviso', 'url' => ['/usuarioaviso/create']],
+];
+echo Nav::widget([
+	'options' => ['class' => 'navbar-nav'],
+	'items' => $items,
+]);
+NavBar::end();
 ?>
 <div class="usuarioaviso-view">
 
@@ -24,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a(Yii::t('app', "Marcar como 'No leído'"), ['desleer', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([

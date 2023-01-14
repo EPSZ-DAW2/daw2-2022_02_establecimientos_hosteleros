@@ -35,6 +35,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 
 <header id="header">
 	<?php
+	
 	//NavBar para usuario administrador
     NavBar::begin([
         'brandLabel' => '<img src="images/logo.png" class="pull-left" style="height: 50px"/> '.Yii::$app->name,
@@ -46,7 +47,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 	//TODO Poner un item de las funcionalidades privadas asignadas
 	$items=[
 		['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+		['label' => 'Avisos', 'url' => ['/usuarioaviso/index']],
 		['label' => 'Configuraciones', 'url' => ['/configuraciones/index']],
+		
 	];
 
 	//Si el usuario es invitado se añaden opciones de login y registro, si no de logout

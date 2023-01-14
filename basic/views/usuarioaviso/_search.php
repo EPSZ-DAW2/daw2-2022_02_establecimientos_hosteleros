@@ -15,15 +15,18 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?php //= $form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'fecha_aviso') ?>
+    <?=$form->field($model, 'fecha_aviso')->widget(\yii\jui\DatePicker::classname(), [
+         'language' => 'es',
+         'dateFormat' => 'yyyy-MM-dd',
+     ])?>
 
-    <?= $form->field($model, 'clase_aviso_id') ?>
+    <?= $form->field($model, 'clase_aviso_id')->dropDownList( \app\models\Usuarioaviso::listaAvisos()) ?>
 
-    <?= $form->field($model, 'texto') ?>
+    <?php //= $form->field($model, 'texto') ?>
 
-    <?= $form->field($model, 'destino_usuario_id') ?>
+    <?php //= $form->field($model, 'destino_usuario_id') ?>
 
     <?php // echo $form->field($model, 'origen_usuario_id') ?>
 
@@ -37,7 +40,6 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
