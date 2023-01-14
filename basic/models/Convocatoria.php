@@ -77,6 +77,8 @@ class Convocatoria extends \yii\db\ActiveRecord
         return new ConvocatoriaQuery(get_called_class());
     }
 
+
+    //SETS
     /**
      * Función que se encarga de modificar el numero de denuncias
      * 
@@ -101,9 +103,21 @@ class Convocatoria extends \yii\db\ActiveRecord
         $this->fecha_denuncia1 = $fecha;
 
     }
+
+    //GETS
     public function getfecha_denuncia1(){
         
         return $this->fecha_denuncia1;
+
+    }
+    public function getId(){
+        
+        return $this->id;
+
+    }
+    public function getLocal_id(){
+        
+        return $this->local_id;
 
     }
     public function getnum_denuncias(){
@@ -111,12 +125,28 @@ class Convocatoria extends \yii\db\ActiveRecord
         return $this->num_denuncias;
 
     }
+
+    /**
+     * Función que comprueba 1 asistente en la convocatoria
+     */
+
+     public function getAsistentes(){
+
+        return $this->hasMany(Asistente::class,[
+            //campos clave de Asistentes y  valores en convocatorias
+            'id' => 'convocatoria_id',
+        ])->inverseOf('Convocatoria');
+
+     }
+
+
+
     /**
      *  Función que "reporta" una convocatoria     * 
      * 
      */
     public function report(){
-        echo"\n El numero de denuncias iniciar es: ".$this->getnum_denuncias()."</br>" ;
+        //echo"\n El numero de denuncias iniciar es: ".$this->getnum_denuncias()."</br>" ;
 
         if(($this->getnum_denuncias())==0){
             //Se guarda la fecha en la que se realiza la denuncia
@@ -128,7 +158,7 @@ class Convocatoria extends \yii\db\ActiveRecord
 
             $this->setfecha_denuncia1(date('Y-m-d H:i:s',$timestamp));
 
-            echo"\n Fecha con formateo: </br>" ;
+            //echo"\n Fecha con formateo: </br>" ;
             print_r(date('Y-M-D H:I:S',$timestamp));
         }
         //Seteamos el valor de las denuncias al que tenía + 1
@@ -141,4 +171,28 @@ class Convocatoria extends \yii\db\ActiveRecord
         //$this->save();
 
     }
+    /**
+     *  Función que crea un registro en Asistente
+     * 
+     */
+    public function inscribir(){
+        
+        
+
+    }
+
+        /**
+     *  Función que borra un registro en Asistente
+     * 
+     */
+    public function desinscribir(){
+        
+        
+
+    }
+
+
+    
+
+         
 }

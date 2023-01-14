@@ -57,4 +57,68 @@ class Asistente extends \yii\db\ActiveRecord
     {
         return new AsistentesQuery(get_called_class());
     }
+    /**
+     * Función que comprueba 1 asistente en la convocatoria
+     */
+
+     public function getConvocatoria(){
+
+        return $this->hasOne(Convocatoria::class,[
+            //campos clave de Asistentes y  valores en convocatorias
+            'id' => 'convocatoria_id',
+        ])->inverseOf('Asistente');
+
+     }
+
+    //GETS
+
+    public function getid(){
+        
+        return $this->id;
+
+    }
+    public function getLocal_id(){
+        
+        return $this->local_id;
+
+    }
+    public function getConvocatoria_id(){
+        
+        return $this->Convocatoria_id;
+
+    }
+    public function getUsuario_id(){
+        
+        return $this->Usuario_id;
+
+    }
+    public function getFecha_alta(){
+        
+        return $this->fecha_alta;
+
+    }
+
+    //SETS
+    /*El Id normal al ser la clave de la tabla no se debería poder cambiar asi que directamente no pongo la opción */
+    public function setLocal_id($Id){
+        
+        $this->local_id = $Id;
+
+    }
+    public function setConvocatoria_id($Id){
+        
+        $this->convocatoria_id = $Id;
+
+    }
+    public function setUsuario_id($Id){
+        
+        $this->usuario_id = $Id ;
+
+    }
+    public function setFecha_alta($Fecha){
+        
+        $this->fecha_alta = $Fecha;
+
+    }
+
 }

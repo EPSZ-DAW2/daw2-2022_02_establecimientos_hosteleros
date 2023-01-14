@@ -140,6 +140,51 @@ class ConvocatoriaController extends Controller
 
         return $this->redirect(['index']);
     }
+    /**
+     * 
+     * Función encargada de escribir en la tabla de inscripciones al usuario y a la convocatoria deseada
+     */
+    public function actionInscribir($id)
+    {
+        //Cojemos el ID del yii. Como el loguin no va aun esto es teorico
+        $id_asistente = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
+        //$id_asistente =Yii::$app->user->id;
+
+        //creamos un modelo de tipo Asistente con el $id
+        $inscripcion = new Asistente();
+        //Buscamos el modelo de convocatoria anterrior
+        $model = $this->findModel($id);
+
+        //Creo que esto no es necesario
+        //$inscripcion->loadDefaultValues();
+
+        $inscripcion->setConvocatoria_id($model->getId());
+        $inscripcion->setLocal_id($model->getLocal_Id());
+        $inscripcion->setUsuario_id($id_asistente);
+
+        $timestamp = time()-(60*60*4);
+        $inscripcion->setFecha_alta(date('Y-m-d H:i:s',$timestamp));        
+
+        $inscripcion->save();
+
+        return $this->redirect(['index']);
+    }
+    public function actionDesinscribir($id)
+    {
+        //Cojemos el ID del yii. Como el loguin no va aun esto es teorico
+        $id_asistente = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
+        //$id_asistente =Yii::$app->user->id;
+
+        $model = $this->findModel($id);
+
+        //Buscar en la tabla de Asistentes el registro que tiene los id del usuario y la convocatoria
+        $asistente= Asistente::findOne(['convocatoria_id' => $id ,'usuario_id' => $id_asistente ]);
+
+        $asistente->delete();
+    
+
+        return $this->redirect(['index']);
+    }
 
     /**
      * Finds the Convocatoria model based on its primary key value.

@@ -31,4 +31,14 @@ class AsistentesQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+    public function listar($id)
+    {
+
+        return $this->addWhere(["=",'convocatoria_id',$id]);
+    }
+    public function comprobar_asistencia($id_asi,$id_conv)
+    {
+
+        return $this->andWhere(["=",'convocatoria_id',$id_conv])->andwhere(["=",'usuario_id',$id_asi]);
+    }
 }
