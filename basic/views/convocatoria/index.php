@@ -53,9 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => '',
                 'format' => 'raw',
                 'value' => function($model){
-                    $btn = '<a href="'.Url::toRoute(["reportar", 'id' => $model->id]).'"
+                    //si ya se ha reportado en esta sesión tiene que existir la variable o ser diferente de 0
+                    //en este caso aparece el botón bloqueado
+                    if(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0){
+                        $btn = '<a data-toggle="tooltip title="Members">Usted ya ha reportado</a>';
+                    } else {
+                        $btn = '<a href="'.Url::toRoute(["reportar", 'id' => $model->id]).'"
                     data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm"
                     btn-info ">Reportar</a>';
+                    }
+                    
                     return $btn;
                  }
             ],

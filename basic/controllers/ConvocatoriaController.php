@@ -129,15 +129,16 @@ class ConvocatoriaController extends Controller
 
         $model = $this->findModel($id);
    
-        // $id not found in database   
-        if($model === null)   
+        // $id not found in database 
+        //vamos a poner aquí tambien la comprobación de la sesión en caso de que quiera reportar por URL ;)
+        if($model === null || (isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0))   
             throw new NotFoundHttpException('The requested page does not exist.');
             
         $model->report();
            
         $model->update();   
 
-        //return $this->redirect(['index']);
+        return $this->redirect(['index']);
     }
 
     /**

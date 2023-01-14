@@ -83,6 +83,12 @@ class Convocatoria extends \yii\db\ActiveRecord
      */
     public function setnum_denuncias($num){
         
+        //Si se quiere setear a 0, se tiene que borrar la fecha del primer reporte
+
+        if($num==0){
+            $this->setfecha_denuncia1(null);
+        }
+        
         $this->num_denuncias = $num;
 
     }
@@ -110,17 +116,27 @@ class Convocatoria extends \yii\db\ActiveRecord
      * 
      */
     public function report(){
-        print_r($this->getnum_denuncias());
-        //si el numero de denuncias es 0, 
-        if($this->getfecha_denuncia1()==0){
+        echo"\n El numero de denuncias iniciar es: ".$this->getnum_denuncias()."</br>" ;
+
+        if(($this->getnum_denuncias())==0){
             //Se guarda la fecha en la que se realiza la denuncia
-            //$this->setfecha_denuncia1(getdate());
+            $timestamp = time()-(60*60*4);
+            
+
+            //echo"\n Fecha sin formateo: </br>" ;
+            //print_r($fecha_no_fort);
+
+            $this->setfecha_denuncia1(date('Y-m-d H:i:s',$timestamp));
+
+            echo"\n Fecha con formateo: </br>" ;
+            print_r(date('Y-M-D H:I:S',$timestamp));
         }
         //Seteamos el valor de las denuncias al que tenía + 1
         $this->setnum_denuncias($this->getnum_denuncias() + 1);
         
-        print_r( $this->getfecha_denuncia1());
-        print_r($this->getnum_denuncias());
+        $_SESSION['REPORT_VECES'] = 1;
+        //print_r( $this->getfecha_denuncia1());
+        //print_r($this->getnum_denuncias());
 
         //$this->save();
 
