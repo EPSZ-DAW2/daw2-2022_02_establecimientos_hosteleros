@@ -96,5 +96,38 @@ class MiPerfilController extends Controller
 			$this->goHome();
     }
 
+    public function actionLeer($id){
+
+        $model = Usuarioaviso::findOne(['id' => $id]);
+        $fecha_lectura = date('Y-m-d H:i:s');
+        $model->fecha_lectura = $fecha_lectura;
+        $model->save();
+        return $this->render('leer', [
+            'model' => $model,
+        ]);
+    }
+
+
+
+    public function actionDesleer($id)
+    {
+        $model= new Usuarioaviso();
+
+        $model->desleer($id);
+
+
+        return $this->redirect(['index']);
+    }
+    public function actionDesleermsg($id)
+    {
+
+        $model = Usuarioaviso::findOne(['id' => $id]);
+        $model->desleer($id);
+        $model->fecha_lectura=null;
+
+        return $this->render('leer', [
+            'model' => $model,
+        ]);
+    }
 
 }

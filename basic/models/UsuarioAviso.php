@@ -115,4 +115,42 @@ class Usuarioaviso extends \yii\db\ActiveRecord
         return usuarioaviso::find()->where(['origen_usuario_id' => $id])->all();
     }//getAvisosEnviados
 
+
+
+    /**
+     * Devuelve los datos del mensaje
+     */
+    public static function getMensaje($id)
+    {
+        return usuarioaviso::find()->where(['id' => $id])->all();
+    }
+
+    /**
+     * Deslee un mensaje en concreto
+     */
+    public function desleer($id){
+        $model = $this->findModel($id);
+        $model->fecha_lectura=null;
+        $model->save();
+    }
+
+    public function encontrar($id){
+        return $this->findModel($id);
+    }
+    /**
+     * Finds the Usuarioaviso model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param int $id ID
+     * @return Usuarioaviso the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+
+    protected function findModel($id)
+    {
+        if (($model = Usuarioaviso::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
 }

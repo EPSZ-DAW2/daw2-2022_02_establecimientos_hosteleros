@@ -131,7 +131,11 @@ class UsuarioavisoController extends Controller
 
         return $this->redirect(['index']);
     }
-    
+
+
+
+
+
     /**
      * Updates an existing Usuarioaviso model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -170,6 +174,7 @@ class UsuarioavisoController extends Controller
      * @return Usuarioaviso the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     protected function findModel($id)
     {
         if (($model = Usuarioaviso::findOne(['id' => $id])) !== null) {
@@ -178,4 +183,6 @@ class UsuarioavisoController extends Controller
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
+
 }
