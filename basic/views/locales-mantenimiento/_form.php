@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var app\models\LocalesMantenimiento $model */
@@ -36,7 +37,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'visible')->textInput() ?>
 
-    <?= $form->field($model, 'terminado')->textInput() ?>
+    <?= $form->field($model, 'terminado')->dropDownList($model::listaOpcionesTerminacion()) ?>
 
     <?= $form->field($model, 'fecha_terminacion')->textInput() ?>
 
@@ -44,7 +45,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fecha_denuncia1')->textInput() ?>
 
-    <?= $form->field($model, 'bloqueado')->textInput() ?>
+    <?= $form->field($model, 'bloqueado')->dropDownList($model::listaOpcionesBloqueo())?>
 
     <?= $form->field($model, 'fecha_bloqueo')->textInput() ?>
 

@@ -103,4 +103,51 @@ class LocalesMantenimiento extends \yii\db\ActiveRecord
     {
         return new LocalesQuery(get_called_class());
     }
+    //Se bloquea un local según el tipo indicado
+	public function bloquear($tipo){
+		$this->bloqueado=$tipo;
+		$this->save();
+	}
+    //Lista de opciones para ver si el local está bloqueado
+	public static function listaOpcionesBloqueo(){
+		$opciones= array(
+			0=>'No',
+			1=>'Sí (Bloqueado por denuncias)',
+			2=>'Sí (Bloqueado por administrador)',
+		);
+		return $opciones;
+	}
+
+	public static function getOpcionBloqueo($num){
+		$lista=self::listaOpcionesBloqueo();
+		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
+		return $res;
+	}
+
+	public function descripcionOpcionBloqueo($id){
+		return static::getOpcionBloqueo($id);
+	}
+    public function terminacion($tipo){
+		$this->estado=$tipo;
+		$this->save();
+	}
+    public static function listaOpcionesTerminacion(){
+		$opciones= array(
+			0=>'No',
+			1=>'Eliminado por el usuario',
+			2=>'Suspendido',
+            3=>'Suspendido por inadecuado'
+		);
+		return $opciones;
+	}
+
+	public static function getOpcionTerminacion($num){
+		$lista=self::listaOpcionesTerminacion();
+		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
+		return $res;
+	}
+
+	public function descripcionOpcionTerminacion($id){
+		return static::getOpcionTerminacion($id);
+	}
 }
