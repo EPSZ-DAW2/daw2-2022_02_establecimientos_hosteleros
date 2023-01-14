@@ -244,26 +244,5 @@ class UsuariosController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    public function actionMiPerfil()
-	{
-        $id = $_SESSION['__id']; //id del usuario_origen
 
-        //-Datos del usuario
-        $searchModelUsuario = new UsuariosSearch();
-        $modelUsuario = $searchModelUsuario->findIdentity($id);
-        //-Avisos relacionados con el usuario
-        $searchModelAvisosEnviados = new Usuarioaviso();
-		$modelAvisosEnviados= UsuarioAviso::getAvisosEnviados($id);
-        var_dump($modelUsuario);
-        foreach ($modelAvisosEnviados as $modelo){
-            var_dump($modelo->origen_usuario_id);
-            var_dump($modelo->texto);
-        }
-
-        //$modelAvisos= Usuarioaviso::findOne($id);
-        return $this->render('miperfil', [
-            'modelUsuario' => $modelUsuario,
-            'id' => $id,
-			]);
-    }
 }
