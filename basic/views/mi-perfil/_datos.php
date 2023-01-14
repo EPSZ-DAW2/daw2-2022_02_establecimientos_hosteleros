@@ -8,10 +8,21 @@ use yii\helpers\Url;
 /** @var app\models\Usuario $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
-
+<?php
+$this->title = Yii::t('app', 'Update Usuarioaviso: {name}', [
+    'name' => $model->id,
+]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarioavisos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+?>
 <div class="usuario-form">
     
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+            'action' => ['update'],
+            'method' => 'get',
+        ]);
+        $model = new Usuario();?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
@@ -42,9 +53,9 @@ use yii\helpers\Url;
 
 
     <div class="form-group mt-2">
-        <?= Html::submitButton(Yii::t('app', 'Guardar'), ['class' => 'btn btn-success']) ?>
-        <?= Html::submitButton(Yii::t('app', 'Cambiar contraseña'), ['class' => 'btn btn-success']) ?>
-        <?= Html::submitButton(Yii::t('app', 'Dar de baja'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Guardar datos'), ['class' => 'btn btn-success']) ?></div>
+        <?= Html::a(Yii::t('app', 'Cambiar contraseña'), ['updatecontra','id'=>$model->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Dar de baja'), ['baja'], ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

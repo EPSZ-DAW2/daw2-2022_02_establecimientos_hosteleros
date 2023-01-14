@@ -66,13 +66,40 @@ class MiPerfilController extends Controller
     }
 
     /**
+     * Updates an existing Usuarioaviso model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param int $id ID
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdate($id)
+    {
+        $model= new Usuario();
+
+        $datos= (isset($_GET['datos']) ? $_GET['datos'] : NULL);
+
+        $model->email=(isset($datos['email']) ? $datos['email'] : NULL);
+        $model->nick=(isset($datos['nick']) ? $datos['nick'] : NULL);
+        $model->nombre =(isset($datos['nombre']) ? $datos['nombre'] : NULL);
+        $model->apellidos = (isset($datos['apellidos']) ? $datos['apellidos'] : NULL);
+        $model->fecha_nacimiento= (isset($datos['fecha_nacimiento']) ? $datos['fecha_nacimiento'] : NULL);
+        $model->direccion = (isset($datos['direccion']) ? $datos['direccion'] : NULL);
+        $model->zona_id = (isset($datos['zona_id']) ? $datos['zona_id'] : NULL);
+        $model->fecha_registro = (isset($datos['fecha_registro']) ? $datos['fecha_registro'] : NULL);
+
+        $model->save();
+        
+        return $this->render('index');
+    }
+
+    /**
      * Updates an existing Usuario model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdatePerfil($id)
+    public function actionUpdatecontra($id)
     {
 		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
 
