@@ -1,4 +1,6 @@
 <?php
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 use yii\data\ArrayDataProvider;
 use app\models\Rol;
 use app\models\Usuario;
@@ -14,16 +16,26 @@ use yii\widgets\Pjax;
 $this->title = Yii::t('app', 'RBAC Usuarios');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php
+NavBar::begin([
+	'brandLabel' => 'Administración Usuarios',
+	'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+]);
+$items=[
+	['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+	['label' => 'Confirmar usuarios', 'url' => ['/usuarios/confirmarusuarios']],
+	['label' => 'RBAC', 'url' => ['/usuarios/rbac']],
+	['label' => 'Crear usuario', 'url' => ['/usuarios/create']],
+];
+echo Nav::widget([
+	'options' => ['class' => 'navbar-nav'],
+	'items' => $items,
+]);
+NavBar::end();
+?>
 <div class="usuario-index">
 
 	<h1><?= Html::encode($this->title) ?></h1>
-
-	<p>
-		<?= Html::a(Yii::t('app', 'Inicio'), ['index'], ['class' => 'btn btn-success']) ?>
-		<?= Html::a(Yii::t('app', 'Confirmar Usuarios'), ['confirmarusuarios'], ['class' => 'btn btn-success']) ?>
-		<?= Html::a(Yii::t('app', 'RBAC'), ['rbac'], ['class' => 'btn btn-success']) ?>
-		<?= Html::a(Yii::t('app', 'Crear Usuario'), ['create'], ['class' => 'btn btn-success']) ?>
-	</p>
 
     <h2 class="mt-4">Lista de roles disponibles</h2>
     <?php

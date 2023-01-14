@@ -1,5 +1,8 @@
 <?php
 
+use app\models\Usuario;
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\data\ArrayDataProvider;
@@ -12,6 +15,25 @@ $this->title = 'Usuario: '.$model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarios'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+?>
+<?php
+
+NavBar::begin([
+    'brandLabel' => 'Administración Usuarios',
+    'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+]);
+$items=[
+    ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+    ['label' => 'Confirmar usuarios', 'url' => ['/usuarios/confirmarusuarios']],
+    ['label' => 'RBAC', 'url' => ['/usuarios/rbac']],
+    ['label' => 'Crear usuario', 'url' => ['/usuarios/create']],
+];
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav'],
+    'items' => $items,
+]);
+NavBar::end();
+
 ?>
 <div class="usuario-view">
 

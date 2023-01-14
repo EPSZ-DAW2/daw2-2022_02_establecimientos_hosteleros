@@ -1,5 +1,6 @@
 <?php
-
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 use app\models\Configuracion;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -12,6 +13,22 @@ use yii\widgets\Pjax;
 
 $this->title = Yii::t('app', 'Configuraciones');
 $this->params['breadcrumbs'][] = $this->title;
+?>
+<?php
+NavBar::begin([
+	'brandLabel' => 'Administración Configuraciones',
+	'brandUrl' => array('configuraciones/index'),
+	'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+]);
+$items=[
+	['label' => 'Configuraciones', 'url' => ['/configuraciones/index']],
+	['label' => 'Crear configuración', 'url' => ['/configuraciones/create']],
+];
+echo Nav::widget([
+	'options' => ['class' => 'navbar-nav'],
+	'items' => $items,
+]);
+NavBar::end();
 ?>
 <div class="configuracion-index">
 
