@@ -1,5 +1,6 @@
 <?php
-
+use yii\data\ArrayDataProvider;
+use app\models\Rol;
 use app\models\Usuario;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -24,6 +25,27 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= Html::a(Yii::t('app', 'Crear Usuario'), ['create'], ['class' => 'btn btn-success']) ?>
 	</p>
 
+    <h2 class="mt-4">Lista de roles disponibles</h2>
+    <?php
+	$lineasProvider= new ArrayDataProvider([
+		//Se comprueba si es una instancia activa para que devuelva el objeto de consulta o de datos
+		'allModels'=>Rol::listaRoles()->all(),
+		'pagination'=>false,
+		'sort'=>false,
+	]);
+    ?>
+
+	<?= GridView::widget([
+		'dataProvider' => $lineasProvider,
+		'columns' => [
+			['class' => 'yii\grid\SerialColumn'],
+			'id',
+			'nombre',
+		],
+	]); ?>
+
+
+    <h2 class="mt-4">Asignación de roles a usuarios</h2>
 	<?php Pjax::begin(); ?>
 
 	<?= GridView::widget([

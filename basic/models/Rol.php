@@ -52,7 +52,7 @@ class Rol extends \yii\db\ActiveRecord
     }
 
 	public static function listaRoles(){
-		$roles=Rol::find()->orderBy('id')->all();
+		$roles=Rol::find()->orderBy('id');
 		return $roles;
 	}
 }

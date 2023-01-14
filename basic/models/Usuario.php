@@ -184,7 +184,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	//Se obtiene la lista de roles predefinidos
 	public static function listaRoles(){
-		$roles=Rol::listaRoles();
+		$roles=Rol::listaRoles()->all();
 		$lista=ArrayHelper::map($roles,'id', 'nombre');
 		return $lista;
 	}
