@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Usuario;
+use app\models\Usuarioaviso;
 use app\models\UsuarioRol;
 use app\models\UsuariosSearch;
 use Yii;
@@ -240,5 +241,20 @@ class UsuariosController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionMiPerfil(){
+        $id = $_SESSION['_id']; //id del usuario_origen
+
+        //-Datos del usuario
+        $modelUsuario = Usuario::findOne(['id' => $id]);
+        //-Avisos relacionados con el usuario
+
+
+        $modelAvisos= Usuarioaviso::findOne($id);
+        return $this->render('miperfil', [
+            'modelUsuario' => $modelUsuario,
+            'id' => $id,
+        ]);
     }
 }
