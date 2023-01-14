@@ -48,6 +48,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     $items=[
 		['label' => 'Locales', 'url' => ['/local/index']],
 		['label' => 'Hosteleros', 'url' => ['/hostelero/index']],
+
     ];
 
     //Si el usuario es invitado se añaden opciones de login y registro, si no de logout

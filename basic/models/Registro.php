@@ -17,7 +17,7 @@ use Yii;
  */
 class Registro extends \yii\db\ActiveRecord
 {
-
+    public $fecha;
     /**
      * {@inheritdoc}
      */
@@ -34,6 +34,7 @@ class Registro extends \yii\db\ActiveRecord
         return [
             [['fecha_registro', 'clase_log_id'], 'required'],
             [['fecha_registro'], 'safe'],
+
             [['texto', 'browser'], 'string'],
             [['clase_log_id'], 'string', 'max' => 1],
             [['modulo'], 'string', 'max' => 50],
@@ -55,6 +56,8 @@ class Registro extends \yii\db\ActiveRecord
             'texto' => Yii::t('app', 'Mensaje de registro.'),
             'ip' => Yii::t('app', 'Dirección IP'),
             'browser' => Yii::t('app', 'Navegador utilizado.'),
+            //Etiquetas para elimianr
+            'fecha'=>Yii::t('app', 'Fecha'),
             //Etiquetas de atributos Virtuales
             'descripcionEstado' => Yii::t('app', 'Estado'),
         ];
@@ -113,5 +116,35 @@ class Registro extends \yii\db\ActiveRecord
 
         \Yii::$app->response->sendFile('Registros.txt');
         return 1;
+    }
+    public static function eliminarFiltro($fecha=Null,$log=Null,$modulo=Null,$texto=Null,$ip=Null,$browser=Null){
+
+        if($fecha!=Null){
+            $inicio=$fecha.' 00:00:00';
+            $fin=$fecha.' 23:59:59';
+            Registro::deleteALL(['between', 'fecha_registro', $inicio, $fin]);
+
+        }
+        if($log!=Null){
+            Registro::deleteAll(['like', 'clase_log_id', $log]);
+        }
+        if($modulo!=Null){
+            Registro::deleteAll(['like', 'modulo', $modulo]);
+        }
+        if($texto!=Null){
+            Registro::deleteAll(['like', 'texto', '%'.$texto.'%']);
+        }
+        if($ip!=Null){
+            Registro::deleteAll(['like', 'ip', $ip]);
+        }
+        if($browser!=Null){
+            Registro::deleteAll(['like', 'browser', $browser]);
+        }
+    }
+    public static function eliminarAntiguo(){
+        $fecha_actual = date('Y-m-d H:i:s');
+        $fecha=date('Y-m-d H:i:s',strtotime($fecha_actual."- 1 year"));
+
+        Registro::deleteAll(['<','fecha_registro',$fecha]);
     }
 }

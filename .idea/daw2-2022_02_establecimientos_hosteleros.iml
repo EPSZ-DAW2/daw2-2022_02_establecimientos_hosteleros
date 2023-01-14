@@ -102,6 +102,15 @@
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/myclabs/php-enum" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/maennchen/zipstream-php" />
       <excludeFolder url="file://$MODULE_DIR$/basic/vendor/doctrine/deprecations" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-dialog" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-dynagrid" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-export" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-grid" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-krajee-base" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-mpdf" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-sortable" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-activeform" />
+      <excludeFolder url="file://$MODULE_DIR$/basic/vendor/kartik-v/yii2-widget-select2" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
