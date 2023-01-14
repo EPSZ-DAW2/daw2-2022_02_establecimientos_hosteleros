@@ -110,9 +110,9 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     /**
      * Recoge todos los avisos enviados
      */
-    public function getAvisosEnviados($id)
+    public static function getAvisosEnviados($id)
     {
-        return usuario_avisos::findAll()->where(['origen_usuario_id' => $id])->all();
+        return usuarioaviso::find()->where(['origen_usuario_id' => $id])->all();
     }//getAvisosEnviados
 
 }

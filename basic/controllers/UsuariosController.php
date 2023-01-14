@@ -3,9 +3,10 @@
 namespace app\controllers;
 
 use app\models\Usuario;
-use app\models\Usuarioaviso;
+use app\models\UsuarioAviso;
 use app\models\UsuarioRol;
 use app\models\UsuariosSearch;
+use app\models\UsuarioAvisoSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -245,14 +246,19 @@ class UsuariosController extends Controller
 
     public function actionMiPerfil()
 	{
-        $id = $_SESSION['_id']; //id del usuario_origen
+        $id = $_SESSION['__id']; //id del usuario_origen
 
         //-Datos del usuario
-        $modelUsuario = Usuario::findOne(['id' => $id]);
+        $searchModelUsuario = new UsuariosSearch();
+        $modelUsuario = $searchModelUsuario->findIdentity($id);
         //-Avisos relacionados con el usuario
+        $searchModelAvisosEnviados = new Usuarioaviso();
 		$modelAvisosEnviados= UsuarioAviso::getAvisosEnviados($id);
-		var_dump($modelAvisosEnviados);
-
+		//var_dump($modelUsuario);
+        foreach ($modelAvisosEnviados as $modelo){
+            var_dump($modelo->origen_usuario_id);
+            var_dump($modelo->texto);
+        }
         //$modelAvisos= Usuarioaviso::findOne($id);
        // return $this->render('miperfil', [
          //   'modelUsuario' => $modelUsuario,
