@@ -254,15 +254,16 @@ class UsuariosController extends Controller
         //-Avisos relacionados con el usuario
         $searchModelAvisosEnviados = new Usuarioaviso();
 		$modelAvisosEnviados= UsuarioAviso::getAvisosEnviados($id);
-		//var_dump($modelUsuario);
+        var_dump($modelUsuario);
         foreach ($modelAvisosEnviados as $modelo){
             var_dump($modelo->origen_usuario_id);
             var_dump($modelo->texto);
         }
+
         //$modelAvisos= Usuarioaviso::findOne($id);
-       // return $this->render('miperfil', [
-         //   'modelUsuario' => $modelUsuario,
-        //    'id' => $id,
-		//	]);
+        return $this->render('miperfil', [
+            'modelUsuario' => $modelUsuario,
+            'id' => $id,
+			]);
     }
 }
