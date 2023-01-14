@@ -42,6 +42,7 @@ class UsuarioavisoController extends Controller
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         return $this->render('index', [
+        //return $this->render('vista_aviso', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -55,8 +56,15 @@ class UsuarioavisoController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        //$usuario = $model->usuario;
+        $fecha_lectura = date('Y-m-d H:i:s');
+        $model->fecha_lectura = $fecha_lectura;
+        $model->save();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            //'usuario' => $usuario,
+            //'model' => $this->findModel($id),
         ]);
     }
 
@@ -68,6 +76,9 @@ class UsuarioavisoController extends Controller
     public function actionCreate()
     {
         $model = new Usuarioaviso();
+
+        $user = $_SESSION['__id']; //id del usuario_origen
+        $model->origen_usuario_id = $user;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

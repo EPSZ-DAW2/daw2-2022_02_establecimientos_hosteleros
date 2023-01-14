@@ -31,7 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'fecha_aviso',
-            'clase_aviso_id',
+            //'clase_aviso_id',
+            [ 'attribute'=>'clase_aviso_id', 'value'=>$model->clase_aviso_id.' - '.$model->nombreAviso ],
             'texto:ntext',
             'destino_usuario_id',
             'origen_usuario_id',

@@ -79,7 +79,7 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     public static function listaAvisos()
     {
         return [
-            'A' => 'Aviso'
+              'A' => 'Aviso'
             , 'N' => 'Notificación'
             , 'D' => 'Denuncia'
             , 'C' => 'Consulta'
