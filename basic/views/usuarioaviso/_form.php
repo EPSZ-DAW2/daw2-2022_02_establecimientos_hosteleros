@@ -12,15 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'fecha_aviso')->textInput() ?>
+    <?= $form->field($model, 'fecha_aviso')->textInput(['value' => date('Y-m-d H:i:s'), 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'clase_aviso_id')->textInput(['maxlength' => true]) ?>
+    <?php //= $form->field($model, 'clase_aviso_id')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'clase_aviso_id')->dropDownList( \app\models\Usuarioaviso::listaAvisos()) ?>
+
 
     <?= $form->field($model, 'texto')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'destino_usuario_id')->textInput() ?>
 
-    <?= $form->field($model, 'origen_usuario_id')->textInput() ?>
+    <?php //= $form->field($model, 'origen_usuario_id')->textInput() ?>
 
     <?= $form->field($model, 'local_id')->textInput() ?>
 
