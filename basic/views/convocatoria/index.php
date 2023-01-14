@@ -48,7 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
+<<<<<<< Updated upstream
             ],['label'=>'ver asistentes','format'=>'raw','value'=>function($model){$btn='<a href="site/index?id='.$model->id.'"data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm" btn-info"> asistentes</a>';
+=======
+            ],['label'=>'raw','format'=>'raw','value'=>function($model){$btn='<a  href="'.Url::toRoute(['ver', 'id' => $model->id,'id_local'=>$model->local_id]).'"data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm" btn-info"> asistentes</a>';
+>>>>>>> Stashed changes
               return $btn; }],
         ],
     ]); ?>
