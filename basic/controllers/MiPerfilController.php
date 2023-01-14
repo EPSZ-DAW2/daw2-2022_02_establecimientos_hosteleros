@@ -65,5 +65,36 @@ class MiPerfilController extends Controller
         ]);
     }
 
+    /**
+     * Updates an existing Usuario model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param int $id ID
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdatePerfil($id)
+    {
+		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
+
+			$model = $this->findModel($id);
+			$contraAnterior=$model->password;
+			if ($this->request->isPost && $model->load($this->request->post())){
+				//Se comprueba si la contraseña introducida es distinta a la anterior
+				if(strcmp($contraAnterior, $this->request->post('Usuario')['password'])!=0)
+					$model->password=hash("sha1", $model->password);	//Se genera la nueva contraseña cifrada
+
+				//Se guarda el modelo
+				if($model->save())
+					return $this->redirect(['view', 'id' => $model->id]);
+
+			}
+
+			return $this->render('miperfil', [
+				'model' => $model,
+			]);
+		}else
+			$this->goHome();
+    }
+
 
 }

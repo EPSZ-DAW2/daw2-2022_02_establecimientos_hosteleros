@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div>
-    <?php //$this->renderPartial('_datos',['model'=>$modelUsuario]);?>
+    <?php echo $this->render('_datos',['model'=>$modelUsuario]);?>
 
 </div>
 <div>
