@@ -11,7 +11,7 @@ use yii\helpers\Html;
 
 
 
-$this->title = Yii::t('app', 'Mi perfil');
+$this->title = Yii::t('app', 'Mis Mensajes');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'MiPerfil'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -33,7 +33,7 @@ echo Nav::widget([
 ]);
 NavBar::end();
 ?>
-
+<h1><?= Html::encode($this->title) ?></h1>
 <div class="container">
     <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
 </div>

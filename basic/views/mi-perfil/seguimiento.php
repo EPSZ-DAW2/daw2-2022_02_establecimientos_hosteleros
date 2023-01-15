@@ -33,6 +33,7 @@ echo Nav::widget([
 NavBar::end();
 ?>
 <div class="container">
+    <h1><?= Html::encode($this->title) ?></h1>
     <div class="row">
         <?php
         foreach($models as $model){
