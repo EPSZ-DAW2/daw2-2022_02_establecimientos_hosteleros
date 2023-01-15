@@ -21,6 +21,8 @@ NavBar::begin([
 $items=[
 	['label' => 'Perfil', 'url' => ['/mi-perfil']],
 	['label' => 'Mensajes', 'url' => ['/mi-perfil/mensajes']],
+	['label' => 'Establecimientos', 'url' => ['/mi-perfil/establecimientos']],
+	['label' => 'Seguidos', 'url' => ['/mi-perfil/seguimiento']],
 ];
 echo Nav::widget([
 	'options' => ['class' => 'navbar-nav'],

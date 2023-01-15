@@ -19,9 +19,10 @@ NavBar::begin([
     'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
 ]);
 $items=[
-    ['label' => 'Perfil', 'url' => ['/mi-perfil']],
-    ['label' => 'Mensajes', 'url' => ['/mi-perfil/mensajes']],
-    ['label' => 'Mensajes', 'url' => ['/mi-perfil/establecimientos']],
+	['label' => 'Perfil', 'url' => ['/mi-perfil']],
+	['label' => 'Mensajes', 'url' => ['/mi-perfil/mensajes']],
+	['label' => 'Establecimientos', 'url' => ['/mi-perfil/establecimientos']],
+	['label' => 'Seguidos', 'url' => ['/mi-perfil/seguimiento']],
 ];
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav'],
