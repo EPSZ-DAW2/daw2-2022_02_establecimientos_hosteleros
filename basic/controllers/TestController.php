@@ -41,8 +41,8 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
-        $registro=new Registro();
-        $registro->generarerror("Esto es una incidencia muy gorda","I");
+
+        Registro::generarerror("Esto es una incidencia ","I");
 
         return $this->render('index');
     }

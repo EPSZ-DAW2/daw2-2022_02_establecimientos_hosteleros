@@ -148,30 +148,30 @@ class Registro extends \yii\db\ActiveRecord
         Registro::deleteAll(['<','fecha_registro',$fecha]);
     }
 
-    public function generarerror($texto,$clase_log_id=null){
+    public static function generarerror($texto,$clase_log_id=null){
 
         if(!isset($texto)){
             return false;
         }
-
+        $registro =new Registro();
         if($clase_log_id==null){
-            $this->clase_log_id='E';
+            $registro->clase_log_id='E';
         } else {
             $clase_log_id= strtoupper($clase_log_id);
             if($clase_log_id=='E'||$clase_log_id=='A'||$clase_log_id=='S'||$clase_log_id=='I'||$clase_log_id=='D'){
-                $this->clase_log_id=$clase_log_id;
+                $registro->clase_log_id=$clase_log_id;
             }else{
-                $this->clase_log_id='E';
+                $registro->clase_log_id='E';
             }
         }
-        $this->fecha_registro=date('Y-m-d H:i:s');
-        $this->modulo=Yii::$app->controller->module->id;
-        $this->texto=$texto;
+        $registro->fecha_registro=date('Y-m-d H:i:s');
+        $registro->modulo=Yii::$app->controller->module->id;
+        $registro->texto=$texto;
         $userIP = Yii::$app->request->userIP;
-        $this->ip=$userIP;
-        $this->browser=$this->get_browser_name($_SERVER['HTTP_USER_AGENT']);
+        $registro->ip=$userIP;
+        $registro->browser=$registro->get_browser_name($_SERVER['HTTP_USER_AGENT']);
 
-        return $this->save();
+        return $registro->save();
 
     }
 
