@@ -10,7 +10,7 @@ $this->title = Yii::t('app', 'Recibidos');?>
 <br>
 <h1><?= Html::encode($this->title) ?></h1>
     <?php if(empty($model)){
-        echo '<h2>No hay mensajes Recibidos</h2>';
+        echo '<h2>No hay mensajes recibidos</h2>';
     }else{?>
 <?php foreach ($model as $linea){
 

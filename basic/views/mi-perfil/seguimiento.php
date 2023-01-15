@@ -10,7 +10,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\UsuariosLocales   $models */
 
-$this->title = Yii::t('app', 'Locales seguidos');
+$this->title = Yii::t('app', 'Mis locales seguidos');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'MiPerfil'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -34,7 +34,12 @@ NavBar::end();
 ?>
 <div class="container">
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php if($models==null){?>
     <div class="row">
+        <h3>No sigue ningún local</h3>
+    </div>
+     <?php } else{ ?>
+        <div class="row">
         <?php
         foreach($models as $model){
             $local=Local::findOne(['id'=>$model->local_id]);
@@ -42,6 +47,7 @@ NavBar::end();
         }
         ?>
     </div>
+    <?php } ?>
 </div>
 
 
