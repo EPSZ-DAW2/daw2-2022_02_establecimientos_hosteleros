@@ -54,6 +54,20 @@ class MiPerfilController extends Controller
         $searchModelUsuario = new UsuariosSearch();
         $modelUsuario = $searchModelUsuario->findIdentity($id);
 
+
+
+        //$modelAvisos= Usuarioaviso::findOne($id);
+        return $this->render('miperfil', [
+            'modelUsuario' => $modelUsuario,
+        ]);
+    }
+
+    public function actionMensajes(){
+        $id = $_SESSION['__id']; //id del usuario_origen
+        if($id==null) {
+            $this->layout='publica';
+            Yii::$app->homeUrl=array('local/index');
+        }
         //-Avisos relacionados con el usuario
         $searchModelAvisosEnviados = new Usuarioaviso();
         $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
@@ -61,12 +75,9 @@ class MiPerfilController extends Controller
         $searchModelAvisosRecibidos = new Usuarioaviso();
         $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
 
-        //$modelAvisos= Usuarioaviso::findOne($id);
-        return $this->render('miperfil', [
-            'modelUsuario' => $modelUsuario,
+        return $this->render('mensajes', [
             'modelAvisosEnviados'=>$modelAvisosEnviados,
             'modelAvisosRecibidos'=>$modelAvisosRecibidos,
-
         ]);
     }
 
@@ -175,4 +186,8 @@ class MiPerfilController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionEstablecimientos(){
+        $id=$_SESSION('__id');
+
+    }
 }

@@ -6,7 +6,6 @@ use yii\bootstrap5\NavBar;
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var app\models\Usuario $modelUsuario */
 /** @var app\models\UsuarioAviso $modelAvisosEnviados */
 /** @var app\models\UsuarioAviso $modelAvisosRecibidos */
 
