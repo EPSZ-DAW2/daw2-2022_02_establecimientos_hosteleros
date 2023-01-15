@@ -2,9 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\Hostelero;
+use app\models\Local;
+use app\models\Registro;
 use app\models\Usuario;
 use app\models\UsuarioAviso;
 use app\models\UsuarioRol;
+use app\models\UsuariosLocales;
 use app\models\UsuariosSearch;
 use app\models\UsuarioQuery;
 use app\models\UsuarioAvisoSearch;
@@ -107,7 +111,7 @@ class MiPerfilController extends Controller
         $model->fecha_registro = (isset($datos['fecha_registro']) ? $datos['fecha_registro'] : NULL);
 
         $model->save();
-        $error=$model->getErrors();
+        //$error=$model->getErrors();
         //var_dump($error);
         //Yii::$app->end();
         return $this->redirect(['index']);
@@ -187,7 +191,44 @@ class MiPerfilController extends Controller
     }
 
     public function actionEstablecimientos(){
-        $id=$_SESSION('__id');
+        $id = $_SESSION['__id'];
+        $modellocal=Local::findAll(['crea_usuario_id' => $id]);
 
+        return $this->render('local', [
+            'locales'=>$modellocal,
+        ]);
+    }
+    public function actionActualizar(){
+        $datos= (isset($_POST['Local']) ? $_POST['Local'] : NULL);
+        $id=(isset($datos['id']) ? $datos['id'] : null);
+
+        if($id==null){
+            return $this->redirect(['mi-perfil/establecimientos']);
+        }
+
+        $model= Local::findOne($id);
+
+        $model->titulo=(isset($datos['titulo']) ? $datos['titulo'] : $model->titulo);
+        $model->descripcion=(isset($datos['descripcion']) ? $datos['descripcion'] : $model->descripcion);
+        $model->lugar=(isset($datos['lugar']) ? $datos['lugar'] : $model->lugar);
+        $model->url=(isset($datos['url']) ? $datos['url'] : $model->url);
+        $model->categoria_id=(isset($datos['categoria_id']) ? $datos['categoria_id'] : $model->categoria_id);
+        $model->imagen_id=(isset($datos['imagen_id']) ? $datos['imagen_id'] : $model->imagen_id);
+        $model->visible=(isset($datos['visible']) ? $datos['visible'] : $model->visible);
+        $model->cerrado_comentar=(isset($datos['cerrado_comentar']) ? $datos['cerrado_comentar'] : $model->cerrado_comentar);
+        $model->cerrado_quedar=(isset($datos['cerrado_quedar']) ? $datos['cerrado_quedar'] : $model->cerrado_quedar);
+        if($model->cerrado_quedar){
+            //Se ejecutan los avisos a los usuarios que sigan el local
+            $usuarios=UsuariosLocales::findAll(['local_id' => $id]);
+            foreach ($usuarios as $usuario){
+                UsuarioAviso::generarMensaje(null,$usuario->usuario_id,'A','Se ha eliminado la quedada',$id);
+            }
+        }
+        $model->save();
+        $error=$model->getErrors();
+        if(isset($erro)){
+            Registro::generarerror("Error al guardar".$model->id);
+        }
+        return $this->redirect(['mi-perfil/establecimientos']);
     }
 }

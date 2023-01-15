@@ -20,7 +20,7 @@ NavBar::begin([
 ]);
 $items=[
 	['label' => 'Perfil', 'url' => ['/mi-perfil']],
-	['label' => 'Mensajes', 'url' => ['/mensajes']],
+	['label' => 'Mensajes', 'url' => ['/mi-perfil/mensajes']],
 ];
 echo Nav::widget([
 	'options' => ['class' => 'navbar-nav'],

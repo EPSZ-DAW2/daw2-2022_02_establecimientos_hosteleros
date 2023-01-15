@@ -177,4 +177,25 @@ class Usuarioaviso extends \yii\db\ActiveRecord
         $aviso->fecha_aceptado=null;
         $aviso->save();
     }
+
+    public static function generarMensaje($id_origen,$id_destino,$clase_aviso,$texto,$local_id=null,$comentario_id=null){
+        if(!isset($id)){
+            return false;
+        }
+        $aviso=new Usuarioaviso();
+
+        $aviso->fecha_aviso=date('Y-m-d H:i:s');
+        $aviso->clase_aviso_id=$clase_aviso;
+        $aviso->texto=$texto;
+        $aviso->destino_usuario_id=$id_destino;
+        $aviso->origen_usuario_id=$id_origen;
+        $aviso->local_id=null;
+        $aviso->comentario_id=$comentario_id;
+        $aviso->local_id=$local_id;
+        $aviso->fecha_lectura=null;
+        $aviso->fecha_aceptado=null;
+        $aviso->save();
+    }
+
+
 }
