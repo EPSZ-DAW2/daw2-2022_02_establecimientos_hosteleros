@@ -49,8 +49,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 		['label' => 'Usuarios', 'url' => ['/usuarios/index']],
 		['label' => 'Avisos', 'url' => ['/usuarioaviso/index']],
 		['label' => 'Configuraciones', 'url' => ['/configuraciones/index']],
-		
         ['label' => 'Registro', 'url' => ['/registro/index']],
+		['label' => 'Perfil', 'url' => ['/mi-perfil']],
 	];
 
 	//Si el usuario es invitado se añaden opciones de login y registro, si no de logout
