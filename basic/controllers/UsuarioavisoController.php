@@ -59,12 +59,12 @@ class UsuarioavisoController extends Controller
         $model = $this->findModel($id);
         $user = $_SESSION['__id']; //id del destino_usuario_id
         
-        if($user==$model->destino_usuario_id)
+        if($user==$model->destino_usuario_id && $fecha_lectura == null)
         {
             $fecha_lectura = date('Y-m-d H:i:s');
             $model->fecha_lectura = $fecha_lectura;
             $model->save();
-        }
+        } 
         return $this->render('view', [
             'model' => $model,
             //'model' => $this->findModel($id),
@@ -131,10 +131,6 @@ class UsuarioavisoController extends Controller
 
         return $this->redirect(['index']);
     }
-
-
-
-
 
     /**
      * Updates an existing Usuarioaviso model.

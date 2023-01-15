@@ -75,25 +75,26 @@ class MiPerfilController extends Controller
      */
     public function actionUpdate()
     {
-        $model= new Usuario();
-
         $datos= (isset($_POST['UsuariosSearch']) ? $_POST['UsuariosSearch'] : NULL);
 
         echo '<br>';
-        $model->id=(isset($datos['id']) ? $datos['id'] : NULL);
+        $id=(isset($datos['id']) ? (int)$datos['id'] : NULL); 
+        //var_dump($id);
+        //die();
+        $model= Usuario::findOne($id);
         $model->email=(isset($datos['email']) ? $datos['email'] : NULL);
         $model->nick=(isset($datos['nick']) ? $datos['nick'] : NULL);
         $model->nombre =(isset($datos['nombre']) ? $datos['nombre'] : NULL);
         $model->apellidos = (isset($datos['apellidos']) ? $datos['apellidos'] : NULL);
         $model->fecha_nacimiento= (isset($datos['fecha_nacimiento']) ? $datos['fecha_nacimiento'] : NULL);
         $model->direccion = (isset($datos['direccion']) ? $datos['direccion'] : NULL);
-        $model->zona_id = (isset($datos['zona_id']) ? $datos['zona_id'] : NULL);
+        $model->zona_id = (isset($datos['zona_id']) ? $datos['zona_id'] : 0);
         $model->fecha_registro = (isset($datos['fecha_registro']) ? $datos['fecha_registro'] : NULL);
 
         $model->save();
         $error=$model->getErrors();
-        var_dump($error);
-        Yii::$app->end();
+        //var_dump($error);
+        //Yii::$app->end();
         return $this->redirect(['index']);
     }
 
@@ -131,9 +132,13 @@ class MiPerfilController extends Controller
     public function actionLeer($id){
 
         $model = Usuarioaviso::findOne(['id' => $id]);
-        $fecha_lectura = date('Y-m-d H:i:s');
-        $model->fecha_lectura = $fecha_lectura;
-        $model->save();
+
+        if($user==$model->destino_usuario_id && $fecha_lectura == null)
+        {
+            $fecha_lectura = date('Y-m-d H:i:s');
+            $model->fecha_lectura = $fecha_lectura;
+            $model->save();
+        }
         return $this->render('leer', [
             'model' => $model,
         ]);
