@@ -7,4 +7,7 @@ return [
 	'intentos'=>5,
 	'tiempoMinutos'=>2,
 	'paginacionHosteleros'=>10,
+    'backup' => [
+        'backupPath' => '@app/backups',
+    ],
 ];

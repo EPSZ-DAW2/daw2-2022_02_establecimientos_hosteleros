@@ -77,6 +77,7 @@ class AsistentesController extends Controller
 
         return $this->render('create', [
             'model' => $model,'convocatoria' =>$id, 'local' => $id_local,
+<<<<<<< Updated upstream
         ]);
     }
   
@@ -98,9 +99,13 @@ class AsistentesController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+=======
+>>>>>>> Stashed changes
         ]);
     }
+  
 
+ 
     /**
      * Deletes an existing Asistente model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -109,10 +114,9 @@ class AsistentesController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    { $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['convocatoria/index']);
     }
 
     /**

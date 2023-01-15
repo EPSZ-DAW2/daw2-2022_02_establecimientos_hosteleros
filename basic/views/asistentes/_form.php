@@ -12,6 +12,7 @@ use yii\widgets\ActiveForm;
 
 <?php $form = ActiveForm::begin(); ?>
 
+<<<<<<< Updated upstream
 <?= $form->field($model, 'local_id')->hiddeninput(['value'=> $local]) ?>
 
 <?= $form->field($model, 'convocatoria_id')->hiddeninput(['value'=> $convocatoria])?>
@@ -19,6 +20,15 @@ use yii\widgets\ActiveForm;
 <?= $form->field($model, 'usuario_id')->textInput() ?>
 
 <?= $form->field($model, 'fecha_alta')->hiddeninput(['value'=>date("Y-m-d h:i:sa")])?>
+=======
+<?= $form->field($model, 'local_id')->hiddeninput(['value'=> $local])->label(false) ?>
+
+<?= $form->field($model, 'convocatoria_id')->hiddeninput(['value'=> $convocatoria])->label(false)?>
+
+<?= $form->field($model, 'usuario_id')->textInput() ?>
+
+<?= $form->field($model, 'fecha_alta')->hiddeninput(['value'=>date("Y-m-d h:i:sa")])->label(false)?>
+>>>>>>> Stashed changes
 
 <div class="form-group">
     <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

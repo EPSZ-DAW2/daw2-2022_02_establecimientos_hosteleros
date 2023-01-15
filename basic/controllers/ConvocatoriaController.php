@@ -140,8 +140,14 @@ class ConvocatoriaController extends Controller
        
     {     
         $asistente=new Asistente();
+<<<<<<< Updated upstream
 
          $model= $asistente->find()->listar($id)->all();
+=======
+        
+         $model= $asistente->find()->listar($id);
+     
+>>>>>>> Stashed changes
          $searchModel = new AsistenteSearch();
          $dataProvider = $searchModel->search($this->request->queryParams);
         return $this->render('../asistentes/ver_asistentes', ['model' => $model,'searchModel' => $searchModel,'dataProvider' => $dataProvider,'convocatoria'=>$id,'local'=>$id_local]);

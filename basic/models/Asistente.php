@@ -58,9 +58,14 @@ class Asistente extends \yii\db\ActiveRecord
         return new AsistentesQuery(get_called_class());
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public function getAsistentes(){
         
     }
+=======
+
+ 
+>>>>>>> Stashed changes
 =======
 
  

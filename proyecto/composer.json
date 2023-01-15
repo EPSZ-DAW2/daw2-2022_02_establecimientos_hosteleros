@@ -22,14 +22,10 @@
         }
     ],
     "require": {
-<<<<<<< Updated upstream
-        "composer-plugin-api": "^1.0 | ^2.0"
-=======
         "composer-plugin-api": "^1.0 | ^2.0",
         "php": "^8.2",
         "yiisoft/yii2": "^2.0",
         "yiisoft/yii2-console": "^2.0"
->>>>>>> Stashed changes
     },
     "require-dev": {
         "composer/composer": "^1.0 | ^2.0@dev",

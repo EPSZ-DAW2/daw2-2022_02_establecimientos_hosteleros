@@ -5,7 +5,13 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+<<<<<<< Updated upstream
 
+=======
+use yii\grid\Column;
+use app\models\Asistente;
+use yii\widgets\ActiveForm;
+>>>>>>> Stashed changes
 /** @var yii\web\View $this */
 /** @var app\models\ConvocatoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -21,8 +27,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Convocatoria', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php  // echo $this->render('_search', ['model' => $searchModel]); ?>
+      
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -46,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
+<<<<<<< Updated upstream
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
 <<<<<<< Updated upstream
@@ -56,6 +63,20 @@ $this->params['breadcrumbs'][] = $this->title;
               return $btn; }],
         ],
     ]); ?>
+=======
+                    return Url::toRoute([$action, 'id' => $model->id]);  
+                 }
+            ], [ 'label' => 'ver asistentes',
+            'format' => 'html',
+            'content' => function($model, $key, $index) {
+                return '<a href="'.Url::toRoute(['convocatoria/ver', 'id' => $model->id, 'id_local' => $model->local_id]).'" class="btn btn-danger">Ver asistentes</a>';
+            },
+               
+            ],],
+    ]);
+    
+    ?>
+>>>>>>> Stashed changes
 
 
 </div>
