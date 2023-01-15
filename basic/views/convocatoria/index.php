@@ -28,12 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'local_id',
@@ -50,8 +50,18 @@ $this->params['breadcrumbs'][] = $this->title;
             //'modi_usuario_id',
             //'modi_fecha',
             [
+                'attribute'=>'Participantes',
+                'content'=> function(Convocatoria $model, $key, $index, $column){
+                    echo "<pre>";
+                    print_r($model->getAsistentes());
+                    echo "</pre>";
+                    echo "Num partici:".$model->getNumParticipantes();
+                    return $model->getNumParticipantes();
+                }
+            ],
+            [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
             ],
@@ -62,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //si ya se ha reportado en esta sesión tiene que existir la variable o ser diferente de 0
                     //en este caso aparece el botón bloqueado
 
-                    return !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0) ? Html::a('reportar',Url::toRoute(["reportar", 'id' => $model->id])) :'Superado el límite de reportes';
+                    return !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0) ? Html::a('reportar',Url::toRoute(["reportar", 'id' => $model->id]),['class' => 'btn btn-danger']) :'Superado el límite de reportes';
                     /*if(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0){
                         echo "Veces reportado = ".$_SESSION['REPORT_VECES'];
                         $btn = '<a data-toggle="tooltip title="Members">Usted ya ha reportado</a>';
@@ -112,6 +122,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+    
 
 
 </div>
