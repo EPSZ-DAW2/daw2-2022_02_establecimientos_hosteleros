@@ -150,4 +150,17 @@ class LocalesMantenimiento extends \yii\db\ActiveRecord
 	public function descripcionOpcionTerminacion($id){
 		return static::getOpcionTerminacion($id);
 	}
+    //lista la informacion de un local para la parte publica
+    public static function listarinfolocal($id){
+        return Yii::$app->db->createCommand('SELECT titulo,descripcion,lugar,url,categoria_id,imagen_id,bloqueado FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryAll();
+    }
+    public static function mediaValoraciones($id){
+        $suma=Yii::$app->db->createCommand('SELECT sumaValores  FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryOne();
+        $nvotos=Yii::$app->db->createCommand('SELECT totalVotos FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryOne();
+        return $valoracion=$suma["sumaValores"]/$nvotos["totalVotos"];
+
+    }
+    public static function denunciar(){
+        return Yii::$app->db->createCommand('SELECT sumaValores  FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryOne();
+    }
 }
