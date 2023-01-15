@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
             [
                 'label' => '',
@@ -61,19 +61,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model){
                     //si ya se ha reportado en esta sesión tiene que existir la variable o ser diferente de 0
                     //en este caso aparece el botón bloqueado
-                    if(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0){
+
+                    return !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0) ? Html::a('reportar',Url::toRoute(["reportar", 'id' => $model->id])) :'Superado el límite de reportes';
+                    /*if(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0){
+                        echo "Veces reportado = ".$_SESSION['REPORT_VECES'];
                         $btn = '<a data-toggle="tooltip title="Members">Usted ya ha reportado</a>';
+                        //echo "Ya reportado";
                     } else {
                         $btn = '<a href="'.Url::toRoute(["reportar", 'id' => $model->id]).'"
                     data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm"
                     btn-info ">Reportar</a>';
+
+                        //$btn = CHtml::button('Accept', array('submit' => Url::toRoute(["reportar", 'id' => $model->id], array("id" => $model->id)), 'confirm'=>'¿Seguro de que quiere reportar?', 'name'=>'accept'));
                     }
                     
-                    return $btn;
+                    return $btn;*/
                  }
             ],
             [
-                'label' => '',
+                'label' => 'Asistencia',
                 'format' => 'raw',
                 'value' => function($model){
                     //Si no se está logueado
@@ -85,14 +91,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         //Crear una busqueda en Asistente
                         $id_asistente = 7;
                         //$id_asistente =Yii::$app->user->id;
-                        //$asistente= Asistente::findAll(['convocatoria_id' => $model->getId() ,'usuario_id' => Yii::$app->user->id ]);
-                        $asistente= Asistente::findAll(['convocatoria_id' => $model->getId() ,'usuario_id' => $id_asistente ]);
-                        //echo("AAA:".Yii::$app->user->id);
-                        //var_dump($asistente);
-                        //$model_asistente = $asistente->find()->comprobar_asistencia(Yii::app->user->id,$model->getId())->all();
-
+                        $asistente= Asistente::findOne(['convocatoria_id' => $model->id ,'usuario_id' => $id_asistente ]);
                         //si ya está suscrito al $model->id
-                        if(!empty($asistente)){ //sale el botón desuscribirse (Se hace una busqueda con el id del modelo y el del usuario)
+                        return (!empty($asistente)) ? Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->id])) : Html::a('inscribir',Url::toRoute(["inscribir", 'id' => $model->id]));
+                        /*if(!empty($asistente)){ //sale el botón desuscribirse (Se hace una busqueda con el id del modelo y el del usuario)
                             $btn = '<a href="'.Url::toRoute(["desinscribir", 'id' => $model->id]).'"
                         data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm"
                         btn-info ">desuscribirse</a>';
@@ -100,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             $btn = '<a href="'.Url::toRoute(["inscribir", 'id' => $model->id]).'"
                         data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm"
                         btn-info ">Incribirse</a>';
-                        }
+                        }*/
                     //}
                     
                     return $btn;

@@ -94,7 +94,16 @@ class ConvocatoriaController extends Controller
     {
         $model = $this->findModel($id);
 
+        $timestamp = time()-(60*60*4);
+        $model->setModi_fecha(date('Y-m-d H:i:s',$timestamp)); 
+
+        $id_mod = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
+        //$id_mod =Yii::$app->user->id;
+
+        $model->setModi_usuario_id($id_mod); 
+
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -140,6 +149,9 @@ class ConvocatoriaController extends Controller
 
         return $this->redirect(['index']);
     }
+    public function actionBloquear($id)
+    {
+    }
     /**
      * 
      * Función encargada de escribir en la tabla de inscripciones al usuario y a la convocatoria deseada
@@ -150,22 +162,28 @@ class ConvocatoriaController extends Controller
         $id_asistente = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
         //$id_asistente =Yii::$app->user->id;
 
-        //creamos un modelo de tipo Asistente con el $id
-        $inscripcion = new Asistente();
-        //Buscamos el modelo de convocatoria anterrior
-        $model = $this->findModel($id);
+        //Busqueda para evitar abusones (Si es esta suscrito)
+        $asistente= Asistente::findOne(['convocatoria_id' => $id ,'usuario_id' => $id_asistente ]);
 
-        //Creo que esto no es necesario
-        //$inscripcion->loadDefaultValues();
+        if(empty($asistente)){
 
-        $inscripcion->setConvocatoria_id($model->getId());
-        $inscripcion->setLocal_id($model->getLocal_Id());
-        $inscripcion->setUsuario_id($id_asistente);
+            //creamos un modelo de tipo Asistente con el $id
+            $inscripcion = new Asistente();
+            //Buscamos el modelo de convocatoria anterrior
+            $model = $this->findModel($id);
 
-        $timestamp = time()-(60*60*4);
-        $inscripcion->setFecha_alta(date('Y-m-d H:i:s',$timestamp));        
+            //Creo que esto no es necesario
+            //$inscripcion->loadDefaultValues();
 
-        $inscripcion->save();
+            $inscripcion->setConvocatoria_id($model->getId());
+            $inscripcion->setLocal_id($model->getLocal_Id());
+            $inscripcion->setUsuario_id($id_asistente);
+
+            $timestamp = time()-(60*60*4);
+            $inscripcion->setFecha_alta(date('Y-m-d H:i:s',$timestamp));        
+
+            $inscripcion->save();
+        }
 
         return $this->redirect(['index']);
     }

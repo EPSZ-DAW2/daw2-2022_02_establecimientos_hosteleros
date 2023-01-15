@@ -79,6 +79,66 @@ class Convocatoria extends \yii\db\ActiveRecord
 
 
     //SETS
+    /** 
+     * 
+     * Menos setear el campo clave id, el resto que puede modificar
+     */
+    public function setLocal_id($id){
+        
+        $this->local_id = $id;
+
+    }
+    public function setTexto($tex){
+        
+        $this->texto = $tex;
+
+    }
+    public function setFecha_desde($fecha){
+        
+        $this->fecha_desde = $fecha;
+
+    }
+    public function setFecha_hasta($fecha){
+        
+        $this->fecha_hasta = $fecha;
+
+    }
+    public function setBloqueada($block){
+        
+        $this->bloqueada = $block;
+
+    }
+    public function setFecha_Bloqueo($fecha){
+        
+        $this->fecha_bloqueo=$fecha;
+
+    }
+    public function setNotas_bloqueo($Notas){
+        
+        $this->notas_bloqueo=$Notas;
+
+    }
+    public function setCrea_usuario_id($id){
+        
+        $this->crea_usuario_id=$id;
+
+    }
+    public function setCrea_fecha($Fecha){
+        
+        $this->crea_fecha = $Fecha;
+
+    }
+    public function setModi_usuario_id($id){
+        
+        $this->modi_usuario_id = $id;
+
+    }
+    public function setModi_fecha($Fecha){
+        
+        $this->modi_fecha = $Fecha;
+
+    }
+
     /**
      * Función que se encarga de modificar el numero de denuncias
      * 
@@ -105,11 +165,7 @@ class Convocatoria extends \yii\db\ActiveRecord
     }
 
     //GETS
-    public function getfecha_denuncia1(){
-        
-        return $this->fecha_denuncia1;
 
-    }
     public function getId(){
         
         return $this->id;
@@ -120,11 +176,72 @@ class Convocatoria extends \yii\db\ActiveRecord
         return $this->local_id;
 
     }
+    public function getTexto(){
+        
+        return $this->texto;
+
+    }
+    public function getFecha_desde(){
+        
+        return $this->fecha_desde;
+
+    }
+    public function getFecha_hasta(){
+        
+        return $this->fecha_hasta;
+
+    }
+
     public function getnum_denuncias(){
         
         return $this->num_denuncias;
 
     }
+    public function getfecha_denuncia1(){
+        
+        return $this->fecha_denuncia1;
+
+    }
+    public function getBloqueada(){
+        
+        return $this->bloqueada;
+
+    }
+    public function getFecha_Bloqueo(){
+        
+        return $this->fecha_Bloqueo;
+
+    }
+    public function getNotas_bloqueo(){
+        
+        return $this->notas_bloqueo;
+
+    }
+    public function getCrea_usuario_id(){
+        
+        return $this->crea_usuario_id;
+
+    }
+    public function getCrea_fecha(){
+        
+        return $this->crea_fecha;
+
+    }
+    public function getModi_usuario_id(){
+        
+        return $this->modi_usuario_id;
+
+    }
+    public function getModi_fecha(){
+        
+        return $this->modi_fecha;
+
+    }
+
+    
+    
+    
+    
 
     /**
      * Función que comprueba 1 asistente en la convocatoria
@@ -163,7 +280,14 @@ class Convocatoria extends \yii\db\ActiveRecord
         }
         //Seteamos el valor de las denuncias al que tenía + 1
         $this->setnum_denuncias($this->getnum_denuncias() + 1);
-        
+
+        //Si el numero de denuncias es mayor que 5, se tiene que bloquear
+        if(($this->getnum_denuncias()>5)&&$this->getBloqueada()==0){
+            echo"Bloqueadoooo".$this->getBloqueada();
+            $this->setBloqueada(1);
+            $timestamp = time()-(60*60*4);
+            $this->setFecha_bloqueo(date('Y-m-d H:i:s',$timestamp));    
+        }
         $_SESSION['REPORT_VECES'] = 1;
         //print_r( $this->getfecha_denuncia1());
         //print_r($this->getnum_denuncias());
