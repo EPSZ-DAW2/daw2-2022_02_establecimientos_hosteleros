@@ -48,14 +48,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     $items=[
 		['label' => 'Locales', 'url' => ['/local/index']],
 		['label' => 'Hosteleros', 'url' => ['/hostelero/index']],
-		['label' => 'Perfil', 'url' => ['/mi-perfil']],
     ];
 
     //Si el usuario es invitado se añaden opciones de login y registro, si no de logout
     if(Yii::$app->user->isGuest){
         array_push($items, ['label' => 'Login', 'url' => ['/site/login']], ['label' => 'Registro', 'url' => ['/site/registro']]);
     }else{
-        array_push($items, '<li class="nav-item">'. Html::beginForm(['/site/logout']). Html::submitButton('Cerrar Sesión (' . Yii::$app->user->identity->nick . ')', ['class' => 'nav-link btn btn-link logout text-black']) . Html::endForm() . '</li>');
+        array_push($items, ['label' => 'Perfil', 'url' => ['/mi-perfil']],'<li class="nav-item">'. Html::beginForm(['/site/logout']). Html::submitButton('Cerrar Sesión (' . Yii::$app->user->identity->nick . ')', ['class' => 'nav-link btn btn-link logout text-black']) . Html::endForm() . '</li>');
     }
 
 	echo Nav::widget([

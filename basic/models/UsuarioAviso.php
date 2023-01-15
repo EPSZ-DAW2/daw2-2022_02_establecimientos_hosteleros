@@ -160,7 +160,8 @@ class Usuarioaviso extends \yii\db\ActiveRecord
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    public static function generarBaja($id){
+    public static function generarBaja($id)
+    {
         if(!isset($id)){
             return false;
         }

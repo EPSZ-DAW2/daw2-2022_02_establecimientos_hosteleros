@@ -176,7 +176,6 @@ class UsuarioavisoController extends Controller
      * @return Usuarioaviso the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-
     protected function findModel($id)
     {
         if (($model = Usuarioaviso::findOne(['id' => $id])) !== null) {
