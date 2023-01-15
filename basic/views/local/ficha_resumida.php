@@ -10,7 +10,11 @@ use yii\helpers\Html; ?>
         <div>
             <?php //Poner la url de donde se guarda la foto
             if(isset($local->imagen_id) && $local->imagen_id!=''): ?>
-                <img src="uploadimages/<?= $local->imagen_id?>" class="img-fluid"/>
+                <?php if(file_exists('uploadimages/'.$local->imagen_id.'.jpg') || file_exists('uploadimages/'.$local->imagen_id.'.png')): ?>
+                    <img src="uploadimages/<?= $local->imagen_id?>" class="img-fluid"/>
+				<?php else:?>
+                    <img src="images/sinfoto.jpg" class="img-fluid" style="width: 100%; height: 15rem" />
+				<?php endif; ?>
             <?php else:?>
                 <img src="images/sinfoto.jpg" class="img-fluid" style="width: 100%; height: 15rem" />
             <?php endif; ?>
