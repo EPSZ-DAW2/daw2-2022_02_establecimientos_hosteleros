@@ -24,10 +24,15 @@ use yii\helpers\Html; ?>
             <ul class="list-unstyled list-inline mb-0">
                 <li class="list-inline-item">
                     <?php
+                    if($local->totalVotos!=0){
                         if($local->sumaValores/$local->totalVotos != null || $local->sumaValores/$local->totalVotos != 0)
                             $valoracion=$local->sumaValores/$local->totalVotos;
                         else
                             $valoracion="Sin valoraciones";
+                    }else{
+                        $valoracion="Sin valoraciones";
+                    }
+
                     ?>
                     <p class="text-muted"><?= Html::encode("{$valoracion}")?> (<?= Html::encode("{$local->totalVotos}")?>)</p>
                 </li>
