@@ -6,6 +6,7 @@ use app\models\Usuario;
 use app\models\UsuarioAviso;
 use app\models\UsuarioRol;
 use app\models\UsuariosSearch;
+use app\models\UsuarioQuery;
 use app\models\UsuarioAvisoSearch;
 use Yii;
 use yii\web\Controller;
@@ -89,10 +90,10 @@ class MiPerfilController extends Controller
         $model->zona_id = (isset($datos['zona_id']) ? $datos['zona_id'] : NULL);
         $model->fecha_registro = (isset($datos['fecha_registro']) ? $datos['fecha_registro'] : NULL);
 
-        $model->update();
+        $model->save();
         $error=$model->getErrors();
         var_dump($error);
-        
+        Yii::$app->end();
         return $this->redirect(['index']);
     }
 

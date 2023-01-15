@@ -147,4 +147,8 @@ class Registro extends \yii\db\ActiveRecord
 
         Registro::deleteAll(['<','fecha_registro',$fecha]);
     }
+
+    public function generarerror($texto,$clase_log_id=null){
+
+    }
 }
