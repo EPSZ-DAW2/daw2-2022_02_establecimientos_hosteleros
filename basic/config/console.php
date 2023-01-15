@@ -28,13 +28,15 @@ $config = [
         'db' => $db,
     ],
     'params' => $params,
-    /*
+    
     'controllerMap' => [
-        'fixture' => [ // Fixture generation command line.
-            'class' => 'yii\faker\FixtureController',
+        'backup' => [
+            'class' => 'yiisoft\db\console\controllers\MysqlController',
+            'db' => 'db',
+            'backupPath' => '@app/backups',
         ],
     ],
-    */
+    
 ];
 
 if (YII_ENV_DEV) {
