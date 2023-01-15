@@ -295,7 +295,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         //$this->save();
 
     }
-    
+
 
 
     

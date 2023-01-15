@@ -149,10 +149,7 @@ class ConvocatoriaController extends Controller
 
         return $this->redirect(['index']);
     }
-    public function actionBloquear($id)
-    {
-        
-    }
+    
     /**
      * 
      * Función encargada de escribir en la tabla de inscripciones al usuario y a la convocatoria deseada
