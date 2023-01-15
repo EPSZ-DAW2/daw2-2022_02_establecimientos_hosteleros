@@ -37,5 +37,5 @@ $idUsuario = $_SESSION['__id'];
     if($model->destino_usuario_id == $idUsuario) {
         Html::a(Yii::t('app', "Marcar como 'No leído'"), ['desleermsg', 'id' => $model->id], ['class' => 'btn btn-secondary']);
     }?>
-        <?=    Html::a(Yii::t('app', "Volver"), ['index'], ['class' => 'btn btn-primary']);?></p>
+        <?=    Html::a(Yii::t('app', "Volver"), ['mensajes'], ['class' => 'btn btn-primary']);?></p>
 </div>
