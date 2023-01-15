@@ -72,12 +72,14 @@ class MiPerfilController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
         $model= new Usuario();
 
-        $datos= (isset($_GET['datos']) ? $_GET['datos'] : NULL);
+        $datos= (isset($_POST['UsuariosSearch']) ? $_POST['UsuariosSearch'] : NULL);
 
+        echo '<br>';
+        $model->id=(isset($datos['id']) ? $datos['id'] : NULL);
         $model->email=(isset($datos['email']) ? $datos['email'] : NULL);
         $model->nick=(isset($datos['nick']) ? $datos['nick'] : NULL);
         $model->nombre =(isset($datos['nombre']) ? $datos['nombre'] : NULL);
@@ -87,9 +89,11 @@ class MiPerfilController extends Controller
         $model->zona_id = (isset($datos['zona_id']) ? $datos['zona_id'] : NULL);
         $model->fecha_registro = (isset($datos['fecha_registro']) ? $datos['fecha_registro'] : NULL);
 
-        $model->save();
+        $model->update();
+        $error=$model->getErrors();
+        var_dump($error);
         
-        return $this->render('index');
+        return $this->redirect(['index']);
     }
 
     /**
