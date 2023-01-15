@@ -20,10 +20,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     
     <?php $form = ActiveForm::begin([
             'action' => ['update'],
-            'method' => 'get',
-        ]);
-        $model = new Usuario();?>
+            'method' => 'post',
+        ]);?>
 
+    <?= $form->field($model, 'id')->hiddenInput()->label(false) ?>
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?php //= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
