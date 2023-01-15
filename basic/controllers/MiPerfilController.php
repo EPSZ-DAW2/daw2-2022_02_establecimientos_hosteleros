@@ -159,9 +159,11 @@ class MiPerfilController extends Controller
     public function actionLeer($id){
 
         $model = Usuarioaviso::findOne(['id' => $id]);
-
-        if($id==$model->destino_usuario_id && $model->fecha_lectura == null)
+        $iduser = $_SESSION['__id'];
+        
+        if($iduser==$model->destino_usuario_id && $model->fecha_lectura == null)
         {
+
             $fecha_lectura = date('Y-m-d H:i:s');
             $model->fecha_lectura = $fecha_lectura;
             $model->save();
