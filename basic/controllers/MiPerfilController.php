@@ -170,8 +170,9 @@ class MiPerfilController extends Controller
         ]);
     }
 
-    public function baja($id){
-        
+    public function actionBaja($id){
+        UsuarioAviso::generarBaja($id);
+        return $this->redirect(['index']);
     }
 
 }

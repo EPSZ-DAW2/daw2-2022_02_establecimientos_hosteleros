@@ -161,4 +161,22 @@ class Usuarioaviso extends \yii\db\ActiveRecord
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
+    public static function generarBaja($id){
+        if(!isset($id)){
+            return false;
+        }
+        $aviso=new Usuarioaviso();
+
+        $aviso->fecha_aviso=date('Y-m-d H:i:s');
+        $aviso->clase_aviso_id='A';
+        $aviso->texto="Solicitud de Baja";
+        $aviso->destino_usuario_id=null;
+        $aviso->origen_usuario_id=$id;
+        $aviso->local_id=null;
+        $aviso->comentario_id=null;
+        $aviso->fecha_lectura=null;
+        $aviso->fecha_aceptado=null;
+        $aviso->save();
+    }
 }
