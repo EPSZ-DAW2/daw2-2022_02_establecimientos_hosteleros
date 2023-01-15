@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Hostelero;
 use app\models\Local;
 use app\models\Registro;
+use app\models\ChangePasswordForm;
 use app\models\Usuario;
 use app\models\UsuarioAviso;
 use app\models\UsuarioRol;
@@ -111,42 +112,33 @@ class MiPerfilController extends Controller
         $model->fecha_registro = (isset($datos['fecha_registro']) ? $datos['fecha_registro'] : NULL);
 
         $model->save();
-        //$error=$model->getErrors();
-        //var_dump($error);
-        //Yii::$app->end();
+
         return $this->redirect(['index']);
     }
 
-    /**
-     * Updates an existing Usuario model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdatecontra($id)
+
+
+
+    public function actionUpdatecontra()
     {
-		if(Usuario::esRolSistema(Yii::$app->user->id) || Usuario::esRolAdmin(Yii::$app->user->id)){
+        $model = new ChangePasswordForm();
 
-			$model = $this->findModel($id);
-			$contraAnterior=$model->password;
-			if ($this->request->isPost && $model->load($this->request->post())){
-				//Se comprueba si la contraseña introducida es distinta a la anterior
-				if(strcmp($contraAnterior, $this->request->post('Usuario')['password'])!=0)
-					$model->password=hash("sha1", $model->password);	//Se genera la nueva contraseña cifrada
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $id = $_SESSION['__id'];
+            $modeluser=Usuario::findOne(['id' => $id]);
+            if($modeluser->validatePassword($model->password)){
+                return $this->render('cambiar_contra', ['model' => $model]);
+            }
+            $hash=hash("sha1", $model->password);
+            $modeluser->password=$hash;
+            $modeluser->save();
+            return $this->redirect(['mi-perfil/index']);
+        }
 
-				//Se guarda el modelo
-				if($model->save())
-					return $this->redirect(['view', 'id' => $model->id]);
-
-			}
-
-			return $this->render('miperfil', [
-				'model' => $model,
-			]);
-		}else
-			$this->goHome();
+        return $this->render('cambiar_contra', ['model' => $model]);
     }
+
+
 
     public function actionLeer($id){
 
