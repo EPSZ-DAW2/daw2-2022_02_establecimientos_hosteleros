@@ -239,4 +239,15 @@ class MiPerfilController extends Controller
         }
         return $this->redirect(['mi-perfil/establecimientos']);
     }
+
+    public function actionSeguimiento(){
+        $id = $_SESSION['__id'];
+
+        $models=UsuariosLocales::findAll(['usuario_id'=>$id]);
+        return $this->render('seguimiento', [
+            'models'=>$models,
+        ]);
+
+
+    }
 }
