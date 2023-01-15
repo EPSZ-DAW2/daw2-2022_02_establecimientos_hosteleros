@@ -66,7 +66,7 @@ use yii\helpers\Html; ?>
                 ?>
             </p>
             <div class="d-flex justify-content-center">
-                <a href="<?= Url::toRoute(['local/detalle', 'id'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>
+                <a href="<?= Url::toRoute(['detalle-locales/index', 'idLocal'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>
             </div>
         </div>
     </div>
