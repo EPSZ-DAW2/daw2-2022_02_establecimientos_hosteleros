@@ -160,7 +160,7 @@ class MiPerfilController extends Controller
 
         $model = Usuarioaviso::findOne(['id' => $id]);
         $iduser = $_SESSION['__id'];
-        
+
         if($iduser==$model->destino_usuario_id && $model->fecha_lectura == null)
         {
 
@@ -181,7 +181,7 @@ class MiPerfilController extends Controller
         $model->desleer($id);
 
 
-        return $this->redirect(['index']);
+        return $this->redirect(['mensajes']);
     }
     public function actionDesleermsg($id)
     {

@@ -32,12 +32,19 @@ NavBar::end();
 ?>
 <div class="container">
     <h1>Mis locales</h1>
-    <div class="row">
+    <?php if($locales==null){?>
+        <div class="row">
+            <h3>No tiene locales</h3>
+        </div>
+    <?php } else{ ?>
+        <div class="row">
         <?php
         foreach ($locales as $local){
             echo $this->render('_resumida', ['local'=>$local]);
         }
         ?>
-    </div>
+        </div>
+    <?php } ?>
+
 </div>
 
