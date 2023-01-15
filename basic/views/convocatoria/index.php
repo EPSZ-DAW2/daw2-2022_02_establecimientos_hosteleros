@@ -93,6 +93,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         //$id_asistente =Yii::$app->user->id;
                         $asistente= Asistente::findOne(['convocatoria_id' => $model->id ,'usuario_id' => $id_asistente ]);
                         //si ya está suscrito al $model->id
+                        
                         return (!empty($asistente)) ? Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->id])) : Html::a('inscribir',Url::toRoute(["inscribir", 'id' => $model->id]));
                         /*if(!empty($asistente)){ //sale el botón desuscribirse (Se hace una busqueda con el id del modelo y el del usuario)
                             $btn = '<a href="'.Url::toRoute(["desinscribir", 'id' => $model->id]).'"
