@@ -53,15 +53,19 @@ class MiPerfilController extends Controller
         //-Datos del usuario
         $searchModelUsuario = new UsuariosSearch();
         $modelUsuario = $searchModelUsuario->findIdentity($id);
+
         //-Avisos relacionados con el usuario
         $searchModelAvisosEnviados = new Usuarioaviso();
         $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
 
+        $searchModelAvisosRecibidos = new Usuarioaviso();
+        $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
 
         //$modelAvisos= Usuarioaviso::findOne($id);
         return $this->render('miperfil', [
             'modelUsuario' => $modelUsuario,
             'modelAvisosEnviados'=>$modelAvisosEnviados,
+            'modelAvisosRecibidos'=>$modelAvisosRecibidos,
 
         ]);
     }
@@ -133,18 +137,17 @@ class MiPerfilController extends Controller
 
         $model = Usuarioaviso::findOne(['id' => $id]);
 
-        if($user==$model->destino_usuario_id && $fecha_lectura == null)
+        if($id==$model->destino_usuario_id && $model->fecha_lectura == null)
         {
             $fecha_lectura = date('Y-m-d H:i:s');
             $model->fecha_lectura = $fecha_lectura;
             $model->save();
         }
+
         return $this->render('leer', [
             'model' => $model,
         ]);
     }
-
-
 
     public function actionDesleer($id)
     {

@@ -19,7 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php if($model->fecha_lectura == null) {
         echo '<p style="color:red">Mensaje Nuevo</p>';
     }?>
+    <p><?php echo 'Fecha: ',$model->fecha_aviso; ?></p>
+    <p><?php echo 'Tipo: ',$model->nombreAviso; ?></p>
     <p><?php echo $model->texto; ?></p>
-    <p><?=  Html::a(Yii::t('app', "Marcar como 'No leído'"), ['desleermsg', 'id' => $model->id], ['class' => 'btn btn-secondary']);?>
+    <p><?php if($model->fecha_aceptado != null) {
+        echo 'Fecha aceptado: ',$model->fecha_aceptado; }?></p>
+    
+    <p><?php $idUsuario = $_SESSION['__id'];  
+    if($model->destino_usuario_id == $idUsuario) {
+        Html::a(Yii::t('app', "Marcar como 'No leído'"), ['desleermsg', 'id' => $model->id], ['class' => 'btn btn-secondary']);
+    }?>
         <?=    Html::a(Yii::t('app', "Volver"), ['index'], ['class' => 'btn btn-primary']);?></p>
 </div>
