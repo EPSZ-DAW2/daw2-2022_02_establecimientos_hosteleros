@@ -24,7 +24,7 @@ NavBar::begin([
 ]);
 $items=[
 	['label' => 'Perfil', 'url' => ['/mi-perfil']],
-	['label' => 'Mensajes', 'url' => ['/mi-perfil']],
+	['label' => 'Mensajes', 'url' => ['/mensajes']],
 ];
 echo Nav::widget([
 	'options' => ['class' => 'navbar-nav'],
@@ -33,7 +33,10 @@ echo Nav::widget([
 NavBar::end();
 ?>
 
-<div>
+<div class="container">
     <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
+</div>
+
+<div class="container">
     <?php echo $this->render('_avisosEnviados',['model'=>$modelAvisosEnviados]);?>
 </div>
