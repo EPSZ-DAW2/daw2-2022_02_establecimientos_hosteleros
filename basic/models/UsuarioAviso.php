@@ -123,8 +123,6 @@ class Usuarioaviso extends \yii\db\ActiveRecord
         return usuarioaviso::find()->where(['destino_usuario_id' => $id])->all();
     }//getAvisosRecibidos
 
-
-
     /**
      * Devuelve los datos del mensaje
      */

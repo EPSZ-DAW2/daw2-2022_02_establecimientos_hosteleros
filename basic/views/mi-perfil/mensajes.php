@@ -7,6 +7,10 @@ use yii\helpers\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\Usuario $modelUsuario */
+/** @var app\models\UsuarioAviso $modelAvisosEnviados */
+/** @var app\models\UsuarioAviso $modelAvisosRecibidos */
+
+
 
 $this->title = Yii::t('app', 'Mi perfil');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'MiPerfil'), 'url' => ['index']];
@@ -20,7 +24,7 @@ NavBar::begin([
 ]);
 $items=[
 	['label' => 'Perfil', 'url' => ['/mi-perfil']],
-	['label' => 'Mensajes', 'url' => ['/mensajes']],
+	['label' => 'Mensajes', 'url' => ['/mi-perfil']],
 ];
 echo Nav::widget([
 	'options' => ['class' => 'navbar-nav'],
@@ -30,16 +34,6 @@ NavBar::end();
 ?>
 
 <div>
-    <?php echo $this->render('_datos',['model'=>$modelUsuario]);?>
-
-</div>
-<<<<<<< Updated upstream
-<div class="container">
     <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
-</div>
-
-<div class="container">
     <?php echo $this->render('_avisosEnviados',['model'=>$modelAvisosEnviados]);?>
 </div>
-=======
->>>>>>> Stashed changes
