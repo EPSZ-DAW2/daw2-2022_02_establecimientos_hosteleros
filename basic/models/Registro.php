@@ -150,5 +150,43 @@ class Registro extends \yii\db\ActiveRecord
 
     public function generarerror($texto,$clase_log_id=null){
 
+        if(!isset($texto)){
+            return false;
+        }
+
+        if($clase_log_id==null){
+            $this->clase_log_id='E';
+        } else {
+            $clase_log_id= strtoupper($clase_log_id);
+            if($clase_log_id=='E'||$clase_log_id=='A'||$clase_log_id=='S'||$clase_log_id=='I'||$clase_log_id=='D'){
+                $this->clase_log_id=$clase_log_id;
+            }else{
+                $this->clase_log_id='E';
+            }
+        }
+        $this->fecha_registro=date('Y-m-d H:i:s');
+        $this->modulo=Yii::$app->controller->module->id;
+        $this->texto=$texto;
+        $userIP = Yii::$app->request->userIP;
+        $this->ip=$userIP;
+        $this->browser=$this->get_browser_name($_SERVER['HTTP_USER_AGENT']);
+
+        return $this->save();
+
     }
+
+
+     public function get_browser_name($user_agent){
+        if (strpos($user_agent, 'Opera') || strpos($user_agent, 'OPR/')) return 'Opera';
+        elseif (strpos($user_agent, 'Edge')) return 'Edge';
+        elseif (strpos($user_agent, 'Chrome')) return 'Chrome';
+        elseif (strpos($user_agent, 'Safari')) return 'Safari';
+        elseif (strpos($user_agent, 'Firefox')) return 'Firefox';
+        elseif (strpos($user_agent, 'MSIE') || strpos($user_agent, 'Trident/7')) return 'Internet Explorer';
+
+        return 'Other';
+    }
+
+
+
 }

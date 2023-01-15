@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Registro;
 use app\models\Usuario;
 use Yii;
 use yii\filters\AccessControl;
@@ -40,6 +41,9 @@ class TestController extends Controller
      */
     public function actionIndex()
     {
+        $registro=new Registro();
+        $registro->generarerror("Esto es una incidencia muy gorda","I");
+
         return $this->render('index');
     }
     

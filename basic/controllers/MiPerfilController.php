@@ -55,7 +55,7 @@ class MiPerfilController extends Controller
         $modelUsuario = $searchModelUsuario->findIdentity($id);
         //-Avisos relacionados con el usuario
         $searchModelAvisosEnviados = new Usuarioaviso();
-        $modelAvisosEnviados= UsuarioAviso::getAvisosEnviados($id);
+        $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
 
 
         //$modelAvisos= Usuarioaviso::findOne($id);
