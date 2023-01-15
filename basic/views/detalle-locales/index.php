@@ -19,15 +19,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo "</br>";
             }
             '</br>';echo $mediaVal;'</br>';//echo $comentarios;
+            $idUsuario = Yii::$app->session->get('__id');
+            echo '</br>';
+            echo "idUsuario: ".$idUsuario;
         ?>
         <div class="d-flex justify-content-center">
-            <?=
-            $idUsuario = Yii::$app->session->get('__id');
-            if(UsuariosLocales::comprobarSeguimiento($idUsuario, ))
-            Html::a(Yii::t('app', 'Actualizar'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-            <a href="<?= Url::toRoute(['detalle-locales/index', 'idLocal'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>
+            <?php
+            
+            //if(UsuariosLocales::comprobarSeguimiento($idUsuario, ))
+            //Html::a(Yii::t('app', 'Actualizar'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) 
+           
+            ?>
+            <!--<a href="<?php// Url::toRoute(['detalle-locales/index', 'idLocal'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>-->
+            
         </div>
 
-        <?= Html::a("Denunciar local", ['controller/denunciarLocal'], ['class' => 'btn btn-success']) ?>
+        <?php //Html::a("Denunciar local", ['controller/denunciarLocal'], ['class' => 'btn btn-success']) ?>
     </div>
 </section>
