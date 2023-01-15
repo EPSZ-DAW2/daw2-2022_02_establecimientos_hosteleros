@@ -170,4 +170,8 @@ class MiPerfilController extends Controller
         ]);
     }
 
+    public function baja($id){
+        
+    }
+
 }

@@ -20,7 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo $this->render('_datos',['model'=>$modelUsuario]);?>
 
 </div>
-<div>
+<div class="container">
     <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
+</div>
+
+<div class="container">
     <?php echo $this->render('_avisosEnviados',['model'=>$modelAvisosEnviados]);?>
 </div>

@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
     <div class="form-group mt-2">
         <?= Html::submitButton(Yii::t('app', 'Guardar datos'), ['class' => 'btn btn-success']) ?></div>
         <?= Html::a(Yii::t('app', 'Cambiar contraseña'), ['updatecontra','id'=>$model->id], ['class' => 'btn btn-success']) ?>
-        <?= Html::a(Yii::t('app', 'Dar de baja'), ['baja'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Dar de baja'), ['baja','id'=>$model->id], ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
