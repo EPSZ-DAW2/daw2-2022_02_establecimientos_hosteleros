@@ -5,6 +5,8 @@ use \app\models\Hostelero;
 $this->title = 'Listado Locales';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+    <?php echo $this->render('_patrocinados',['localespat'=>$localespat,]);?>
+
 <h1>
     <?php
     if(Yii::$app->request->get('id')) {
@@ -30,3 +32,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
     </div>
 </div>
+

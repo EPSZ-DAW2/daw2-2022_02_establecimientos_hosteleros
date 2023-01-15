@@ -33,11 +33,15 @@ class LocalController extends \yii\web\Controller
     {
 		$locales=Local::find()->where(['visible'=>1]);
 
+		$filtro='prioridad';
+		$localespat=Local::find()->where(['visible'=>1])->orderBy([$filtro=>SORT_ASC]);
+
 		if(isset($id) && $id!=null)
 			$locales->andWhere(['hostelero_id'=>$id]);
 
 		return $this->render('index', [
 			'locales'=>$locales->all(),
+			'localespat'=>$localespat->all(),
 		]);
     }
 
