@@ -12,7 +12,12 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="convocatoria-view">
-
+    <?php 
+        $id=Yii::$app->user->id;
+        //realmente es si aquí tuviera permisos de editar pero por ahora solo que este log
+        if($id != Null){
+    
+    ?>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p> 
@@ -27,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <?php }?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

@@ -276,7 +276,7 @@ class Convocatoria extends \yii\db\ActiveRecord
             $this->setfecha_denuncia1(date('Y-m-d H:i:s',$timestamp));
 
             //echo"\n Fecha con formateo: </br>" ;
-            print_r(date('Y-M-D H:I:S',$timestamp));
+            //print_r(date('Y-M-D H:I:S',$timestamp));
         }
         //Seteamos el valor de las denuncias al que tenía + 1
         $this->setnum_denuncias($this->getnum_denuncias() + 1);

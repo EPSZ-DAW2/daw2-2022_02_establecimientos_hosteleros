@@ -9,11 +9,32 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
+//Para la parte de Angel
+use app\models\Usuario;
+use Yii;
+
 /**
  * ConvocatoriaController implements the CRUD actions for Convocatoria model.
  */
 class ConvocatoriaController extends Controller
 {
+    public function beforeAction($action)
+	{
+		if(!Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+				$this->layout='privada';
+				Yii::$app->homeUrl=array('usuarios/index');
+			}
+
+		}else{
+			$this->layout='publica';
+			Yii::$app->homeUrl=array('local/index');
+		}
+
+		return parent::beforeAction($action);
+	}
+
     /**
      * @inheritDoc
      */
@@ -41,11 +62,22 @@ class ConvocatoriaController extends Controller
     {
         $searchModel = new ConvocatoriaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
+        
+        $id=Yii::$app->user->id;        
+        //si no está logueada
+        if($id == Null){
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index_publica', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+
+        }
     }
 
     /**
@@ -56,6 +88,7 @@ class ConvocatoriaController extends Controller
      */
     public function actionView($id)
     {
+        
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -68,19 +101,27 @@ class ConvocatoriaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Convocatoria();
+        $id=Yii::$app->user->id;
+        // Para crear convocatoria solo interesa que este logueado por ahora        
+        
+        if($id != Null){
+            $model = new Convocatoria();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($this->request->isPost) {
+                if ($model->load($this->request->post()) && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        } else {
+            //Añadir un mensaje de información de que no se tiene permisos para estar ahí
+            return $this->redirect(['index']);
+        }
     }
 
     /**
@@ -92,24 +133,31 @@ class ConvocatoriaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $id_mod =Yii::$app->user->id;
+        // Habría que añadir la comprobación de que tiene permisos 
+        if($id_mod != Null){
+            $model = $this->findModel($id);
 
-        $timestamp = time()-(60*60*4);
-        $model->setModi_fecha(date('Y-m-d H:i:s',$timestamp)); 
+            $timestamp = time()-(60*60*4);
+            $model->setModi_fecha(date('Y-m-d H:i:s',$timestamp)); 
 
-        $id_mod = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
-        //$id_mod =Yii::$app->user->id;
+            //$id_mod = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
+            $id_mod =Yii::$app->user->id;
 
-        $model->setModi_usuario_id($id_mod); 
+            $model->setModi_usuario_id($id_mod); 
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        } else { //Que devuelva a index
+            //Añadir un mensaje de información de que no se tiene permisos para estar ahí
+            return $this->redirect(['index']);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -121,7 +169,15 @@ class ConvocatoriaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $id_mod =Yii::$app->user->id;
+        // Habría que añadir la comprobación de que tiene permisos 
+        if($id_mod != Null){
+
+            $this->findModel($id)->delete();
+
+        } else {
+            //mensaje de no se tiene permisos
+        }
 
         return $this->redirect(['index']);
     }
@@ -134,18 +190,21 @@ class ConvocatoriaController extends Controller
      */
     public function actionReportar($id)
     {
-        
+        $id_mod =Yii::$app->user->id; 
 
-        $model = $this->findModel($id);
-   
-        // $id not found in database 
-        //vamos a poner aquí tambien la comprobación de la sesión en caso de que quiera reportar por URL ;)
-        if($model === null || (isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0))   
-            throw new NotFoundHttpException('The requested page does not exist.');
+        //En este caso solo nos interesa de que esté logueado
+        if($id_mod != Null){
+            $model = $this->findModel($id);
+    
+            // $id not found in database 
+            //vamos a poner aquí tambien la comprobación de la sesión en caso de que quiera reportar por URL ;)
+            if($model === null || (isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0))   
+                throw new NotFoundHttpException('The requested page does not exist.');
+                
+            $model->report();
             
-        $model->report();
-           
-        $model->update();   
+            $model->update();   
+        }
 
         return $this->redirect(['index']);
     }
@@ -157,47 +216,54 @@ class ConvocatoriaController extends Controller
     public function actionInscribir($id)
     {
         //Cojemos el ID del yii. Como el loguin no va aun esto es teorico
-        $id_asistente = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
-        //$id_asistente =Yii::$app->user->id;
+        //$id_asistente = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
+        $id_asistente =Yii::$app->user->id;
 
-        //Busqueda para evitar abusones (Si es esta suscrito)
-        $asistente= Asistente::findOne(['convocatoria_id' => $id ,'usuario_id' => $id_asistente ]);
+        //En este caso solo nos interesa de que esté logueado
+        if($id_asistente != Null){
+            //Busqueda para evitar abusones (Si es esta suscrito)
+            $asistente= Asistente::findOne(['convocatoria_id' => $id ,'usuario_id' => $id_asistente ]);
 
-        if(empty($asistente)){
+            if(empty($asistente)){ //Si no está suscrito
 
-            //creamos un modelo de tipo Asistente con el $id
-            $inscripcion = new Asistente();
-            //Buscamos el modelo de convocatoria anterrior
-            $model = $this->findModel($id);
+                //creamos un modelo de tipo Asistente con el $id
+                $inscripcion = new Asistente();
+                //Buscamos el modelo de convocatoria anterrior
+                $model = $this->findModel($id);
 
-            //Creo que esto no es necesario
-            //$inscripcion->loadDefaultValues();
+                //Creo que esto no es necesario
+                //$inscripcion->loadDefaultValues();
 
-            $inscripcion->setConvocatoria_id($model->getId());
-            $inscripcion->setLocal_id($model->getLocal_Id());
-            $inscripcion->setUsuario_id($id_asistente);
+                $inscripcion->setConvocatoria_id($model->getId());
+                $inscripcion->setLocal_id($model->getLocal_Id());
+                $inscripcion->setUsuario_id($id_asistente);
 
-            $timestamp = time()-(60*60*4);
-            $inscripcion->setFecha_alta(date('Y-m-d H:i:s',$timestamp));        
+                $timestamp = time()-(60*60*4);
+                $inscripcion->setFecha_alta(date('Y-m-d H:i:s',$timestamp));        
 
-            $inscripcion->save();
+                $inscripcion->save();
+            }
         }
-
         return $this->redirect(['index']);
     }
     public function actionDesinscribir($id)
     {
         //Cojemos el ID del yii. Como el loguin no va aun esto es teorico
-        $id_asistente = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
-        //$id_asistente =Yii::$app->user->id;
+        //$id_asistente = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
+        $id_asistente =Yii::$app->user->id;
 
-        $model = $this->findModel($id);
+        //En este caso solo nos interesa de que esté logueado
+        if($id_asistente != Null){
 
-        //Buscar en la tabla de Asistentes el registro que tiene los id del usuario y la convocatoria
-        $asistente= Asistente::findOne(['convocatoria_id' => $id ,'usuario_id' => $id_asistente ]);
+            $model = $this->findModel($id);
 
-        $asistente->delete();
-    
+            //Buscar en la tabla de Asistentes el registro que tiene los id del usuario y la convocatoria
+            $asistente= Asistente::findOne(['convocatoria_id' => $id ,'usuario_id' => $id_asistente ]);
+
+            if(!empty($asistente)){ //Si encuentra un registro de que si está suscrito
+                $asistente->delete();
+            } //Si no, no hace nada
+        }
 
         return $this->redirect(['index']);
     }

@@ -8,11 +8,31 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+//Para la parte de Angel
+use app\models\Usuario;
+use Yii;
+
 /**
  * AsistentesController implements the CRUD actions for Asistente model.
  */
 class AsistentesController extends Controller
 {
+    public function beforeAction($action)
+	{
+		if(!Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+				$this->layout='privada';
+				Yii::$app->homeUrl=array('usuarios/index');
+			}
+
+		}else{
+			$this->layout='publica';
+			Yii::$app->homeUrl=array('local/index');
+		}
+
+		return parent::beforeAction($action);
+	}
+
     /**
      * @inheritDoc
      */
