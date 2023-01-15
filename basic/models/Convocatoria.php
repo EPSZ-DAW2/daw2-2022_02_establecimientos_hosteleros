@@ -243,7 +243,10 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     public function getNumParticipantes(){
         if($this->_NumParticipantes === null){
-            $this->_NumParticipantes = $this->getAsistentes()->count();
+            $asistente=new Asistente();
+        
+            $this->_NumParticipantes = $asistente->find()->listar($this->getId)->count();
+            //$this->_NumParticipantes = $this->getAsistentes()->count();
         }
         return $this->_NumParticipantes;
     }

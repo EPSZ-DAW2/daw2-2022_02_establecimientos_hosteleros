@@ -85,7 +85,7 @@ class AsistentesController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($id,$id_local)
     {
         $model = new Asistente();
 
@@ -93,34 +93,14 @@ class AsistentesController extends Controller
             if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-        } else {
-            $model->loadDefaultValues();
-        }
+        } 
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $model,'convocatoria' =>$id, 'local' => $id_local,
         ]);
     }
 
-    /**
-     * Updates an existing Asistente model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Deletes an existing Asistente model.
@@ -133,7 +113,7 @@ class AsistentesController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['<convocatoria/index']);
     }
 
     /**

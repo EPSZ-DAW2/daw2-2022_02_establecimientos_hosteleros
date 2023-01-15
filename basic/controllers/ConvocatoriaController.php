@@ -72,6 +72,8 @@ class ConvocatoriaController extends Controller
                 'dataProvider' => $dataProvider,
             ]);
         } else {
+            //Comprobar roll
+            
             return $this->render('index', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
@@ -287,10 +289,17 @@ class ConvocatoriaController extends Controller
     /*********************************************************** 
      * ESTO ES PARA PODER VER LOS ASISTENTES EN UNA CONVOCATORIA
     *************************************************************/
-    public function ver_asistentes($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+    public function actionVer($id,$id_local)
+       
+    {     
+        $asistente=new Asistente();
+        
+         $model= $asistente->find()->listar($id);
+     
+         $searchModel = new AsistenteSearch();
+         $dataProvider = $searchModel->search($this->request->queryParams);
+        return $this->render('../asistentes/ver_asistentes', ['model' => $model,'searchModel' => $searchModel,'dataProvider' => $dataProvider,'convocatoria'=>$id,'local'=>$id_local]);
+    
+
     }
 }

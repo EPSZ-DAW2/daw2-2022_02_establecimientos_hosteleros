@@ -49,16 +49,16 @@ $this->params['breadcrumbs'][] = $this->title;
             //'crea_fecha',
             //'modi_usuario_id',
             //'modi_fecha',
-            [
+            /*[
                 'attribute'=>'Participantes',
                 'content'=> function(Convocatoria $model, $key, $index, $column){
-                    echo "<pre>";
-                    print_r($model->getAsistentes());
-                    echo "</pre>";
+                   // echo "<pre>";
+                   // print_r($model->getAsistentes());
+                    //echo "</pre>";
                     echo "Num partici:".$model->getNumParticipantes();
                     return $model->getNumParticipantes();
                 }
-            ],
+            ],*/
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
