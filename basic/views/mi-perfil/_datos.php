@@ -9,10 +9,10 @@ use yii\helpers\Url;
 /** @var yii\widgets\ActiveForm $form */
 ?>
 <?php
-$this->title = Yii::t('app', 'Update Usuarioaviso: {name}', [
-    'name' => $model->id,
+$this->title = Yii::t('app', 'Mi Perfil: {nick}', [
+    'nick' => $model->nick,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarioavisos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuario'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
