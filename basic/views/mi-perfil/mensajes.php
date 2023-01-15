@@ -6,7 +6,6 @@ use yii\bootstrap5\NavBar;
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var app\models\Usuario $modelUsuario */
 /** @var app\models\UsuarioAviso $modelAvisosEnviados */
 /** @var app\models\UsuarioAviso $modelAvisosRecibidos */
 
@@ -24,7 +23,7 @@ NavBar::begin([
 ]);
 $items=[
 	['label' => 'Perfil', 'url' => ['/mi-perfil']],
-	['label' => 'Mensajes', 'url' => ['/mi-perfil']],
+	['label' => 'Mensajes', 'url' => ['/mensajes']],
 ];
 echo Nav::widget([
 	'options' => ['class' => 'navbar-nav'],
