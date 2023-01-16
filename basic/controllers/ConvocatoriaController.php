@@ -9,6 +9,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+//Añade esto para el tema de paginador y roles
+use app\models\Configuracion;
+use app\models\UsuarioAviso;
+use yii\data\Pagination;
+
 //para el tema de roles
 
 use app\models\UsuarioRol;
@@ -63,10 +68,21 @@ class ConvocatoriaController extends Controller
      */
     public function actionIndex()
     {
+        //Buscamos todas las convocatorias
         $searchModel = new ConvocatoriaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         
-        $id=Yii::$app->user->id;        
+        //creamos el paginador
+        $pagination = new Pagination([
+			'defaultPageSize' => Configuracion::getValorConfiguracion('numero_paginacion_hosteleros'),
+			'totalCount' => $dataProvider->query->count(),
+		]);
+        //sacamos los datos según elpaginador
+        $convocatorias=$dataProvider->query->offset($pagination->offset)
+			->limit($pagination->limit)->all();
+        
+        $id=Yii::$app->user->id;
+        $rolUsu = new UsuarioRol();        
         //si no está logueada
         if($id == Null){
 
@@ -77,7 +93,7 @@ class ConvocatoriaController extends Controller
         } else {
             //Comprobar roll
             
-            return $this->render('index', [
+            return $this->render('index_privada', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
