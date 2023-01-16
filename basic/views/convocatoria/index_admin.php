@@ -5,13 +5,9 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
-<<<<<<< Updated upstream
-
-=======
 use yii\grid\Column;
 use app\models\Asistente;
 use yii\widgets\ActiveForm;
->>>>>>> Stashed changes
 /** @var yii\web\View $this */
 /** @var app\models\ConvocatoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -52,18 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
-<<<<<<< Updated upstream
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
-<<<<<<< Updated upstream
-            ],['label'=>'ver asistentes','format'=>'raw','value'=>function($model){$btn='<a href="site/index?id='.$model->id.'"data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm" btn-info"> asistentes</a>';
-=======
-            ],['label'=>'raw','format'=>'raw','value'=>function($model){$btn='<a  href="'.Url::toRoute(['ver', 'id' => $model->id,'id_local'=>$model->local_id]).'"data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm" btn-info"> asistentes</a>';
->>>>>>> Stashed changes
-              return $btn; }],
-        ],
-    ]); ?>
-=======
                     return Url::toRoute([$action, 'id' => $model->id]);  
                  }
             ], [ 'label' => 'ver asistentes',
@@ -76,7 +60,6 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     
     ?>
->>>>>>> Stashed changes
 
 
 </div>

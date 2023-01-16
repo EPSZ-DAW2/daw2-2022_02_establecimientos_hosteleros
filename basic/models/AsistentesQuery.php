@@ -31,6 +31,15 @@ class AsistentesQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+<<<<<<< Updated upstream
+=======
+    public function listar($id)
+    { 
+        return $this->andWhere(['=', 'convocatoria_id', $id]);
+    }
+    public function comprobar_asistencia($id_asi,$id_conv)
+    {
+>>>>>>> Stashed changes
 
     public function listar($id)
     { 

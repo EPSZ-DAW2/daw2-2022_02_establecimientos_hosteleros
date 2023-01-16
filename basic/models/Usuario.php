@@ -156,6 +156,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 		$this->save();
 	}
 
+<<<<<<< Updated upstream
 	public static function listaZonas()
 	{
 		$zonas= array(
@@ -170,5 +171,143 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			8=>'Área',
 		);
 		return $zonas;
+=======
+	//Se obtiene la lista de zonas
+	public static function listaZonas(){
+		$tipos=Zona::listaZonas();
+		$lista=ArrayHelper::map($tipos,'clase_zona_id', 'nombre');
+		return $lista;
+	}
+
+	//Se obtiene el nombre de las zonas
+	public static function getNombreZona($id){
+		$lista=self::listaZonas();
+		$res= (isset($lista[$id]) ? $lista[$id] : '<Nombre_Zona_'.$id.'>');
+		return $res;
+	}
+
+	//Funcion estática para obtener el nombre de las zonas
+	public function getDescripcionZona(){
+		return static::getNombreZona($this->zona_id);
+	}
+
+	//Se obtiene la lista de roles predefinidos
+	public static function listaRoles(){
+		$roles=Rol::listaRoles()->all();
+		$lista=ArrayHelper::map($roles,'id', 'nombre');
+		return $lista;
+	}
+
+	//Se obtiene el nombre de los roles
+	public static function getNombreRol($inicial){
+		$lista=self::listaRoles();
+		$res= (isset($lista[$inicial]) ? $lista[$inicial] : '<Rol_'.$inicial.'>');
+		return $res;
+	}
+
+	//Funcion estática para obtener el nombre de los roles
+	/*public function getDescripcionRol(){
+		return static::getNombreRol($this->rol);
+	}*/
+
+	//Lista de opciones para ver si el usuario está confirmado
+	public static function listaOpciones(){
+		$opciones= array(
+			0=>'No',
+			1=>'Sí',
+		);
+		return $opciones;
+	}
+
+	//Se obtiene la opcion
+	public static function getOpcion($num){
+		$lista=self::listaOpciones();
+		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
+		return $res;
+	}
+
+	//Se obtiene la opcion
+	public function descripcionOpcion($id){
+		return static::getOpcion($id);
+	}
+
+	//Lista de opciones para ver si el usuario está bloqueado
+	public static function listaOpcionesBloqueo(){
+		$opciones= array(
+			0=>'No',
+			1=>'Sí (Accesos)',
+			2=>'Sí (Exceso establecimientos)',
+			3=>'Sí (Comentarios denunciados)',
+		);
+		return $opciones;
+	}
+
+	public static function getOpcionBloqueo($num){
+		$lista=self::listaOpcionesBloqueo();
+		$res= (isset($lista[$num]) ? $lista[$num] : '<Opcion_'.$num.'>');
+		return $res;
+	}
+
+	public function descripcionOpcionBloqueo($id){
+		return static::getOpcionBloqueo($id);
+	}
+
+	/********************************************
+	 * Funciones para comprobar rol del usuario
+	 *
+	 *******************************************/
+	//Comprobar que el usuario indicado tenga rol moderador
+	public static function esRolModerador($id){
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>1]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
+	}
+
+	//Comprobar que el usuario indicado tenga rol patrocinador
+	public static function esRolPatrocinador($id){
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>2]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
+	}
+
+	//Comprobar que el usuario indicado tenga rol admin
+	public static function esRolAdmin($id){
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>3]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
+	}
+
+	//Comprobar que el usuario indicado tenga rol sistema
+	public static function esRolSistema($id){
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>4]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
+	}
+
+	/****************************
+	* Obtener avisos del usuario
+ 	*****************************/
+	public function getAvisos(){
+		return $this->hasMany(UsuarioAviso::class, [
+			'destino_usuario_id'=>'id',
+		]);
+	}
+
+	/*****************************************************+
+	 * Obtener la zona de moderación asociada al usuario
+	 * ****************************************************/
+	public function getZonasModeracion(){
+		return $this->hasOne(UsuarioAreaModeracion::class, [
+			'usuario_id'=>'id',
+		]);
+>>>>>>> Stashed changes
 	}
 }

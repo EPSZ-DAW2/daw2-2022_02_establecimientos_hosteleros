@@ -1,0 +1,8 @@
+6,"2023-01-14 14:29:21",E,app,,::1,Chrome
+7,"2023-01-14 14:29:24",E,app,,::1,Chrome
+8,"2023-01-14 14:29:29",I,app,,::1,Chrome
+9,"2023-01-14 14:29:37",E,controller,,::1,Chrome
+11,"2023-01-15 12:47:26",E,basic,"Esto es un error muy grande",::1,Chrome
+12,"2023-01-15 12:48:53",E,basic,"Esto es un error muy grande",::1,Chrome
+13,"2023-01-15 12:49:15",I,basic,"Esto es una incidencia muy gorda",::1,Chrome
+14,"2023-01-15 12:57:36",I,basic,"Esto es una incidencia muy gorda",::1,Chrome

@@ -6,7 +6,12 @@ use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
+=======
+use yii\grid\Column;
+use yii\widgets\ActiveForm;
+>>>>>>> Stashed changes
 =======
 use yii\grid\Column;
 use yii\widgets\ActiveForm;
@@ -27,6 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+         'filterModel' => $searchModel,
+>>>>>>> Stashed changes
 =======
          'filterModel' => $searchModel,
 >>>>>>> Stashed changes
@@ -39,6 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'usuario_id',
             'fecha_alta',
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             ['label'=>'raw','format'=>'raw','value'=>function($model){$btn='<a  href="'.Url::toRoute(['asistentes/delete', 'id' => $model->id]).'"data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm" btn-info">Borrar</a>';
                 return $btn; 
                  }
@@ -47,6 +57,8 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
     
 =======
+=======
+>>>>>>> Stashed changes
             [
                 'class' => ActionColumn::className(),
                 'template' => '{delete}',
@@ -62,6 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     <p>
     <a href="<?= Url::toRoute(['asistentes/create','id' => $convocatoria,'id_local'=>$local]);?>">Añadir asistente</a>
