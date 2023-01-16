@@ -39,7 +39,8 @@ class Convocatoria extends \yii\db\ActiveRecord
     {
         return [
             [['local_id', 'texto'], 'required'],
-            [['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id','_NumParticipantes'], 'integer'],
+            //[['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id','_NumParticipantes'], 'integer'],
+            [['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id'], 'integer'],
             [['texto', 'notas_bloqueo'], 'string'],
             [['fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha'], 'safe'],
         ];
@@ -238,6 +239,7 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
+    /*
     //Atributo virtual para saber cuantas personsas estan apuntadas a la convocatoria
     protected $_NumParticipantes = null;
 
@@ -250,7 +252,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         }
         return $this->_NumParticipantes;
     }
-    
+    */
     
     
 

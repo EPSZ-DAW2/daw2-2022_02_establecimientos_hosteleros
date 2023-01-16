@@ -9,6 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+//para el tema de roles
+
+use app\models\UsuarioRol;
 
 //Para la parte de Angel
 use app\models\Usuario;
@@ -294,15 +297,19 @@ class ConvocatoriaController extends Controller
     {     
         //Si el usuario está logueado
         $id_asistente =Yii::$app->user->id;
-        //si tiene permisos
-        $asistente=new Asistente();
+        if($id_asistente != Null){
+            //si tiene permisos Aun no implementado por loque no puedo hacer nada
+            $permisos = new UsuarioRol;
+
+
+            $asistente=new Asistente();
+            
+            $model= $asistente->find()->listar($id);
         
-         $model= $asistente->find()->listar($id);
-     
-         $searchModel = new AsistenteSearch();
-         $dataProvider = $searchModel->search($this->request->queryParams);
-        return $this->render('../asistentes/ver_asistentes', ['model' => $model,'searchModel' => $searchModel,'dataProvider' => $dataProvider,'convocatoria'=>$id,'local'=>$id_local]);
-    
+            $searchModel = new AsistenteSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
+            return $this->render('../asistentes/ver_asistentes', ['model' => $model,'searchModel' => $searchModel,'dataProvider' => $dataProvider,'convocatoria'=>$id,'local'=>$id_local]);
+        }
 
     }
 }
