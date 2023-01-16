@@ -11,6 +11,9 @@ use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 
+use yii\bootstrap5\LinkPager;
+
+
 
 /** @var yii\web\View $this */
 /** @var app\models\ConvocatoriaSearch $searchModel */
@@ -19,46 +22,32 @@ use yii\grid\GridView;
 $this->title = 'Convocatorias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="convocatoria-index">
+<div class="container">
+<?php 
+    /*echo "<pre>"; 
+    var_dump( $convocatorias);
+    echo "</pre>";*/
+?>
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <details>
+        <summary>Filtros</summary>
+        <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    </details>
 
-    
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
-
-            //'id',
-            'localNombre',
-            'texto:ntext',
-            'fecha_desde',
-            'fecha_hasta',
-            //'num_denuncias',
-            //'fecha_denuncia1',
-            //'bloqueada',
-            //'fecha_bloqueo',
-            //'notas_bloqueo:ntext',
-            //'crea_usuario_id',
-            //'crea_fecha',
-            //'modi_usuario_id',
-            //'modi_fecha',
-            
-            [
-                'class' => ActionColumn::className(),
-                'template' => '{view}',
-                'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
-                    if($action === 'view'){
-                        return Url::toRoute(['convocatoria/view', 'id' => $model->id]);
-                    }
-                    
+    <div class="row">
+        <?php
+            if(empty($convocatorias)){
+                echo '<h2>No hay convocatorias activas</h2>';
+            }else{
+                foreach ($convocatorias as $convocatoria){
+                    echo $this->render('ficha_quedada', ['convocatoria'=>$convocatoria]);
                 }
-            ],
-        ]
-    ]); ?>
+            }
+		?>
+    </div>
+</div>
 
-
+<div style="margin-top: 2%">
+	<?= LinkPager::widget(['pagination' => $pagination]); /*echo "<pre>"; var_dump( $pagination);echo "</pre>";*/  ?>
 </div>
