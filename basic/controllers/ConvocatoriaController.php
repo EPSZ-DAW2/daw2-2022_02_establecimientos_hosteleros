@@ -292,6 +292,9 @@ class ConvocatoriaController extends Controller
     public function actionVer($id,$id_local)
        
     {     
+        //Si el usuario está logueado
+        $id_asistente =Yii::$app->user->id;
+        //si tiene permisos
         $asistente=new Asistente();
         
          $model= $asistente->find()->listar($id);
