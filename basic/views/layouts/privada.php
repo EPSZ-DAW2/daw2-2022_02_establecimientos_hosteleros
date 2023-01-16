@@ -49,6 +49,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 		['label' => 'Usuarios', 'url' => ['/usuarios/index']],
 		['label' => 'Avisos', 'url' => ['/usuarioaviso/index']],
 		['label' => 'Configuraciones', 'url' => ['/configuraciones/index']],
+		['label' => 'Convocatorias', 'url' => ['/convocatoria/index']],
         ['label' => 'Registro', 'url' => ['/registro/index']],
 		['label' => 'Perfil', 'url' => ['/mi-perfil']],
 	];
