@@ -75,6 +75,8 @@ class ConvocatoriaSearch extends Convocatoria
         $query->andFilterWhere(['like', 'texto', $this->texto])
             ->andFilterWhere(['like', 'notas_bloqueo', $this->notas_bloqueo]);
 
+        $query->joinwith('local');
+        
         return $dataProvider;
     }
 }

@@ -43,7 +43,7 @@ class Convocatoria extends \yii\db\ActiveRecord
             //[['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id','_NumParticipantes'], 'integer'],
             [['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id'], 'integer'],
             [['texto', 'notas_bloqueo'], 'string'],
-            [['fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha','localNombre'], 'safe'],
+            [['fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha','localNombre','localFoto_Id'], 'safe'],
         ];
     }
 
@@ -56,6 +56,7 @@ class Convocatoria extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
             'localNombre' => Yii::t('app', 'Local'),
+            'localFoto_Id' => Yii::t('app', 'localFoto_Id'),
             'texto' => Yii::t('app', 'Texto'),
             'fecha_desde' => Yii::t('app', 'Fecha Desde'),
             'fecha_hasta' => Yii::t('app', 'Fecha Hasta'),
@@ -250,6 +251,15 @@ class Convocatoria extends \yii\db\ActiveRecord
             return $Local->titulo;
         return 'Error al cargar el nombre';
     }
+    protected $localFoto_Id = null;
+
+    public function getLocalFoto_Id(){
+        //buscador de locales
+        $Local = Local::find()->where(['id' => $this->getLocal_id()])->one();
+        if($Local != null || $Local != "")
+            return $Local->imagen_id;
+        return 'Error al cargar la imagen';
+    }
 
     /*
     //Atributo virtual para saber cuantas personsas estan apuntadas a la convocatoria
@@ -278,6 +288,14 @@ class Convocatoria extends \yii\db\ActiveRecord
             //campos clave de Asistentes y  valores en convocatorias
             'id' => 'usuario_id',
         ])->inverseOf('Convocatoria');
+
+     }
+     public function getLocal(){
+        
+        return $this->hasOne(Local::class,[
+            //campos clave de Local y  valores en convocatorias
+            'id' => 'local_id',
+        ]);
 
      }
 
