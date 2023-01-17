@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\UsuariosLocales $model */
 
-$this->title = Yii::t('app', 'Update Usuarios Locales: {name}', [
+$this->title = Yii::t('app', 'Modificar seguidor', [
     'name' => $model->id,
 ]);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarios Locales'), 'url' => ['index']];

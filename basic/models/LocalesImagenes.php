@@ -40,10 +40,10 @@ class LocalesImagenes extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'local_id' => Yii::t('app', 'establecimiento/local relacionada'),
-            'orden' => Yii::t('app', 'Orden de aparición de la imagen dentro del grupo de imagenes de la establecimiento. Opcional.'),
-            'imagen_id' => Yii::t('app', 'Nombre identificativo (fichero interno) con la imagen del establecimiento/local.'),
+            //'id' => Yii::t('app', 'ID'),
+            'local_id' => Yii::t('app', 'Local relacionado'),
+            'orden' => Yii::t('app', 'Orden de aparición'),
+            'imagen_id' => Yii::t('app', 'Nombre'),
         ];
     }
 

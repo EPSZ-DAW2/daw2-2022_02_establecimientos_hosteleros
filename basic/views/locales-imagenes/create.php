@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\LocalesImagenes $model */
 
-$this->title = Yii::t('app', 'Create Locales Imagenes');
+$this->title = Yii::t('app', 'Añadir imagen');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Locales Imagenes'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

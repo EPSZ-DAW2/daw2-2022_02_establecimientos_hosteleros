@@ -1,24 +1,45 @@
 <?php
-
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 use app\models\LocalesMantenimiento;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\bootstrap5\LinkPager;
+
 
 /** @var yii\web\View $this */
 /** @var app\models\LocalesMantenimientoSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = Yii::t('app', 'Locales Mantenimientos');
+$this->title = Yii::t('app', 'Mantenimiento de locales');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+
+
 <div class="locales-mantenimiento-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <?php
+    NavBar::begin([
+        'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+    ]);
+    $items=[
+        ['label' => 'Locales', 'url' => ['/locales-mantenimiento/index']],
+        ['label' => 'Etiquetas', 'url' => ['/locales-etiquetas/index']],
+        ['label' => 'Imagenes', 'url' => ['/locales-imagenes/index']],
+        ['label' => 'Seguidos', 'url' => ['/usuarios-locales/index']],
+    ];
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => $items,
+    ]);
+    NavBar::end();
+    ?>
     <p>
-        <?= Html::a(Yii::t('app', 'Create Locales Mantenimiento'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Crear local'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'titulo:ntext',
             'descripcion:ntext',
             'lugar:ntext',
@@ -63,7 +84,8 @@ $this->params['breadcrumbs'][] = $this->title;
                  }
             ],
         ],
-    ]); ?>
+    ]);
+    ?>
 
 
 </div>

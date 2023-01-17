@@ -13,13 +13,13 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'titulo')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'titulo')->textarea(['rows' => 2]) ?>
 
     <?= $form->field($model, 'descripcion')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'lugar')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'lugar')->textarea(['rows' => 2]) ?>
 
-    <?= $form->field($model, 'url')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'url')->textarea(['rows' => 2]) ?>
 
     <?= $form->field($model, 'zona_id')->textInput() ?>
 
@@ -51,9 +51,9 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'notas_bloqueo')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'cerrado_comentar')->textInput() ?>
+    <?= $form->field($model, 'cerrado_comentar')->dropDownList($model::listaOpcionesCerrado())?>
 
-    <?= $form->field($model, 'cerrado_quedar')->textInput() ?>
+    <?= $form->field($model, 'cerrado_quedar')->dropDownList($model::listaOpcionesCerrado())?> 
 
     <?= $form->field($model, 'crea_usuario_id')->textInput() ?>
 

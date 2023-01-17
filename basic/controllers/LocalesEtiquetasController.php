@@ -4,15 +4,37 @@ namespace app\controllers;
 
 use app\models\LocalesEtiquetas;
 use app\models\LocalesEtiquetasSearch;
+use app\models\Usuario;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
+use Yii;
 
 /**
  * LocalesEtiquetasController implements the CRUD actions for LocalesEtiquetas model.
  */
 class LocalesEtiquetasController extends Controller
 {
+    /*
+    * Función sobreescrita para comprobar que layout usar
+    * y que homeUrl definir según el rol del usuario
+    * */
+    public function beforeAction($action)
+    {
+        if(!Yii::$app->user->isGuest){
+            if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+                $this->layout='privada';
+                Yii::$app->homeUrl=array('usuarios/index');
+            }
+
+        }else{
+            $this->layout='publica';
+            Yii::$app->homeUrl=array('local/index');
+        }
+
+        return parent::beforeAction($action);
+    }
     /**
      * @inheritDoc
      */
@@ -40,7 +62,7 @@ class LocalesEtiquetasController extends Controller
     {
         $searchModel = new LocalesEtiquetasSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-
+        $dataProvider->setPagination(['pageSize' => 10]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
