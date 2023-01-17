@@ -126,7 +126,14 @@ class UsuariosController extends Controller
 			if ($this->request->isPost) {
 				if ($model->load($this->request->post())) {
 					$model->password=hash("sha1", $model->password);	//Se genera la nueva contraseña cifrada
+					$model->fecha_registro=date("Y-m-d H:i:s");
 					if($model->save()){
+						//Se añade como rol normal
+						$relacion=new UsuarioRol();
+						$relacion->id_usuario=$model->id;
+						$relacion->id_rol=1;
+						$relacion->save();
+
 						return $this->redirect(['view', 'id' => $model->id]);
 					}
 

@@ -247,9 +247,18 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	 * Funciones para comprobar rol del usuario
 	 *
 	 *******************************************/
+	//Comprobar que el usuario indicado tenga rol normal
+	public static function esRolNormal($id){
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>1]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
+	}
+
 	//Comprobar que el usuario indicado tenga rol moderador
 	public static function esRolModerador($id){
-		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>1]);
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>2]);
 		if(isset($rol) && $rol!=null)
 			return true;
 		else
@@ -258,7 +267,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	//Comprobar que el usuario indicado tenga rol patrocinador
 	public static function esRolPatrocinador($id){
-		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>2]);
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>3]);
 		if(isset($rol) && $rol!=null)
 			return true;
 		else
@@ -267,7 +276,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	//Comprobar que el usuario indicado tenga rol admin
 	public static function esRolAdmin($id){
-		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>3]);
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>4]);
 		if(isset($rol) && $rol!=null)
 			return true;
 		else
@@ -276,7 +285,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	//Comprobar que el usuario indicado tenga rol sistema
 	public static function esRolSistema($id){
-		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>4]);
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>5]);
 		if(isset($rol) && $rol!=null)
 			return true;
 		else
