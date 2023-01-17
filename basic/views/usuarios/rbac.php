@@ -72,27 +72,27 @@ NavBar::end();
 				'header' => 'Moderador',
 				'content' => function($model) {
                     if(Usuario::esRolModerador($model->id))
-					    return Html::a(Yii::t('app', 'Si'), ['rbac', 'id'=>$model->id, 'rol'=>1, 'accion'=>0], ['class' => 'btn btn-success w-100']);
+					    return Html::a(Yii::t('app', 'Si'), ['rbac', 'id'=>$model->id, 'rol'=>2, 'accion'=>0], ['class' => 'btn btn-success w-100']);
 				    else
-						return Html::a(Yii::t('app', 'No'), ['rbac', 'id'=>$model->id, 'rol'=>1, 'accion'=>1], ['class' => 'btn btn-danger w-100']);
+						return Html::a(Yii::t('app', 'No'), ['rbac', 'id'=>$model->id, 'rol'=>2, 'accion'=>1], ['class' => 'btn btn-danger w-100']);
 				}
 			],
 			[
 				'header' => 'Patrocinador',
 				'content' => function($model) {
 					if(Usuario::esRolPatrocinador($model->id))
-						return Html::a(Yii::t('app', 'Si'), ['rbac', 'id'=>$model->id , 'rol'=>2, 'accion'=>0], ['class' => 'btn btn-success w-100']);
+						return Html::a(Yii::t('app', 'Si'), ['rbac', 'id'=>$model->id , 'rol'=>3, 'accion'=>0], ['class' => 'btn btn-success w-100']);
 					else
-						return Html::a(Yii::t('app', 'No'), ['rbac', 'id'=>$model->id , 'rol'=>2, 'accion'=>1], ['class' => 'btn btn-danger w-100']);
+						return Html::a(Yii::t('app', 'No'), ['rbac', 'id'=>$model->id , 'rol'=>3, 'accion'=>1], ['class' => 'btn btn-danger w-100']);
 				}
 			],
 			[
 				'header' => 'Administrador',
 				'content' => function($model) {
 					if(Usuario::esRolAdmin($model->id))
-						return Html::a(Yii::t('app', 'Si'), ['rbac', 'id'=>$model->id , 'rol'=>3, 'accion'=>0], ['class' => 'btn btn-success w-100']);
+						return Html::a(Yii::t('app', 'Si'), ['rbac', 'id'=>$model->id , 'rol'=>4, 'accion'=>0], ['class' => 'btn btn-success w-100']);
 					else
-						return Html::a(Yii::t('app', 'No'), ['rbac', 'id'=>$model->id, 'rol'=>3, 'accion'=>1], ['class' => 'btn btn-danger w-100']);
+						return Html::a(Yii::t('app', 'No'), ['rbac', 'id'=>$model->id, 'rol'=>4, 'accion'=>1], ['class' => 'btn btn-danger w-100']);
 				}
 			],
 		],

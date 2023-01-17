@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Configuracion;
 use app\models\Usuario;
+use app\models\UsuarioRol;
 use Yii;
 use yii\debug\models\search\Log;
 use yii\filters\AccessControl;
@@ -216,6 +217,12 @@ class SiteController extends Controller
 			if($model->validate()){
 				//Si se valida correctamente se guarda
 				if($model->save()){
+					//Se añade como rol normal
+					$relacion=new UsuarioRol();
+					$relacion->id_usuario=$model->id;
+					$relacion->id_rol=1;
+					$relacion->save();
+
 					return $this->redirect(['login']);		//Se redirige al login
 				}else{
 					//Si hay error se pone la password a null y se vuelve al registro
