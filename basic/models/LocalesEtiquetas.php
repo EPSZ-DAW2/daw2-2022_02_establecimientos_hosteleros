@@ -38,9 +38,9 @@ class LocalesEtiquetas extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'local_id' => Yii::t('app', 'establecimiento/local relacionada'),
-            'etiqueta_id' => Yii::t('app', 'Etiqueta relacionada.'),
+            //'id' => Yii::t('app', 'ID'),
+            'local_id' => Yii::t('app', 'Local'),
+            'etiqueta_id' => Yii::t('app', 'Etiqueta'),
         ];
     }
 

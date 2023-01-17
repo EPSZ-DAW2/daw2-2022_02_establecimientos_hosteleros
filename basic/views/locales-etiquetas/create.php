@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\LocalesEtiquetas $model */
 
-$this->title = Yii::t('app', 'Create Locales Etiquetas');
+$this->title = Yii::t('app', 'Crear etiqueta');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Locales Etiquetas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

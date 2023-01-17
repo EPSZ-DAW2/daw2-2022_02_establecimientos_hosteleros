@@ -47,6 +47,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
 	//TODO Poner un item de las funcionalidades privadas asignadas
 	$items=[
 		['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+		['label' => 'Locales', 'url' => ['locales-mantenimiento/index']],
 		['label' => 'Avisos', 'url' => ['/usuarioaviso/index']],
 		['label' => 'Configuraciones', 'url' => ['/configuraciones/index']],
 		['label' => 'Convocatorias', 'url' => ['/convocatoria/index']],

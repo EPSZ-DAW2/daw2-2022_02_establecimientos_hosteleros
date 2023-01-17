@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\UsuariosLocales $model */
 
-$this->title = Yii::t('app', 'Create Usuarios Locales');
+$this->title = Yii::t('app', 'Crear seguidor');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Usuarios Locales'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

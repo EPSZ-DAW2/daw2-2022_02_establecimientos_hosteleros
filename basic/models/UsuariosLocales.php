@@ -40,10 +40,10 @@ class UsuariosLocales extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'usuario_id' => Yii::t('app', 'Usuario relacionado, seguidor del establecimiento/local.'),
-            'local_id' => Yii::t('app', 'establecimiento/local relacionado.'),
-            'fecha_alta' => Yii::t('app', 'Fecha y Hora de activación del seguimiento del establecimiento/local por parte del usuario.'),
+            //'id' => Yii::t('app', 'ID'),
+            'usuario_id' => Yii::t('app', 'Usuario seguidor'),
+            'local_id' => Yii::t('app', 'Local'),
+            'fecha_alta' => Yii::t('app', 'Inicio del seguimiento'),
         ];
     }
 

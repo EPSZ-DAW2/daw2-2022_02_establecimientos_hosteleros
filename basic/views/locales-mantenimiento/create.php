@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\LocalesMantenimiento $model */
 
-$this->title = Yii::t('app', 'Create Locales Mantenimiento');
+$this->title = Yii::t('app', 'Crear local');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Locales Mantenimientos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
