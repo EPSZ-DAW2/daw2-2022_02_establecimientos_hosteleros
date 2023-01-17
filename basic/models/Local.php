@@ -121,7 +121,7 @@ class Local extends \yii\db\ActiveRecord
 		]);
 	}
 
-    public function getConvocatoria(){
+    public function getConvocatorias(){
         
         return $this->hasMany(Convocatoria::class,[
             //campos clave de convocatorias y  local
@@ -129,4 +129,6 @@ class Local extends \yii\db\ActiveRecord
         ]);
 
      }
+
+
 }

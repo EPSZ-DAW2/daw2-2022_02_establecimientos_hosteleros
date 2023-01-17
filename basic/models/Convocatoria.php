@@ -242,6 +242,7 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
+    /*
     protected $localNombre = null;
 
     public function getLocalNombre(){
@@ -260,7 +261,7 @@ class Convocatoria extends \yii\db\ActiveRecord
             return $Local->imagen_id;
         return 'Error al cargar la imagen';
     }
-
+    */
     /*
     //Atributo virtual para saber cuantas personsas estan apuntadas a la convocatoria
     protected $_NumParticipantes = null;

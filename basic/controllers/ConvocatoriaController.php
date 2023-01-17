@@ -82,30 +82,21 @@ class ConvocatoriaController extends Controller
 			->limit($pagination->limit)->all();
         
          
-        //si no está logueada
-        if(!Yii::$app->user->isGuest){
-            //Comprobar roll
-            if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
-                return $this->render('index_admin', [
-                    'searchModel' => $searchModel,
-                    'dataProvider' => $dataProvider,
-                ]);
-            } else {
-                return $this->render('index_usuario', [
-                    'searchModel' => $searchModel,
-                'pagination' => $pagination,
-                'convocatorias' => $convocatorias,
-                ]);
-            }
-            
+        
+        if(!Yii::$app->user->isGuest && (Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            return $this->render('index_admin', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
         } else {
             return $this->render('index_publica', [
                 'searchModel' => $searchModel,
                 'pagination' => $pagination,
                 'convocatorias' => $convocatorias,
             ]);
-
         }
+            
+        
     }
 
     /**

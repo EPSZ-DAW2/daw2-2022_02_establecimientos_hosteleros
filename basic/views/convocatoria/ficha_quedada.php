@@ -4,13 +4,32 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap5\LinkPager;
+use app\models\Local;
+use app\models\Asistente;
+
 ?>
 <div class="card mx-3 my-3 info" style="width: 18rem;">
   
   <div>
     <?php
       //cargo los datos del local asociado solo una vez para no saturar la base de datos
-      $foto_id=$convocatoria->localFoto_Id;
+      //$local->setAttributes($convocatoria->getLocal()->one());
+      $local=$convocatoria->local;
+      //si no encuentra el local
+      if($local != null){
+
+        $local=$convocatoria->local;
+        //var_dump($local->attributes);
+        //$foto_id= 1;
+        //$local_nombre="a";
+        $foto_id= $local->attributes["imagen_id"];
+        $local_nombre=$local->attributes["titulo"];
+      } else {
+        $local=$convocatoria->local;
+        $foto_id= "none";
+        $local_nombre="Nombre no obtenido";
+      }
+
     ?>
       <?php //Poner la url de donde se guarda la foto
       
@@ -35,7 +54,31 @@ use yii\bootstrap5\LinkPager;
       <h6>Hora de inicio: <?= date(html::encode('h:i',"{$convocatoria->fecha_desde}"))?></h6>
       <h6>Hora de cierre: <?= date(html::encode('h:i',"{$convocatoria->fecha_hasta}"))?></h6>
       <br/>
-      <h6>Local: <?=html::encode("{$convocatoria->localNombre}")?></h6>
+      <h6>Local: <?=html::encode("{$local_nombre}")?></h6>
+
+      <?php
+        //si está logueado le saldan las opciones de reportar e incribirse
+        if(!Yii::$app->user->isGuest){
+          //Incriovorse
+          $id_asistente =Yii::$app->user->id;
+          $asistente= Asistente::findOne(['convocatoria_id' => $convocatoria->id ,'usuario_id' => $id_asistente ]);
+          if (!empty($asistente)) {
+            //echo"bb";
+            echo (html::a('desinscribir', Url::toRoute(["desinscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
+          } else {
+            //echo"cc";
+            echo (html::a('inscribir',Url::toRoute(["inscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-success']));
+          } 
+
+          //reportar
+
+          if( !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0)){
+              echo (Html::a('reportar',Url::toRoute(["reportar", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
+          } else {
+            'Superado el límite de reportes';
+          }
+        }
+      ?>
     </div>
   
 </div>
