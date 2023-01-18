@@ -26,11 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'local_id',
-            'convocatoria_id',
+            'localNombre',
+            'usuarioNombre' ,
+            'apellidos',
+            // 'convocatoria_id',
             'usuario_id',
-            'fecha_alta',
+            //'fecha_alta',
             [
                 'class' => ActionColumn::className(),
                 'template' => '{delete}',

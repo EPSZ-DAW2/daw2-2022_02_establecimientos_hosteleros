@@ -113,7 +113,7 @@ class AsistentesController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['<convocatoria/index']);
+        return $this->redirect(['convocatoria/index']);
     }
 
     /**

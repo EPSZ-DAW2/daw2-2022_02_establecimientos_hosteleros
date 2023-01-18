@@ -108,7 +108,7 @@ class ConvocatoriaController extends Controller
     public function actionView($id)
     {
         
-        return $this->render('view', [
+        return $this->render('view_admin', [
             'model' => $this->findModel($id),
         ]);
     }

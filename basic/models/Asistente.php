@@ -43,8 +43,11 @@ class Asistente extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
+            'localNombre' => Yii::t('app', 'Local'),
             'convocatoria_id' => Yii::t('app', 'Convocatoria ID'),
             'usuario_id' => Yii::t('app', 'Usuario ID'),
+            'usuarioNombre' => Yii::t('app', 'Nombre'),
+            'usuarioApellidos' => Yii::t('app', 'Apellidos'),
             'fecha_alta' => Yii::t('app', 'Fecha Alta'),
         ];
     }
@@ -120,5 +123,28 @@ class Asistente extends \yii\db\ActiveRecord
         $this->fecha_alta = $Fecha;
 
     }
-
+    protected $localNombre = null;
+    protected $usuarioNombre = null;
+    protected $usuarioApellidos = null;
+    public function getLocalNombre(){
+        //buscador de locales
+        $Local = Local::find()->where(['id' => $this->getLocal_id()])->one();
+        if($Local != null || $Local != "")
+            return $Local->titulo;
+        return 'Error al cargar el nombre';
+    }
+    public function getUsuarioNombre(){
+        //buscador de locales
+        $Usuario = Usuario::find()->where(['id' => $this->getUsuario_id()])->one();
+        if($Usuario != null || $Usuario != "")
+            return $Usuario->nombre;
+        return 'Error al cargar el nombre';
+    }
+    public function getUsuarioApellidos(){
+        //buscador de locales
+        $Usuario = Usuario::find()->where(['id' => $this->getUsuario_id()])->one();
+        if($Usuario != null || $Usuario != "")
+            return $Usuario->apellidos;
+        return 'Error al cargar el apellido';
+    }
 }
