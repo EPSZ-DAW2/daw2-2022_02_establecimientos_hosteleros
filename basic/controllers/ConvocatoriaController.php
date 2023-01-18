@@ -72,6 +72,9 @@ class ConvocatoriaController extends Controller
 =======
     {
         //Buscamos todas las convocatorias
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         $searchModel = new ConvocatoriaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -169,6 +172,7 @@ class ConvocatoriaController extends Controller
         // Habría que añadir la comprobación de que tiene permisos 
         if($id_mod != Null){
             $model = $this->findModel($id);
+<<<<<<< Updated upstream
 
             $timestamp = time()-(60*60*4);
             $model->setModi_fecha(date('Y-m-d H:i:s',$timestamp)); 
@@ -187,12 +191,31 @@ class ConvocatoriaController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 
+=======
+
+            $timestamp = time()-(60*60*4);
+            $model->setModi_fecha(date('Y-m-d H:i:s',$timestamp)); 
+
+            //$id_mod = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
+            $id_mod =Yii::$app->user->id;
+
+            $model->setModi_usuario_id($id_mod); 
+
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+>>>>>>> Stashed changes
             return $this->render('update', [
                 'model' => $model,
             ]);
         } else { //Que devuelva a index
             //Añadir un mensaje de información de que no se tiene permisos para estar ahí
             return $this->redirect(['index']);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         }
     }
@@ -331,6 +354,7 @@ class ConvocatoriaController extends Controller
        
     {     
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         $asistente=new Asistente();
 <<<<<<< Updated upstream
 
@@ -345,6 +369,8 @@ class ConvocatoriaController extends Controller
         return $this->render('../asistentes/ver_asistentes', ['model' => $model,'searchModel' => $searchModel,'dataProvider' => $dataProvider,'convocatoria'=>$id,'local'=>$id_local]);
     
 =======
+=======
+>>>>>>> Stashed changes
         //Si el usuario está logueado
         $id_asistente =Yii::$app->user->id;
         if($id_asistente != Null){
@@ -360,6 +386,9 @@ class ConvocatoriaController extends Controller
             $dataProvider = $searchModel->search($this->request->queryParams);
             return $this->render('../asistentes/ver_asistentes', ['model' => $model,'searchModel' => $searchModel,'dataProvider' => $dataProvider,'convocatoria'=>$id,'local'=>$id_local]);
         }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     }

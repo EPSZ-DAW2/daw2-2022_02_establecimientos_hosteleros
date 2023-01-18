@@ -99,6 +99,9 @@ class AsistentesController extends Controller
             'model' => $model,'convocatoria' =>$id, 'local' => $id_local,
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         ]);
@@ -107,6 +110,7 @@ class AsistentesController extends Controller
 
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         return $this->render('update', [
             'model' => $model,
 =======
@@ -114,6 +118,8 @@ class AsistentesController extends Controller
         ]);
     }
   
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
@@ -129,7 +135,11 @@ class AsistentesController extends Controller
     { $this->findModel($id)->delete();
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         return $this->redirect(['convocatoria/index']);
+=======
+        return $this->redirect(['<convocatoria/index']);
+>>>>>>> Stashed changes
 =======
         return $this->redirect(['<convocatoria/index']);
 >>>>>>> Stashed changes

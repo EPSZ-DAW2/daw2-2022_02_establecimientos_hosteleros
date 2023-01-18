@@ -13,7 +13,10 @@ use yii\data\Pagination;
 class HosteleroController extends \yii\web\Controller
 {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 	/*
 	 * Función sobreescrita para comprobar que layout usar
 	 * y que homeUrl definir según el rol del usuario
@@ -59,7 +62,12 @@ class HosteleroController extends \yii\web\Controller
 	}
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	public function actionDetalle()
+=======
+	//Acción para mandar un mensaje/aviso al usuario hostelero
+	public function actionMensaje($id=null)
+>>>>>>> Stashed changes
 =======
 	//Acción para mandar un mensaje/aviso al usuario hostelero
 	public function actionMensaje($id=null)

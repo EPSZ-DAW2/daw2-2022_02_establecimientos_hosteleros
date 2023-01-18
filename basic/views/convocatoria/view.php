@@ -25,6 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 =======
     <p> 
     <?= Html::a('ver asistentes', ['ver', 'id' => $model->id,'id_local' => $model->local_id], ['class' => 'btn btn-primary']) ?>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [

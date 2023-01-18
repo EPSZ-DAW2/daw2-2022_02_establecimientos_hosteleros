@@ -33,7 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 =======
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
+<<<<<<< Updated upstream:basic/views/convocatoria/index_usuario.php
 >>>>>>> Stashed changes:basic/views/convocatoria/index_usuario.php
+=======
+>>>>>>> Stashed changes:basic/views/convocatoria/index.php
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -66,6 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],*/
             [
                 'class' => ActionColumn::className(),
+<<<<<<< Updated upstream:basic/views/convocatoria/index_usuario.php
 <<<<<<< Updated upstream:basic/views/convocatoria/index.php
                 'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
 <<<<<<< Updated upstream
@@ -78,6 +82,8 @@ $this->params['breadcrumbs'][] = $this->title;
 >>>>>>> Stashed changes
               return $btn; }],
 =======
+=======
+>>>>>>> Stashed changes:basic/views/convocatoria/index.php
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
@@ -154,6 +160,8 @@ $this->params['breadcrumbs'][] = $this->title;
     
     ?>
 >>>>>>> Stashed changes
+
+    
 
     
 

@@ -9,7 +9,10 @@ use Yii;
 class LocalController extends \yii\web\Controller
 {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 	/*
 	 * Función sobreescrita para comprobar que layout usar
 	 * y que homeUrl definir según el rol del usuario

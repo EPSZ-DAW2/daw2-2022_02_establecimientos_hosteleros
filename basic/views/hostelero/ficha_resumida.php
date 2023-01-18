@@ -25,7 +25,11 @@ use yii\helpers\Url;
         <p class="card-text">Teléfono de contacto: <?= Html::encode("{$hostelero->telefono_contacto}")?></p>
 		<a href="<?= Url::toRoute(['local/index', 'id'=>$hostelero->id]);?>" class="card-link">Ver establecimientos publicados</a>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <a href="<?= Url::toRoute(['hostelero/detalle', 'id'=>$hostelero->id]); //CAMBIAR RUTA ACCIÓN?>" class="btn btn-success mt-2">
+=======
+        <a href="<?= Url::toRoute(['hostelero/mensaje', 'id'=>$hostelero->usuario_id]);?>" class="btn btn-default mt-2">
+>>>>>>> Stashed changes
 =======
         <a href="<?= Url::toRoute(['hostelero/mensaje', 'id'=>$hostelero->usuario_id]);?>" class="btn btn-default mt-2">
 >>>>>>> Stashed changes
