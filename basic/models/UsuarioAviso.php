@@ -79,7 +79,7 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     public static function listaAvisos()
     {
         return [
-            'A' => 'Aviso'
+              'A' => 'Aviso'
             , 'N' => 'Notificación'
             , 'D' => 'Denuncia'
             , 'C' => 'Consulta'
@@ -106,5 +106,97 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     {
         return static::nombreAviso( $this->clase_aviso_id);
     }//getNombreAviso
+
+    /**
+     * Recoge todos los avisos enviados
+     */
+    public static function getAvisosEnviados($id)
+    {
+        return usuarioaviso::find()->where(['origen_usuario_id' => $id])->all();
+    }//getAvisosEnviados
+
+    /**
+     * Recoge todos los avisos recibidos
+     */
+    public static function getAvisosRecibidos($id)
+    {
+        return usuarioaviso::find()->where(['destino_usuario_id' => $id])->all();
+    }//getAvisosRecibidos
+
+    /**
+     * Devuelve los datos del mensaje
+     */
+    public static function getMensaje($id)
+    {
+        return usuarioaviso::find()->where(['id' => $id])->all();
+    }
+
+    /**
+     * Deslee un mensaje en concreto
+     */
+    public function desleer($id){
+        $model = $this->findModel($id);
+        $model->fecha_lectura=null;
+        $model->save();
+    }
+
+    public function encontrar($id){
+        return $this->findModel($id);
+    }
+    /**
+     * Finds the Usuarioaviso model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param int $id ID
+     * @return Usuarioaviso the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+
+    protected function findModel($id)
+    {
+        if (($model = Usuarioaviso::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public static function generarBaja($id)
+    {
+        if(!isset($id)){
+            return false;
+        }
+        $aviso=new Usuarioaviso();
+
+        $aviso->fecha_aviso=date('Y-m-d H:i:s');
+        $aviso->clase_aviso_id='A';
+        $aviso->texto="Solicitud de Baja";
+        $aviso->destino_usuario_id=null;
+        $aviso->origen_usuario_id=$id;
+        $aviso->local_id=null;
+        $aviso->comentario_id=null;
+        $aviso->fecha_lectura=null;
+        $aviso->fecha_aceptado=null;
+        $aviso->save();
+    }
+
+    public static function generarMensaje($id_origen,$id_destino,$clase_aviso,$texto,$local_id=null,$comentario_id=null){
+        if(!isset($id)){
+            return false;
+        }
+        $aviso=new Usuarioaviso();
+
+        $aviso->fecha_aviso=date('Y-m-d H:i:s');
+        $aviso->clase_aviso_id=$clase_aviso;
+        $aviso->texto=$texto;
+        $aviso->destino_usuario_id=$id_destino;
+        $aviso->origen_usuario_id=$id_origen;
+        $aviso->local_id=null;
+        $aviso->comentario_id=$comentario_id;
+        $aviso->local_id=$local_id;
+        $aviso->fecha_lectura=null;
+        $aviso->fecha_aceptado=null;
+        $aviso->save();
+    }
+
 
 }

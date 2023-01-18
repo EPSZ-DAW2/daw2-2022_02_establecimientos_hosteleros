@@ -7,12 +7,37 @@ use app\models\RegistroSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\RegistroQuery;
+use app\models\Usuario;
+use Yii;
+use app\models\Post;
+
 
 /**
  * RegistroController implements the CRUD actions for Registro model.
  */
 class RegistroController extends Controller
 {
+    /*
+    * Función sobreescrita para comprobar que layout usar
+    * y que homeUrl definir según el rol del usuario
+    * */
+   public function beforeAction($action)
+   {
+       if(!Yii::$app->user->isGuest){
+           if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+               $this->layout='privada';
+               Yii::$app->homeUrl=array('usuarios/index');
+           }
+
+       }else{
+           $this->layout='publica';
+           Yii::$app->homeUrl=array('local/index');
+       }
+
+       return parent::beforeAction($action);
+   }
+
     /**
      * @inheritDoc
      */
@@ -38,6 +63,7 @@ class RegistroController extends Controller
      */
     public function actionIndex()
     {
+        Registro::eliminarAntiguo();
         $searchModel = new RegistroSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -130,5 +156,50 @@ class RegistroController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionExportarTodo()
+    {
+
+        $searchModel = new RegistroSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+
+        Registro::descargarTodo();
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    /**
+     * {@inheritdoc}
+     * @return RegistroQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new RegistroQuery(get_called_class());
+    }
+
+    public function actionElimianarFiltro(){
+
+        $registro= (isset($_GET['Registro']) ? $_GET['Registro'] : NULL);
+        $fecha=(isset($registro['fecha']) ? $registro['fecha'] : NULL);
+        $log=(isset($registro['clase_log_id']) ? $registro['clase_log_id'] : NULL);
+
+        $modulo =(isset($registro['modulo']) ? $registro['modulo'] : NULL);
+        $texto = (isset($registro['texto']) ? $registro['texto'] : NULL);
+        $ip= (isset($registro['ip']) ? $registro['ip'] : NULL);
+        $browser = (isset($registro['browser']) ? $registro['browser'] : NULL);
+
+        Registro::eliminarFiltro($fecha,$log,$modulo,$texto,$ip,$browser);
+
+
+       $searchModel = new RegistroSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
     }
 }

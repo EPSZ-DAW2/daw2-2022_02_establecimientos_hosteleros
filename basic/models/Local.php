@@ -120,4 +120,15 @@ class Local extends \yii\db\ActiveRecord
 			'id'=>'categoria_id',
 		]);
 	}
+
+    public function getConvocatorias(){
+        
+        return $this->hasMany(Convocatoria::class,[
+            //campos clave de convocatorias y  local
+            'local_id' => 'id',
+        ]);
+
+     }
+
+
 }

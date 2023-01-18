@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use app\models\Local;
 
 use Yii;
 
@@ -39,9 +40,10 @@ class Convocatoria extends \yii\db\ActiveRecord
     {
         return [
             [['local_id', 'texto'], 'required'],
+            //[['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id','_NumParticipantes'], 'integer'],
             [['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id'], 'integer'],
             [['texto', 'notas_bloqueo'], 'string'],
-            [['fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha'], 'safe'],
+            [['fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha','localNombre','localFoto_Id'], 'safe'],
         ];
     }
 
@@ -53,6 +55,8 @@ class Convocatoria extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
+            'localNombre' => Yii::t('app', 'Local'),
+            'localFoto_Id' => Yii::t('app', 'localFoto_Id'),
             'texto' => Yii::t('app', 'Texto'),
             'fecha_desde' => Yii::t('app', 'Fecha Desde'),
             'fecha_hasta' => Yii::t('app', 'Fecha Hasta'),
@@ -163,7 +167,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         $this->fecha_denuncia1 = $fecha;
 
     }
-
+    
     //GETS
 
     public function getId(){
@@ -238,8 +242,40 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
-    
-    
+    /*
+    protected $localNombre = null;
+
+    public function getLocalNombre(){
+        //buscador de locales
+        $Local = Local::find()->where(['id' => $this->getLocal_id()])->one();
+        if($Local != null || $Local != "")
+            return $Local->titulo;
+        return 'Error al cargar el nombre';
+    }
+    protected $localFoto_Id = null;
+
+    public function getLocalFoto_Id(){
+        //buscador de locales
+        $Local = Local::find()->where(['id' => $this->getLocal_id()])->one();
+        if($Local != null || $Local != "")
+            return $Local->imagen_id;
+        return 'Error al cargar la imagen';
+    }
+    */
+    /*
+    //Atributo virtual para saber cuantas personsas estan apuntadas a la convocatoria
+    protected $_NumParticipantes = null;
+
+    public function getNumParticipantes(){
+        if($this->_NumParticipantes === null){
+            $asistente=new Asistente();
+        
+            $this->_NumParticipantes = $asistente->find()->listar($this->getId)->count();
+            //$this->_NumParticipantes = $this->getAsistentes()->count();
+        }
+        return $this->_NumParticipantes;
+    }
+    */
     
     
 
@@ -251,8 +287,16 @@ class Convocatoria extends \yii\db\ActiveRecord
 
         return $this->hasMany(Asistente::class,[
             //campos clave de Asistentes y  valores en convocatorias
-            'id' => 'convocatoria_id',
+            'id' => 'usuario_id',
         ])->inverseOf('Convocatoria');
+
+     }
+     public function getLocal(){
+        
+        return $this->hasOne(Local::class,[
+            //campos clave de Local y  valores en convocatorias
+            'id' => 'local_id',
+        ]);
 
      }
 
@@ -276,7 +320,7 @@ class Convocatoria extends \yii\db\ActiveRecord
             $this->setfecha_denuncia1(date('Y-m-d H:i:s',$timestamp));
 
             //echo"\n Fecha con formateo: </br>" ;
-            print_r(date('Y-M-D H:I:S',$timestamp));
+            //print_r(date('Y-M-D H:I:S',$timestamp));
         }
         //Seteamos el valor de las denuncias al que tenía + 1
         $this->setnum_denuncias($this->getnum_denuncias() + 1);
@@ -295,25 +339,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         //$this->save();
 
     }
-    /**
-     *  Función que crea un registro en Asistente
-     * 
-     */
-    public function inscribir(){
-        
-        
 
-    }
-
-        /**
-     *  Función que borra un registro en Asistente
-     * 
-     */
-    public function desinscribir(){
-        
-        
-
-    }
 
 
     

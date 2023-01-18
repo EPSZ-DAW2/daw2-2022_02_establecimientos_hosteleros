@@ -10,7 +10,11 @@ use yii\helpers\Html; ?>
         <div>
             <?php //Poner la url de donde se guarda la foto
             if(isset($local->imagen_id) && $local->imagen_id!=''): ?>
-                <img src="https://images.pexels.com/photos/67468/pexels-photo-67468.jpeg?auto=compress&cs=tinysrgb&w=1600" class="img-fluid"/>
+                <?php if(file_exists('uploadimages/'.$local->imagen_id.'.jpg') || file_exists('uploadimages/'.$local->imagen_id.'.png')): ?>
+                    <img src="uploadimages/<?= $local->imagen_id?>" class="img-fluid"/>
+				<?php else:?>
+                    <img src="images/sinfoto.jpg" class="img-fluid" style="width: 100%; height: 15rem" />
+				<?php endif; ?>
             <?php else:?>
                 <img src="images/sinfoto.jpg" class="img-fluid" style="width: 100%; height: 15rem" />
             <?php endif; ?>
@@ -20,10 +24,15 @@ use yii\helpers\Html; ?>
             <ul class="list-unstyled list-inline mb-0">
                 <li class="list-inline-item">
                     <?php
+                    if($local->totalVotos!=0){
                         if($local->sumaValores/$local->totalVotos != null || $local->sumaValores/$local->totalVotos != 0)
                             $valoracion=$local->sumaValores/$local->totalVotos;
                         else
                             $valoracion="Sin valoraciones";
+                    }else{
+                        $valoracion="Sin valoraciones";
+                    }
+
                     ?>
                     <p class="text-muted"><?= Html::encode("{$valoracion}")?> (<?= Html::encode("{$local->totalVotos}")?>)</p>
                 </li>
@@ -66,7 +75,7 @@ use yii\helpers\Html; ?>
                 ?>
             </p>
             <div class="d-flex justify-content-center">
-                <a href="<?= Url::toRoute(['local/detalle', 'id'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>
+                <a href="<?= Url::toRoute(['detalle-locales/index', 'idLocal'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>
             </div>
         </div>
     </div>

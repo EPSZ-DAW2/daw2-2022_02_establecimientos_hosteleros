@@ -6,6 +6,12 @@ use yii\widgets\ActiveForm;
 /** @var yii\web\View $this */
 /** @var app\models\Convocatoria $model */
 /** @var yii\widgets\ActiveForm $form */
+$timestamp = time()-(60*60*4);
+
+//modelo locales
+
+//buscamos todos los locales disponibles y guardamos id y nombre
+
 ?>
 
 <div class="convocatoria-form">
@@ -20,28 +26,31 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'fecha_hasta')->textInput() ?>
 
-    <?= $form->field($model, 'num_denuncias')->textInput() ?>
+    <?php //$form->field($model, 'num_denuncias')->textInput() ?>
+    <?= $form->field($model, 'num_denuncias')->hiddenInput([ 'value' => 0 ])->label(false) ?>
+    <?php //$form->field($model, 'fecha_denuncia1')->textInput() ?>
 
-    <?= $form->field($model, 'fecha_denuncia1')->textInput() ?>
+    <?php //form->field($model, 'bloqueada')->textInput() ?>
 
-    <?= $form->field($model, 'bloqueada')->textInput() ?>
+    <?php //$form->field($model, 'fecha_bloqueo')->textInput() ?>
 
-    <?= $form->field($model, 'fecha_bloqueo')->textInput() ?>
+    <?php //$form->field($model, 'notas_bloqueo')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'notas_bloqueo')->textarea(['rows' => 6]) ?>
+    <?php //$form->field($model, 'crea_usuario_id')->textInput() ?>
+    <?= $form->field($model, 'crea_usuario_id')->hiddenInput([ 'value' => Yii::$app->user->id ])->label(false) ?>
 
-    <?= $form->field($model, 'crea_usuario_id')->textInput() ?>
+    <?php //$form->field($model, 'crea_fecha')->textInput() ?>
+    <?= $form->field($model, 'crea_fecha')->hiddenInput([ 'value' => date('Y-m-d H:i:s',$timestamp) ])->label(false) ?>
 
-    <?= $form->field($model, 'crea_fecha')->textInput() ?>
-
-    <?= $form->field($model, 'modi_usuario_id')->textInput() ?>
-
-    <?= $form->field($model, 'modi_fecha')->textInput() ?>
-
+    <?php //$form->field($model, 'modi_usuario_id')->textInput() ?>
+    <?= $form->field($model, 'modi_usuario_id')->hiddenInput([ 'value' => Yii::$app->user->id ])->label(false) ?>
+    <?php //$form->field($model, 'modi_fecha')->textInput() ?>
+    <?= $form->field($model, 'modi_fecha')->hiddenInput([ 'value' => date('Y-m-d H:i:s',$timestamp) ])->label(false) ?>
+    </br>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
-
+    
     <?php ActiveForm::end(); ?>
 
 </div>

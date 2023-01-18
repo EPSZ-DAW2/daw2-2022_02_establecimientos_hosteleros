@@ -31,4 +31,12 @@ class UsuarioRolQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    //Función que te lista todos los roles del id_usuario = $id
+    public function listar($id)
+    { 
+        return $this->andWhere(['=', 'id_usuario', $id]);
+    }
+
+
 }

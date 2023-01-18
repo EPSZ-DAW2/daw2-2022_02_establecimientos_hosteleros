@@ -28,14 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             'local_id',
             'texto:ntext',
             'fecha_desde',
@@ -49,9 +49,19 @@ $this->params['breadcrumbs'][] = $this->title;
             //'crea_fecha',
             //'modi_usuario_id',
             //'modi_fecha',
+            /*[
+                'attribute'=>'Participantes',
+                'content'=> function(Convocatoria $model, $key, $index, $column){
+                   // echo "<pre>";
+                   // print_r($model->getAsistentes());
+                    //echo "</pre>";
+                    echo "Num partici:".$model->getNumParticipantes();
+                    return $model->getNumParticipantes();
+                }
+            ],*/
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Convocatoria $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
             ],
@@ -62,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //si ya se ha reportado en esta sesión tiene que existir la variable o ser diferente de 0
                     //en este caso aparece el botón bloqueado
 
-                    return !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0) ? Html::a('reportar',Url::toRoute(["reportar", 'id' => $model->id])) :'Superado el límite de reportes';
+                    return !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0) ? Html::a('reportar',Url::toRoute(["reportar", 'id' => $model->id]),['class' => 'btn btn-danger']) :'Superado el límite de reportes';
                     /*if(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0){
                         echo "Veces reportado = ".$_SESSION['REPORT_VECES'];
                         $btn = '<a data-toggle="tooltip title="Members">Usted ya ha reportado</a>';
@@ -89,13 +99,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         btn-info ">Loging</a>';
                     } else {*/
                         //Crear una busqueda en Asistente
-                        $id_asistente = 7;
-                        //$id_asistente =Yii::$app->user->id;
+                        //$id_asistente = 7;
+                        $id_asistente =Yii::$app->user->id;
                         $asistente= Asistente::findOne(['convocatoria_id' => $model->id ,'usuario_id' => $id_asistente ]);
                         //si ya está suscrito al $model->id
                         
-                        return (!empty($asistente)) ? Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->id])) : Html::a('inscribir',Url::toRoute(["inscribir", 'id' => $model->id]));
-                        /*if(!empty($asistente)){ //sale el botón desuscribirse (Se hace una busqueda con el id del modelo y el del usuario)
+                        return (!empty($asistente)) ? Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->id]),['class' => 'btn btn-danger']) : Html::a('inscribir',Url::toRoute(["inscribir", 'id' => $model->id]),['class' => 'btn btn-success']);
+                        /*
+                        if(!empty($asistente)){ //sale el botón desuscribirse (Se hace una busqueda con el id del modelo y el del usuario)
                             $btn = '<a href="'.Url::toRoute(["desinscribir", 'id' => $model->id]).'"
                         data-toggle="tooltip title="Members" data-placement="bottom" class="btn btn-sm"
                         btn-info ">desuscribirse</a>';
@@ -111,6 +122,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
+
+    
 
 
 </div>

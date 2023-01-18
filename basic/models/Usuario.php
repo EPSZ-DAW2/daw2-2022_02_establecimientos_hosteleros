@@ -184,7 +184,7 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 
 	//Se obtiene la lista de roles predefinidos
 	public static function listaRoles(){
-		$roles=Rol::listaRoles();
+		$roles=Rol::listaRoles()->all();
 		$lista=ArrayHelper::map($roles,'id', 'nombre');
 		return $lista;
 	}
@@ -247,8 +247,8 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	 * Funciones para comprobar rol del usuario
 	 *
 	 *******************************************/
-	//Comporbar que el usuario indicado tenga rol moderador
-	public static function esRolModerador($id){
+	//Comprobar que el usuario indicado tenga rol normal
+	public static function esRolNormal($id){
 		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>1]);
 		if(isset($rol) && $rol!=null)
 			return true;
@@ -256,8 +256,8 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			return false;
 	}
 
-	//Comporbar que el usuario indicado tenga rol patrocinador
-	public static function esRolPatrocinador($id){
+	//Comprobar que el usuario indicado tenga rol moderador
+	public static function esRolModerador($id){
 		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>2]);
 		if(isset($rol) && $rol!=null)
 			return true;
@@ -265,9 +265,27 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			return false;
 	}
 
-	//Comporbar que el usuario indicado tenga rol admin
-	public static function esRolAdmin($id){
+	//Comprobar que el usuario indicado tenga rol patrocinador
+	public static function esRolPatrocinador($id){
 		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>3]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
+	}
+
+	//Comprobar que el usuario indicado tenga rol admin
+	public static function esRolAdmin($id){
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>4]);
+		if(isset($rol) && $rol!=null)
+			return true;
+		else
+			return false;
+	}
+
+	//Comprobar que el usuario indicado tenga rol sistema
+	public static function esRolSistema($id){
+		$rol=UsuarioRol::findOne(['id_usuario'=>$id, 'id_rol'=>5]);
 		if(isset($rol) && $rol!=null)
 			return true;
 		else
