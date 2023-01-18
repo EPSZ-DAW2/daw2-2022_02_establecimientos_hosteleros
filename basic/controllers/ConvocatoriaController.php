@@ -83,7 +83,7 @@ class ConvocatoriaController extends Controller
         
          
         
-        if(!Yii::$app->user->isGuest && (Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
             return $this->render('index_admin', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,

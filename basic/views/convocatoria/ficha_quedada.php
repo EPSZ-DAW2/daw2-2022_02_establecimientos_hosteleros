@@ -47,12 +47,25 @@ use app\models\Asistente;
   <p></p>
 
   <div class="card-body">
+    <?php
+      $inicio = date_create($convocatoria->fecha_desde);      
+      $fin = new DateTime($convocatoria->fecha_hasta);
+      $inicioaux= date_format($inicio,'Y-m-d');
+      $finaux = $fin->format('Y-m-d');
+    ?>
       <h5><?= html::encode("{$convocatoria->texto}")?></h5>
       <br/>
-      <h6><?= date(html::encode('d-m-Y',"{$convocatoria->fecha_desde}"))?> - <?= date(html::encode('d-m-Y',"{$convocatoria->fecha_hasta}"))?></h6>
+      <h6><?= html::encode("{$inicioaux}")?> - <?= html::encode("{$finaux}")?></h6>
       <br/>
-      <h6>Hora de inicio: <?= date(html::encode('h:i',"{$convocatoria->fecha_desde}"))?></h6>
-      <h6>Hora de cierre: <?= date(html::encode('h:i',"{$convocatoria->fecha_hasta}"))?></h6>
+      <?php
+      $inicioaux= date_format($inicio,'H:i:s');
+      //var_dump($inicio);
+
+      $finaux = $fin->format('H:i:s');
+      //var_dump($fin);
+      ?>
+      <h6>Hora de inicio: <?= html::encode("{$inicioaux}")?></h6>
+      <h6>Hora de cierre: <?= html::encode("{$finaux}")?></h6>
       <br/>
       <h6>Local: <?=html::encode("{$local_nombre}")?></h6>
 
