@@ -341,7 +341,12 @@ class Convocatoria extends \yii\db\ActiveRecord
     }
 
 
-
+    public function getAsistente(){
+        //buscador de locales
+       
+       return $this->hasMany(Asistente::class, ['Convocatoria_id' =>'id'])->inverseOf('Asistente');
+    
+    }
     
 
          

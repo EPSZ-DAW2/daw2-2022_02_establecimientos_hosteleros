@@ -43,11 +43,11 @@ class Asistente extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
-            'localNombre' => Yii::t('app', 'Local'),
+            'localNombre' =>Yii::t('app', 'Local'),
             'convocatoria_id' => Yii::t('app', 'Convocatoria ID'),
             'usuario_id' => Yii::t('app', 'Usuario ID'),
-            'usuarioNombre' => Yii::t('app', 'Nombre'),
-            'usuarioApellidos' => Yii::t('app', 'Apellidos'),
+            'usuarioNombre' => Yii::t('app', 'Nombre  Asistente'),
+            'usuarioApellidos' => Yii::t('app', 'Apellidos Asistente'),
             'fecha_alta' => Yii::t('app', 'Fecha Alta'),
         ];
     }
@@ -64,14 +64,14 @@ class Asistente extends \yii\db\ActiveRecord
      * Función que comprueba 1 asistente en la convocatoria
      */
 
-     public function getConvocatoria(){
+    /* public function getConvocatoria(){
 
         return $this->hasOne(Convocatoria::class,[
             //campos clave de Asistentes y  valores en convocatorias
             'id' => 'convocatoria_id',
         ])->inverseOf('Asistente');
 
-     }
+     }*/
 
     //GETS
 
@@ -123,16 +123,14 @@ class Asistente extends \yii\db\ActiveRecord
         $this->fecha_alta = $Fecha;
 
     }
-    protected $localNombre = null;
-    protected $usuarioNombre = null;
-    protected $usuarioApellidos = null;
-    public function getLocalNombre(){
+    
+    public function getUsuario(){
         //buscador de locales
-        $Local = Local::find()->where(['id' => $this->getLocal_id()])->one();
-        if($Local != null || $Local != "")
-            return $Local->titulo;
-        return 'Error al cargar el nombre';
+       
+       return $this->hasOne(Usuario::class, ['id' =>'usuario_id'])->inverseOf('Usuario');
+    
     }
+    protected $usuarioNombre = null;
     public function getUsuarioNombre(){
         //buscador de locales
         $Usuario = Usuario::find()->where(['id' => $this->getUsuario_id()])->one();
@@ -140,11 +138,41 @@ class Asistente extends \yii\db\ActiveRecord
             return $Usuario->nombre;
         return 'Error al cargar el nombre';
     }
+    protected $usuarioApellidos = null;
     public function getUsuarioApellidos(){
         //buscador de locales
         $Usuario = Usuario::find()->where(['id' => $this->getUsuario_id()])->one();
         if($Usuario != null || $Usuario != "")
             return $Usuario->apellidos;
-        return 'Error al cargar el apellido';
+        return 'Error al cargar el nombre';
     }
+        public function getLocal(){
+            //buscador de locales
+           
+           return $this->hasOne(Local::class, ['id' =>'idLocal'])->inverseOf('Local');
+        
+        }
+        protected $localNombre = null;
+        public function getLocalNombre(){
+            //buscador de locales
+            $Local = Local::find()->where(['id' => $this->getLocal_id()])->one();
+            if($Local != null || $Local != "")
+                return $Local->titulo;
+            return 'Error al cargar el nombre';
+        }
+        public function getConvocatoria(){
+            //buscador de locales
+           
+           return $this->hasOne(Convocatoria::class, ['id' =>'Convocatoria_id'])->inverseOf('Convocatoria');
+        
+        }
+        protected $Convocatoria = null;
+        public function getAsistentes($id){
+            //buscador de locales
+            $Convocatoria = Convocatoria ::find()->where(['id' => $id])->all();
+            if( $Convocatoria != null ||  $Convocatoria != "")
+                return $Convocatoria;
+            return 'Error al cargar el nombre';
+        }
+    
 }
