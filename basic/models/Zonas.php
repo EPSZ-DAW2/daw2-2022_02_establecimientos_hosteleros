@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+use yii\base\ErrorException;
 
 use Yii;
 
@@ -56,4 +57,77 @@ class Zonas extends \yii\db\ActiveRecord
     {
         return new ZonasQuery(get_called_class());
     }
+
+
+    public static function listaZonas(){
+        return [
+            '1' => 'Continente',
+            '2' => 'Pais',
+            '3' => 'Estado',
+            '4' => 'Región',
+            '5' => 'Provincia',
+            '6' => 'Municipìo',
+            '7' => 'Localidad',
+            '8' => 'Barrio',
+            '9' => 'Area',
+        ];
+    }
+
+    public static function getTipoZona($zona_Id)
+    {
+        $lista= static::listaZonas();
+
+        $res= (isset($lista[$zona_Id]) ? $lista[$zona_Id] : 'No definido');
+        return $res;
+    }
+    /**
+     * Función que devuelve la zona padre de una zona
+     * 
+     */
+    public function getZonaPadre(){
+        
+        return $this->hasOne(Zonas::class,[
+            //campos clave de zonas y  valor que tiene en el hijo
+            'id' => 'zona_id',
+        ]);
+
+    }
+    /**
+     * Función que devuelve los hijos de una zona
+     */
+    public function getZonasHijo(){
+        
+        return $this->hasMany(Zonas::class,[
+            //campos clave de zonas y  valor que tiene en el hijo
+            'zona_id' => 'id',
+        ]);
+
+    }
+
+    public function ComprobarDatos(){
+        //Comrpobar el id de la Clase zona [0-9]
+        //Coger id del padre y buscarlo. 
+        $zona_padre=$this->zonaPadre;
+        if( $zona_padre != null){ //Si tiene padre
+            
+            //Ver el tipo del padre            
+            //Comparar Tipo Padre > Tipo Hijo
+            if($zona_padre->clase_zona_id < $this->clase_zona_id){ // El tipo de zona del padre debe ser menor en jerarquía
+                
+                return true;
+            } else { // el padre no puede ser un tipo de zona mas pequeño
+                
+                return false;
+            }
+            
+        } else {
+            if ($this->clase_zona_id == 1) return true; //Si es un continente
+            return false; 
+        }
+        
+
+    }
+
+    
+
 }

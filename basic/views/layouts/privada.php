@@ -54,6 +54,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         ['label' => 'Registro', 'url' => ['/registro/index']],
 		['label' => 'Perfil', 'url' => ['/mi-perfil']],
 	];
+	//Si el usuario es adm
+    if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+        array_push($items, ['label' => 'Zonas', 'url' => ['/zonas/index']]);
+    }
 
 	//Si el usuario es invitado se añaden opciones de login y registro, si no de logout
     if(Yii::$app->user->isGuest){

@@ -8,11 +8,41 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+//Añade esto para el tema de paginador y roles
+use app\models\Configuracion;
+use app\models\UsuarioAviso;
+use yii\data\Pagination;
+
+//para el tema de roles
+
+use app\models\UsuarioRol;
+
+//Para la parte de Angel
+use app\models\Usuario;
+use Yii;
+
+
 /**
  * ZonasController implements the CRUD actions for Zonas model.
  */
 class ZonasController extends Controller
 {
+    public function beforeAction($action)
+	{
+		if(!Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+				$this->layout='privada';
+				Yii::$app->homeUrl=array('usuarios/index');
+			}
+
+		}else{
+			$this->layout='publica';
+			Yii::$app->homeUrl=array('local/index');
+		}
+
+		return parent::beforeAction($action);
+	}
+
     /**
      * @inheritDoc
      */
@@ -38,13 +68,18 @@ class ZonasController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ZonasSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        // Solo los admins debes ser capaz de meterse aquí
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            $searchModel = new ZonasSearch();
+            $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            throw new NotFoundHttpException('No tiene permiso');
+        }
     }
 
     /**
@@ -62,6 +97,7 @@ class ZonasController extends Controller
 
     /**
      * Creates a new Zonas model.
+     * Se comprueba que el tipo de zona 
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
@@ -70,17 +106,22 @@ class ZonasController extends Controller
         $model = new Zonas();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            //Comprobar los datos que llegan por post:
+            $model->load($this->request->post());       
+            //si los datos no son validos o no se puede guardar     
+            if ($model->ComprobarDatos() && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
-            }
+            } 
         } else {
             $model->loadDefaultValues();
+            
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+    
 
     /**
      * Updates an existing Zonas model.
@@ -93,8 +134,16 @@ class ZonasController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            //Comprobar los datos que llegan por post:
+            $model->load($this->request->post());       
+            //si los datos no son validos o no se puede guardar     
+            if ($model->ComprobarDatos() && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } 
+        } else {
+            $model->loadDefaultValues();
+            
         }
 
         return $this->render('update', [
