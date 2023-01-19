@@ -87,12 +87,12 @@ class Asistente extends \yii\db\ActiveRecord
     }
     public function getConvocatoria_id(){
         
-        return $this->Convocatoria_id;
+        return $this->convocatoria_id;
 
     }
     public function getUsuario_id(){
         
-        return $this->Usuario_id;
+        return $this->usuario_id;
 
     }
     public function getFecha_alta(){
