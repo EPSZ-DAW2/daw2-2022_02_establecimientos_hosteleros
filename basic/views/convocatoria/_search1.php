@@ -19,14 +19,14 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'local_id') ?>
     
-    <?= $form->field($model, 'localNombre') ?>
+   <?= $form->field($searchModel, 'localNombre')->label('localNombre')?>
 
     <?= $form->field($model, 'texto') ?>
 
     <?= $form->field($model, 'fecha_desde') ?>
 
     <?= $form->field($model, 'fecha_hasta') ?>
-
+    
     <?php // echo $form->field($model, 'num_denuncias') ?>
 
     <?php // echo $form->field($model, 'fecha_denuncia1') ?>
