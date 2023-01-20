@@ -20,8 +20,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($searchModel, 'localNombre')->label('localNombre')?>
 
     <?= $form->field($model, 'convocatoria_id') ?>
-     <?= $form->field($searchModel, 'usuarioNombre')->label('usuarioNombre')?>
-     <?= $form->field($searchModel, 'usuarioApellidos')->label('usuarioApellidos')?>
+     <?= $form->field($searchModel, 'usuarioNombre')->label('Nombre')?>
+     <?= $form->field($searchModel, 'usuarioApellidos')->label('Apellidos')?>
     <?= $form->field($model, 'usuario_id') ?>
 
     <?= $form->field($model, 'fecha_alta') ?>

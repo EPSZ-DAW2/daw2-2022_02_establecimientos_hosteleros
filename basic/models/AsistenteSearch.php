@@ -46,7 +46,7 @@ class AsistenteSearch extends Asistente
         $query->joinWith(['usuario']);
         $query->andFilterWhere(['=', 'nombre', $this->usuarioNombre]);
         $query->joinWith(['usuario']);
-        $query->andFilterWhere(['=', 'pellidos', $this->usuarioApellidos]);
+        $query->andFilterWhere(['=', 'apellidos', $this->usuarioApellidos]);
 
         // add conditions that should always apply here
 

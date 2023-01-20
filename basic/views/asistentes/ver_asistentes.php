@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-         'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
          
 
@@ -30,8 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'local_id',
             'localNombre',
             'usuarioNombre' ,
-            'usuarioapellidos',
-            // 'convocatoria_id',
+            'usuarioApellidos',
+            //'convocatoria_id',
             'usuario_id',
             //'fecha_alta',
             [

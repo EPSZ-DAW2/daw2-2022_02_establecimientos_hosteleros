@@ -8,6 +8,19 @@ use yii\grid\GridView;
 use yii\grid\Column;
 use app\models\Asistente;
 use yii\widgets\ActiveForm;
+
+//para el tema de roles
+
+use app\models\UsuarioRol;
+
+//Para la parte de Angel
+use app\models\Usuario;
+
+
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
+
+
 /** @var yii\web\View $this */
 /** @var app\models\ConvocatoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -19,17 +32,35 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Convocatoria', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <?php
 
-    <?php  echo $this->render('_search1', ['model' => $searchModel]); ?>
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            echo Html::a('Crear Convocatoria', ['create'], ['class' => 'btn btn-success']);
+        } else {
+            NavBar::begin([
+                'brandLabel' => '',
+                'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+            ]);
+            $items=[
+                ['label' => 'Ver Convoctorias', 'url' => ['convocatoria/index']],
+                ['label' => 'Crear convoctorias', 'url' => ['convocatoria/create']],
+                ['label' => 'Administrar convocatorias propias', 'url' => ['convocatoria/verpropias']],
+            ];
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav'],
+                'items' => $items,
+            ]);
+            NavBar::end();
+        }
+
+    
+    //echo $this->render('_search1', ['model' => $searchModel]); ?>
       
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
               //'id',
            // 'local_id',

@@ -13,6 +13,8 @@ use yii\grid\GridView;
 
 use yii\bootstrap5\LinkPager;
 
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 
 
 /** @var yii\web\View $this */
@@ -30,6 +32,24 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?php
+        if(!Yii::$app->user->isGuest){
+            NavBar::begin([
+                'brandLabel' => '',
+                'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+            ]);
+            $items=[
+                ['label' => 'Ver Convoctorias', 'url' => ['convocatoria/index']],
+                ['label' => 'Crear convoctorias', 'url' => ['convocatoria/create']],
+                ['label' => 'Administrar convocatorias propias', 'url' => ['convocatoria/verpropias']],
+            ];
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav'],
+                'items' => $items,
+            ]);
+            NavBar::end();
+        }
+?>
     <details>
         <summary>Filtros</summary>
         <?php  echo $this->render('_search', ['model' => $searchModel]); ?>

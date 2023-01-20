@@ -47,25 +47,12 @@ use app\models\Asistente;
   <p></p>
 
   <div class="card-body">
-    <?php
-      $inicio = date_create($convocatoria->fecha_desde);      
-      $fin = new DateTime($convocatoria->fecha_hasta);
-      $inicioaux= date_format($inicio,'Y-m-d');
-      $finaux = $fin->format('Y-m-d');
-    ?>
       <h5><?= html::encode("{$convocatoria->texto}")?></h5>
       <br/>
-      <h6><?= html::encode("{$inicioaux}")?> - <?= html::encode("{$finaux}")?></h6>
+      <h6><?= html::encode("{$convocatoria->Fecha_solo_inicio}")?> - <?= html::encode("{$convocatoria->Fecha_solo_fin}")?></h6>
       <br/>
-      <?php
-      $inicioaux= date_format($inicio,'H:i:s');
-      //var_dump($inicio);
-
-      $finaux = $fin->format('H:i:s');
-      //var_dump($fin);
-      ?>
-      <h6>Hora de inicio: <?= html::encode("{$inicioaux}")?></h6>
-      <h6>Hora de cierre: <?= html::encode("{$finaux}")?></h6>
+      <h6>Hora de inicio: <?= html::encode("{$convocatoria->Hora_solo_inicio}")?></h6>
+      <h6>Hora de cierre: <?= html::encode("{$convocatoria->Hora_solo_fin}")?></h6>
       <br/>
       <h6>Local: <?=html::encode("{$local_nombre}")?></h6>
 
@@ -75,20 +62,28 @@ use app\models\Asistente;
           //Incriovorse
           $id_asistente =Yii::$app->user->id;
           $asistente= Asistente::findOne(['convocatoria_id' => $convocatoria->id ,'usuario_id' => $id_asistente ]);
-          if (!empty($asistente)) {
-            //echo"bb";
-            echo (html::a('desinscribir', Url::toRoute(["desinscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
-          } else {
-            //echo"cc";
-            echo (html::a('inscribir',Url::toRoute(["inscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-success']));
-          } 
 
-          //reportar
+            //Si la convocatoria no está bloqueada
+          if($convocatoria->bloqueada==0){
+            if (!empty($asistente)) {
+              //echo"bb";
+              echo (html::a('desinscribir', Url::toRoute(["desinscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
+            } else {
+              //echo"cc";
+              echo (html::a('inscribir',Url::toRoute(["inscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-success']));
+            } 
 
-          if( !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0)){
-              echo (Html::a('reportar',Url::toRoute(["reportar", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
-          } else {
-            'Superado el límite de reportes';
+            //reportar
+
+            if( !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0)){
+                echo (Html::a('reportar',Url::toRoute(["reportar", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
+            } else {
+              'Superado el límite de reportes';
+            }
+          } else if ($convocatoria->bloqueada==1){
+            echo Html::tag('p', 'Bloqueado por denuncias',['class' => 'error-summary']);
+          } else if ($convocatoria->bloqueada==2){
+            echo Html::tag('p', 'Bloqueado por administrador',['class' => 'error-summary']);
           }
         }
       ?>

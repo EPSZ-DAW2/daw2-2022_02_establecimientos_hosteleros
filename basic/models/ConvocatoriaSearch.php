@@ -61,8 +61,8 @@ class ConvocatoriaSearch extends Convocatoria
         $query->andFilterWhere([
             'id' => $this->id,
             'local_id' => $this->local_id,
-            'fecha_desde' => $this->fecha_desde,
-            'fecha_hasta' => $this->fecha_hasta,
+            //'fecha_desde' => $this->fecha_desde,
+           //'fecha_hasta' => $this->fecha_hasta,
             'num_denuncias' => $this->num_denuncias,
             'fecha_denuncia1' => $this->fecha_denuncia1,
             'bloqueada' => $this->bloqueada,
@@ -76,7 +76,9 @@ class ConvocatoriaSearch extends Convocatoria
         $query->andFilterWhere(['like', 'texto', $this->texto])
             ->andFilterWhere(['like', 'notas_bloqueo', $this->notas_bloqueo]);
             $query->andFilterWhere(['like', 'titulo', $this->localNombre]);
-        
+
+            $query->andFilterWhere(['>', 'fecha_desde', $this->fecha_desde]);
+            $query->andFilterWhere(['<', 'fecha_hasta', $this->fecha_hasta]);
         
         return $dataProvider;
     }

@@ -15,17 +15,20 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+       
+    <?= $form->field($model, 'localNombre')->label('Nombre del local realizador')?>
 
-    <?= $form->field($model, 'local_id') ?>
-    
-    <?= $form->field($model, 'localNombre') ?>
+    <?= $form->field($model, 'texto')->label('Convocatoria') ?>
 
-    <?= $form->field($model, 'texto') ?>
+    <?= $form->field($model, 'fecha_desde')->widget(\yii\jui\DatePicker::classname(), [
+            'language' => 'es',
+            'dateFormat' => 'yyyy-MM-dd',
+        ]) ?>
 
-    <?= $form->field($model, 'fecha_desde') ?>
-
-    <?= $form->field($model, 'fecha_hasta') ?>
+    <?= $form->field($model, 'fecha_hasta')->widget(\yii\jui\DatePicker::classname(), [
+            'language' => 'es',
+            'dateFormat' => 'yyyy-MM-dd',
+        ]) ?>
 
     <?php // echo $form->field($model, 'num_denuncias') ?>
 
