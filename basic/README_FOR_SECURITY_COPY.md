@@ -26,5 +26,4 @@ FUERA DE VENDOR UBICACIÓN DE DONDE YA ESTA CONFIGURADO PARA REALIZAR LOS BACKUP
 console.php
 params.php
 web.php
-RESTORE-----------------------> para hacer un restore hay que hacer el siguiente comando en el cmdelt de la carpeta del proyecto yii backup/restore --file=app/backup/backup.zip
-DUDAS-------------------------------> todas las dudas de implementación han de ser mandadas a luisamramirezg@usal.es 
+RESTORE-----------------------> para hacer un restore hay que hacer el siguiente comando en el cmdelt de la carpeta del proyecto yii backup/restore --file=app/backup/nombredelarchivo
