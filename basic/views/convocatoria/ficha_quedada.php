@@ -18,14 +18,14 @@ use app\models\Asistente;
       //si no encuentra el local
       if($local != null){
 
-        $local=$convocatoria->local;
+        //$local=$convocatoria->local;
         //var_dump($local->attributes);
         //$foto_id= 1;
         //$local_nombre="a";
         $foto_id= $local->attributes["imagen_id"];
         $local_nombre=$local->attributes["titulo"];
       } else {
-        $local=$convocatoria->local;
+        //$local=$convocatoria->local;
         $foto_id= "none";
         $local_nombre="Nombre no obtenido";
       }
