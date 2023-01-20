@@ -130,10 +130,20 @@ class Local extends \yii\db\ActiveRecord
 
      }
 
-     public function getAsistentes(){
+   /*  public function getAsistentes(){
         //buscador de locales
        
        return $this->hasMany(Local::class, ['idLocal' =>'id'])->inverseOf('Asistentes');
     
+    }*/
+    public function getAsistentes(){
+        //buscador de locales
+       
+       return $this->hasMany(Asistentes::class, ['idLocal' =>'id'])->inverseOf('Local');
+    
     }
+    public function getLocal(){
+        return $this->hasMany(Convocatoria::class, ['local_id' =>'id'])->inverseOf('Local');
+    }
+  
 }
