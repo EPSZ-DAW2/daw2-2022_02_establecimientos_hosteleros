@@ -317,8 +317,9 @@ class ConvocatoriaController extends Controller
 
 
             $asistente=new Asistente();
-            
-            $model= $asistente->find()->listar($id);
+        $Convocatoria = Convocatoria::findOne($id);
+        $asistente = $Convocatoria->asistentes;
+         $model= $asistente;
         
             $searchModel = new AsistenteSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);

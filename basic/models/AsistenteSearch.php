@@ -18,7 +18,7 @@ class AsistenteSearch extends Asistente
     {
         return [
             [['id', 'local_id', 'convocatoria_id', 'usuario_id'], 'integer'],
-            [['fecha_alta'], 'safe'],
+            [['fecha_alta','localNombre','usuarioNombre','usuarioApellidos','fecha_alta'], 'safe'],
         ];
     }
 
@@ -41,6 +41,12 @@ class AsistenteSearch extends Asistente
     public function search($params)
     {
         $query = Asistente::find();
+        $query->joinWith(['local']);
+        $query->andFilterWhere(['=', 'titulo', $this->localNombre]);
+        $query->joinWith(['usuario']);
+        $query->andFilterWhere(['=', 'nombre', $this->usuarioNombre]);
+        $query->joinWith(['usuario']);
+        $query->andFilterWhere(['=', 'pellidos', $this->usuarioApellidos]);
 
         // add conditions that should always apply here
 
@@ -63,7 +69,7 @@ class AsistenteSearch extends Asistente
             'convocatoria_id' => $this->convocatoria_id,
             'usuario_id' => $this->usuario_id,
             'fecha_alta' => $this->fecha_alta,
-        ]);
+        ]);  $query->andFilterWhere(['like', 'titulo', $this->localNombre]); $query->andFilterWhere(['like', 'nombre', $this->usuarioNombre]); $query->andFilterWhere(['like', 'apellidos', $this->usuarioApellidos]);
 
         return $dataProvider;
     }

@@ -18,7 +18,7 @@ primero se descarga del siguiente repositorio el zip con los archivos     <a hre
 una vez descargado el zip descomprimirlo y  guardarlo en vendor, una vez realizado este paso cambiar el archivo de la carpeta yiisoft/yii2-composer/composer.json
 por el archivo del mismo nombre que se encuentra en la carpeta proyecto, terminados los pasos anteriores hay que abrir la terminal con la ruta del proyecto y ejecutar 
 el siguiente comando composer update. Una vez configurado todo lo del vendor se abre el programador de tareas y se genera una tarea que realice el siguiente comando en el cmdlet del proyecto 
-comando: yii backup/create --file=backups/backup.zip 
+comando: yii backup/create 
 
 FUERA DE VENDOR UBICACIÓN DE DONDE YA ESTA CONFIGURADO PARA REALIZAR LOS BACKUPS
 -------------------------

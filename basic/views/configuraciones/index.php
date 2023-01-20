@@ -45,7 +45,7 @@ NavBar::end();
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+           
 
             'variable',
             'valor:ntext',

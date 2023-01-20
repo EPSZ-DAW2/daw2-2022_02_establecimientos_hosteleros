@@ -16,11 +16,12 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <?= $form->field($model, 'id') ?>
-
     <?= $form->field($model, 'local_id') ?>
+    <?= $form->field($searchModel, 'localNombre')->label('localNombre')?>
 
     <?= $form->field($model, 'convocatoria_id') ?>
-
+     <?= $form->field($searchModel, 'usuarioNombre')->label('usuarioNombre')?>
+     <?= $form->field($searchModel, 'usuarioApellidos')->label('usuarioApellidos')?>
     <?= $form->field($model, 'usuario_id') ?>
 
     <?= $form->field($model, 'fecha_alta') ?>
