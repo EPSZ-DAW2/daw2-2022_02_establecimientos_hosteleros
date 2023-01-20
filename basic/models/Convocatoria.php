@@ -283,22 +283,7 @@ class Convocatoria extends \yii\db\ActiveRecord
      * Función que comprueba 1 asistente en la convocatoria
      */
 
-     public function getAsistentes(){
-
-        return $this->hasMany(Asistente::class,[
-            //campos clave de Asistentes y  valores en convocatorias
-            'id' => 'usuario_id',
-        ])->inverseOf('Convocatoria');
-
-     }
-     public function getLocal(){
-        
-        return $this->hasOne(Local::class,[
-            //campos clave de Local y  valores en convocatorias
-            'id' => 'local_id',
-        ]);
-
-     }
+  
 
 
 
@@ -341,11 +326,28 @@ class Convocatoria extends \yii\db\ActiveRecord
     }
 
 
-    public function getAsistente(){
+ 
+    public function getAsistentes(){
         //buscador de locales
        
-       return $this->hasMany(Asistente::class, ['Convocatoria_id' =>'id'])->inverseOf('Asistente');
+       return $this->hasMany(Asistente::class, ['convocatoria_id' =>'id'])->inverseOf('convocatoria');
     
+    }
+    protected $localNombre = null;
+
+    public function getLocal(){
+        return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
+    }
+    public function getLocalNombre(){
+        //buscador de locales
+           if($this->local==NULL)
+           {
+             return "";
+           }else{
+               
+            return $this->local->titulo;
+        
+           }
     }
     
 

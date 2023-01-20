@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'local_id',
             'localNombre',
             'usuarioNombre' ,
-            'apellidos',
+            'usuarioapellidos',
             // 'convocatoria_id',
             'usuario_id',
             //'fecha_alta',

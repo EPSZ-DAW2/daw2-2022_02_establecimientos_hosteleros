@@ -31,7 +31,7 @@ class Asistente extends \yii\db\ActiveRecord
         return [
             [['local_id', 'convocatoria_id'], 'required'],
             [['local_id', 'convocatoria_id', 'usuario_id'], 'integer'],
-            [['fecha_alta'], 'safe'],
+            [['fecha_alta','localNombre','usuarioNombre','usuarioApellidos'], 'safe'],
         ];
     }
 
@@ -124,55 +124,54 @@ class Asistente extends \yii\db\ActiveRecord
 
     }
     
+    
     public function getUsuario(){
-        //buscador de locales
+        //buscador de usuarios
        
-       return $this->hasOne(Usuario::class, ['id' =>'usuario_id'])->inverseOf('Usuario');
+       return $this->hasOne(Usuario::class, ['id' =>'usuario_id'])->inverseOf('usuario');
     
     }
     protected $usuarioNombre = null;
     public function getUsuarioNombre(){
-        //buscador de locales
-        $Usuario = Usuario::find()->where(['id' => $this->getUsuario_id()])->one();
-        if($Usuario != null || $Usuario != "")
-            return $Usuario->nombre;
-        return 'Error al cargar el nombre';
+        //buscador de nombre para poderlo poner en attribute labels w
+        if($this->usuario==NULL)
+        {
+          return "";
+        }else{
+        return  $this->usuario->nombre;}
     }
     protected $usuarioApellidos = null;
     public function getUsuarioApellidos(){
-        //buscador de locales
-        $Usuario = Usuario::find()->where(['id' => $this->getUsuario_id()])->one();
-        if($Usuario != null || $Usuario != "")
-            return $Usuario->apellidos;
-        return 'Error al cargar el nombre';
+    
+        if($this->usuario==NULL)
+        {
+          return "";
+        }else{
+        return  $this->usuario->apellidos;}
+       
+    }    public function getLocal(){
+        return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
     }
-        public function getLocal(){
-            //buscador de locales
-           
-           return $this->hasOne(Local::class, ['id' =>'idLocal'])->inverseOf('Local');
+    public function getLocalNombre(){
+        //buscador de locales
+           if($this->local==NULL)
+           {
+             return "";
+           }else{
+               
+            return $this->local->titulo;
         
-        }
-        protected $localNombre = null;
-        public function getLocalNombre(){
-            //buscador de locales
-            $Local = Local::find()->where(['id' => $this->getLocal_id()])->one();
-            if($Local != null || $Local != "")
-                return $Local->titulo;
-            return 'Error al cargar el nombre';
-        }
+           }
+    }
+    
+    protected $localNombre = null;
+    
         public function getConvocatoria(){
             //buscador de locales
            
-           return $this->hasOne(Convocatoria::class, ['id' =>'Convocatoria_id'])->inverseOf('Convocatoria');
+           return $this->hasOne(Convocatoria::class, ['id' =>'convocatoria_id'])->inverseOf('Convocatoria');
         
         }
         protected $Convocatoria = null;
-        public function getAsistentes($id){
-            //buscador de locales
-            $Convocatoria = Convocatoria ::find()->where(['id' => $id])->all();
-            if( $Convocatoria != null ||  $Convocatoria != "")
-                return $Convocatoria;
-            return 'Error al cargar el nombre';
-        }
     
 }
