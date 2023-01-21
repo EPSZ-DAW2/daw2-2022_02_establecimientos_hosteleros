@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
 
         if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
-            echo Html::a('Crear Convocatoria', ['create'], ['class' => 'btn btn-success']);
+            echo Html::a('Crear Convocatoria', ['create'], ['class' => 'btn colorlogin mt-2']);
         } else {
             NavBar::begin([
                 'brandLabel' => '',
@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ], [ 'label' => 'ver asistentes',
             'format' => 'html',
             'content' => function($model, $key, $index) {
-                return '<a href="'.Url::toRoute(['convocatoria/ver', 'id' => $model->id, 'id_local' => $model->local_id]).'" class="btn btn-danger">Ver asistentes</a>';
+                return '<a href="'.Url::toRoute(['convocatoria/ver', 'id' => $model->id, 'id_local' => $model->local_id]).'" class="btn pl-2 pr-2 mb-0 btn-default">Ver asistentes</a>';
             },
                
             ],],

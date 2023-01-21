@@ -49,8 +49,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'modi_fecha') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        <?= Html::submitButton('Buscar', ['class' => 'btn colorlogin mt-2']) ?>
+        <?= Html::resetButton('Resetear', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

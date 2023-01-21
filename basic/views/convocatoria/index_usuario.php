@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Convocatoria', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Convocatoria', ['create'], ['class' => 'btn colorlogin mt-2']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -104,7 +104,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $asistente= Asistente::findOne(['convocatoria_id' => $model->id ,'usuario_id' => $id_asistente ]);
                         //si ya está suscrito al $model->id
                         
-                        return (!empty($asistente)) ? Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->id]),['class' => 'btn btn-danger']) : Html::a('inscribir',Url::toRoute(["inscribir", 'id' => $model->id]),['class' => 'btn btn-success']);
+                        return (!empty($asistente)) ? Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->id]),['class' => 'btn colorlogin mt-2']) : Html::a('inscribir',Url::toRoute(["inscribir", 'id' => $model->id]),['class' => 'btn colorlogin mt-2']);
                         /*
                         if(!empty($asistente)){ //sale el botón desuscribirse (Se hace una busqueda con el id del modelo y el del usuario)
                             $btn = '<a href="'.Url::toRoute(["desinscribir", 'id' => $model->id]).'"

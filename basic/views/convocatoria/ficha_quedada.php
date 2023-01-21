@@ -67,16 +67,16 @@ use app\models\Asistente;
           if($convocatoria->bloqueada==0){
             if (!empty($asistente)) {
               //echo"bb";
-              echo (html::a('desinscribir', Url::toRoute(["desinscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
+              echo (html::a('desinscribir', Url::toRoute(["desinscribir", 'id' => $convocatoria->id]),['class' => 'btn pl-2 pr-2 mb-0 btn-default','style'=>'margin-top:6%;margin-left:0%;margin-right:50%;display:flex;padding-left:5%;']));
             } else {
               //echo"cc";
-              echo (html::a('inscribir',Url::toRoute(["inscribir", 'id' => $convocatoria->id]),['class' => 'btn btn-success']));
+              echo (html::a('inscribir',Url::toRoute(["inscribir", 'id' => $convocatoria->id]),['class' => 'btn pl-2 pr-2 mb-0 btn-default','style'=>'margin-top:6%;padding-right:19%;padding-left:19%margin-left:0%;margin-right:50%;display:flex']));
             } 
 
             //reportar
 
             if( !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0)){
-                echo (Html::a('reportar',Url::toRoute(["reportar", 'id' => $convocatoria->id]),['class' => 'btn btn-danger']));
+                echo (Html::a('reportar',Url::toRoute(["reportar", 'id' => $convocatoria->id]),['class' => 'btn pl-2 pr-2 mb-0 btn-default' ,'style'=>'margin-left:53%; margin-top:-14.7%;margin-right:12%;display:flex;padding-left:4%;']));
             } else {
               'Superado el límite de reportes';
             }
