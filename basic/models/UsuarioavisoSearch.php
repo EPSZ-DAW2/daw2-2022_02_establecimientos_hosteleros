@@ -14,6 +14,7 @@ class UsuarioavisoSearch extends Usuarioaviso
     public $nombreAviso;
     public $nickDestino;
     public $nickOrigen;
+    public $nombreLocal;
     /**
      * {@inheritdoc}
      */
@@ -21,7 +22,7 @@ class UsuarioavisoSearch extends Usuarioaviso
     {
         return [
             [['id', 'destino_usuario_id', 'origen_usuario_id', 'local_id', 'comentario_id'], 'integer'],
-            [['fecha_aviso', 'clase_aviso_id', 'nombreAviso', 'texto', 'fecha_lectura', 'fecha_aceptado'/*,'nickOrigen','nickDestino'*/], 'safe'],
+            [['fecha_aviso', 'clase_aviso_id', 'nombreAviso', 'texto', 'fecha_lectura', 'fecha_aceptado','nickOrigen','nickDestino','nombreLocal'], 'safe'],
         ];
     }
 
@@ -58,14 +59,18 @@ class UsuarioavisoSearch extends Usuarioaviso
 			'asc' => ['clase_aviso_id' => SORT_ASC],
 			'desc' => ['clase_aviso_id' => SORT_DESC],
 		];
-        /*$sort->attributes['nickOrigen']= [
-            'asc' => ['usuario.nick' => SORT_ASC],
-            'desc' => ['usuario.nick' => SORT_DESC],
+        $sort->attributes['nickOrigen']= [
+            'asc' => ['origen_usuario_id' => SORT_ASC],
+            'desc' => ['origen_usuario_id' => SORT_DESC],
         ];
         $sort->attributes['nickDestino']= [
-            'asc' => ['usu.nick' => SORT_ASC],
-            'desc' => ['usu.nick' => SORT_DESC],
-        ];*/
+            'asc' => ['destino_usuario_id' => SORT_ASC],
+            'desc' => ['destino_usuario_id' => SORT_DESC],
+        ];
+        $sort->attributes['nombreLocal']= [
+            'asc' => ['local_id' => SORT_ASC],
+            'desc' => ['local_id' => SORT_DESC],
+        ];
 
         $this->load($params);
 
