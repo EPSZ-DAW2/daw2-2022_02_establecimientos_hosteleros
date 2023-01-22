@@ -34,6 +34,11 @@ echo Nav::widget([
 NavBar::end();
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
+
+<div class="form-group mt-2">
+	<?= Html::a(Yii::t('app', 'Enviar mensaje'), ['crearmensaje'], ['class' => 'btn btn-success']) ?>
+</div>
+
 <div class="container">
     <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
 </div>

@@ -154,7 +154,23 @@ class MiPerfilController extends Controller
         return $this->render('cambiar_contra', ['model' => $model]);
     }
 
+    public function actionCrearmensaje()
+    {
+        $model = new Usuarioaviso();
 
+        $user = $_SESSION['__id']; //id del origen_usuario_id
+        $model->origen_usuario_id = $user;
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['mensajes', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('crearmensaje', ['model' => $model,]);
+    }
 
     public function actionLeer($id){
 
