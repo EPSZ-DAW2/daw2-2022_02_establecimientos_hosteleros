@@ -33,8 +33,14 @@ class LocalController extends \yii\web\Controller
     {
 		$locales=Local::find()->where(['visible'=>1]);
 
+        //Cuando se cree un filtro de locales añadir en la variable $filtro ese filtro
 		$filtro='prioridad';
-		$localespat=Local::find()->where(['visible'=>1])->orderBy([$filtro=>SORT_ASC]);
+        //Cuando las zonas sean funcionales descomentar las siguientes lineas y comentar la linea marcada
+        //Al descomentar la siguiente linea añadir a esa variable la zona filtro
+        //$filtro_zona='zona';
+        //$localespat=Local::find()->where(['visible'=>1,'zona'=>$filtro_zona])->orderBy([$filtro=>SORT_ASC])->limit(5);
+        //Si se descomentan las anteriores comentar la siguiente
+		$localespat=Local::find()->where(['visible'=>1])->orderBy([$filtro=>SORT_ASC])->limit(5);
 
 		if(isset($id) && $id!=null)
 			$locales->andWhere(['hostelero_id'=>$id]);

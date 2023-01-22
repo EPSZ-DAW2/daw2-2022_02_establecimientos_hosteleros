@@ -56,8 +56,9 @@ NavBar::end();
                 , 'contentOptions' => ['class'=>'text-center']
             ],
             'texto:ntext',
-            'destino_usuario_id',
-            'origen_usuario_id',
+            'nickDestino',
+            'nickOrigen',
+            'nombreLocal',
             //'local_id',
             //'comentario_id',
             'fecha_lectura',

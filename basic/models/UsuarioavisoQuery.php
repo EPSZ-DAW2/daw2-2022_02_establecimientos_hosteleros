@@ -13,7 +13,8 @@ class UsuarioavisoQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere('[[status]]=1');
     }*/
-
+    //use classes\NickOrigenQueryTrait;
+    //use classes\NickDestinoQueryTrait;
     /**
      * {@inheritdoc}
      * @return Usuarioaviso[]|array

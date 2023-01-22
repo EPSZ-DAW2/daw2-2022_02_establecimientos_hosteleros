@@ -12,7 +12,8 @@ use app\models\Usuarioaviso;
 class UsuarioavisoSearch extends Usuarioaviso
 {
     public $nombreAviso;
-
+    public $nickDestino;
+    public $nickOrigen;
     /**
      * {@inheritdoc}
      */
@@ -20,7 +21,7 @@ class UsuarioavisoSearch extends Usuarioaviso
     {
         return [
             [['id', 'destino_usuario_id', 'origen_usuario_id', 'local_id', 'comentario_id'], 'integer'],
-            [['fecha_aviso', 'clase_aviso_id', 'nombreAviso', 'texto', 'fecha_lectura', 'fecha_aceptado'], 'safe'],
+            [['fecha_aviso', 'clase_aviso_id', 'nombreAviso', 'texto', 'fecha_lectura', 'fecha_aceptado'/*,'nickOrigen','nickDestino'*/], 'safe'],
         ];
     }
 
@@ -57,6 +58,15 @@ class UsuarioavisoSearch extends Usuarioaviso
 			'asc' => ['clase_aviso_id' => SORT_ASC],
 			'desc' => ['clase_aviso_id' => SORT_DESC],
 		];
+        /*$sort->attributes['nickOrigen']= [
+            'asc' => ['usuario.nick' => SORT_ASC],
+            'desc' => ['usuario.nick' => SORT_DESC],
+        ];
+        $sort->attributes['nickDestino']= [
+            'asc' => ['usu.nick' => SORT_ASC],
+            'desc' => ['usu.nick' => SORT_DESC],
+        ];*/
+
         $this->load($params);
 
         if (!$this->validate()) {
@@ -80,7 +90,24 @@ class UsuarioavisoSearch extends Usuarioaviso
 
         $query->andFilterWhere(['like', 'clase_aviso_id', $this->clase_aviso_id])
             ->andFilterWhere(['like', 'texto', $this->texto]);
-
+        /*if (!empty($this->nickDestino)) {
+            $query->nickDestino( $this->nickDestino, 'usud');
+        }
+        if (!empty($this->nickOrigen)) {
+            $query->nickOrigen( $this->nickOrigen, 'usuo');
+        }
+        if (($sort->getAttributeOrder('nickOrigen') !== null)
+            || !empty( $this->nickOrigen)) {
+            $query->joinWith( 'usuarioOrigen usuo');
+        } else {
+            $query->with( 'usuarioOrigen');
+        }
+        if (($sort->getAttributeOrder('nickDestino') !== null)
+            || !empty( $this->nickDestino)) {
+            $query->joinWith( 'usuarioDestino usud');
+        } else {
+            $query->with( 'usuarioDestino');
+        }*/
         return $dataProvider;
     }
 }

@@ -309,4 +309,12 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			'usuario_id'=>'id',
 		]);
 	}
+    /*****************************************************+
+     * Obtener el Nick del usuario
+     * ****************************************************/
+    public function getNickUsuario($id){
+        return $this->hasOne(UsuarioAreaModeracion::class, [
+            'usuario_id'=>'id',
+        ]);
+    }
 }
