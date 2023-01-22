@@ -92,12 +92,34 @@ class MiPerfilController extends Controller
             $this->layout='publica';
             Yii::$app->homeUrl=array('local/index');
         }
+        $enviados= Yii::$app->request->post('enviados');
+        $recibidos= Yii::$app->request->post('recibidos');
+        /*$params = Yii::$app->request->bodyParams;
+        $enviados = $params['enviados'];
+        $recibidos = $params['recibidos'];*/
         //-Avisos relacionados con el usuario
         $searchModelAvisosEnviados = new Usuarioaviso();
-        $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
-
+        if($enviados ==null){
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
+        }elseif ($enviados =='leido'){
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviadosLeidos($id);
+        }elseif ($enviados =='no-leido'){
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviadosNoLeidos($id);
+        }else{
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
+        }
         $searchModelAvisosRecibidos = new Usuarioaviso();
-        $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
+
+        if($recibidos==null){
+            $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
+        }elseif ($recibidos=='leido'){
+            $modelAvisosRecibidos= $searchModelAvisosEnviados->getAvisosRecibidosLeidos($id);
+        }elseif ($recibidos=='no-leido'){
+            $modelAvisosRecibidos= $searchModelAvisosEnviados->getAvisosRecibidosNoLeidos($id);
+        }else{
+            $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
+        }
+
 
         return $this->render('mensajes', [
             'modelAvisosEnviados'=>$modelAvisosEnviados,
@@ -154,7 +176,23 @@ class MiPerfilController extends Controller
         return $this->render('cambiar_contra', ['model' => $model]);
     }
 
+    public function actionCrearmensaje()
+    {
+        $model = new Usuarioaviso();
 
+        $user = $_SESSION['__id']; //id del origen_usuario_id
+        $model->origen_usuario_id = $user;
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['mensajes', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('crearmensaje', ['model' => $model,]);
+    }
 
     public function actionLeer($id){
 
@@ -208,6 +246,18 @@ class MiPerfilController extends Controller
             'locales'=>$modellocal,
         ]);
     }
+
+    public function actionComentarios(){
+        $id = $_SESSION['__id'];
+        $model=NULL;
+        //Descomentar cuando se haga el modelo Comentario
+        //$model=Comentario::findAll(['comentario_id' => $id]);
+       
+        return $this->render('comentarios', [
+            'comentarios'=>$model,
+        ]);
+    }
+
     public function actionActualizar(){
         $datos= (isset($_POST['Local']) ? $_POST['Local'] : NULL);
         $id=(isset($datos['id']) ? $datos['id'] : null);

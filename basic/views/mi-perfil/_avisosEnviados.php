@@ -9,6 +9,9 @@ $this->title = Yii::t('app', 'Enviados');?>
 <br><div  class="text-center">
 <br>
 <h1><?= Html::encode($this->title) ?></h1>
+    <?= Html::a(Yii::t('app', 'Todos'), ['mensajes'], ['class' => 'btn btn-success', 'data' => ['method' => 'post', 'params' => ['enviados' => null]]])?>
+    <?= Html::a(Yii::t('app', 'Mensajes leidos'), ['mensajes'], ['class' => 'btn btn-success', 'data' => ['method' => 'post', 'params' => ['enviados' => 'leido']]])?>
+    <?= Html::a(Yii::t('app', 'Mensajes no leidos'), ['mensajes'], ['class' => 'btn btn-success', 'data' => ['method' => 'post', 'params' => ['enviados' => 'no-leido']]])?>
 
     <?php if(empty($model)){
         echo '<h2>No hay mensajes enviados</h2>';
