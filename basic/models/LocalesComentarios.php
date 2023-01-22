@@ -54,8 +54,8 @@ class LocalesComentarios extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'establecimiento/local relacionado'),
-            'valoracion' => Yii::t('app', 'Valoración dada al establecimiento/local.'),
-            'texto' => Yii::t('app', 'El texto del comentario.'),
+            'valoracion' => Yii::t('app', 'Valoración'),
+            'texto' => Yii::t('app', 'Comentario'),
             'comentario_id' => Yii::t('app', 'Comentario relacionado, si se permiten encadenar respuestas. Nodo padre de la jerarquia de comentarios, CERO si es nodo raiz.'),
             'cerrado' => Yii::t('app', 'Indicador de cierre de los comentarios: 0=No, 1=Si(No se puede responder al comentario)'),
             'num_denuncias' => Yii::t('app', 'Contador de denuncias del comentario o CERO si no ha tenido.'),
