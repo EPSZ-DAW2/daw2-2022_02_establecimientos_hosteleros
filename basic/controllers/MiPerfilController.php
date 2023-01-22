@@ -251,7 +251,7 @@ class MiPerfilController extends Controller
         $id = $_SESSION['__id'];
         $model=NULL;
         //Descomentar cuando se haga el modelo Comentario
-        //$model=Comentario::findAll(['comentario_id' => $id]);
+        //$model=Localescomentarios::findAll(['comentario_id' => $id]);
        
         return $this->render('comentarios', [
             'comentarios'=>$model,
