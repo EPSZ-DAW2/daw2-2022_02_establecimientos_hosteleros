@@ -61,6 +61,9 @@ class Usuarioaviso extends \yii\db\ActiveRecord
             
             //Atributos virtuales
             'nombreAviso' => Yii::t('app', 'Aviso'),
+            'nickDestino'=> Yii::t('app', 'Nombre destino'),
+            'nickOrigen'=> Yii::t('app', 'Nombre origen'),
+            'nombreLocal'=> Yii::t('app', 'Nombre Local'),
         ];
     }
 
@@ -160,6 +163,20 @@ class Usuarioaviso extends \yii\db\ActiveRecord
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
+    public function getnickDestino(){
+        $usuario=Usuario::find()->select(['nick'])->where(['id' => $this->destino_usuario_id])->one();
+        return $usuario->nick;
+    }
+    public function getnickOrigen(){
+        $usuario =Usuario::find()->select(['nick'])->where(['id' => $this->origen_usuario_id])->one();
+        return $usuario->nick;
+    }
+
+    public function getnombreLocal(){
+        $local =Local::find()->select(['titulo'])->where(['id' => $this->local_id])->one();
+        return $local->titulo;
+    }
+
     public static function generarBaja($id)
     {
         if(!isset($id)){
@@ -197,6 +214,15 @@ class Usuarioaviso extends \yii\db\ActiveRecord
         $aviso->fecha_aceptado=null;
         $aviso->save();
     }
+    public function getUsuarioDestino(){
+        //Nombre de la tablaOrigen, Lo que relaciona las tablas [keyOrigen=>keyDestino,....]
+        return  $this->hasOne(Usuario::class,['id'=>'destino_usuario_id']);
+    }
+    public function getUsuarioOrigen(){
+
+        return  $this->hasOne(Usuario::class,['id'=>'origen_usuario_id']);
+    }
+
 
 
 }
