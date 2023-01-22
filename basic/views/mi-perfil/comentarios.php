@@ -1,14 +1,17 @@
 <?php
 
+use app\models\Local;
+use app\models\Usuarioaviso;
+use app\models\UsuariosLocales;
+use app\models\Comentarios;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 use yii\helpers\Html;
-/** @var app\models\Local $locales */
+
 /** @var yii\web\View $this */
+/** @var app\models\Comentarios   $models */
 
-
-
-$this->title = Yii::t('app', 'Mis locales');
+$this->title = Yii::t('app', 'Mis comentarios');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'MiPerfil'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -32,20 +35,23 @@ echo Nav::widget([
 NavBar::end();
 ?>
 <div class="container">
-    <h1>Mis locales</h1>
-    <?php if($locales==null){?>
-        <div class="row">
-            <h3>No tiene locales</h3>
-        </div>
-    <?php } else{ ?>
+    <h1><?= Html::encode($this->title) ?></h1>
+    
+    <?php $models=null;
+    if($models==null){?>
+    <div class="row">
+        <h3>No ha escrito comentarios</h3>
+    </div>
+     <?php } else{ ?>
         <div class="row">
         <?php
-        foreach ($locales as $local){
-            echo $this->render('_resumida', ['local'=>$local]);
+        foreach($models as $model){
+            $local=Local::findOne(['id'=>$model->comentario_id]);
+            echo $this->render('/local/ficha_resumida', ['local'=>$local]);
         }
         ?>
-        </div>
+    </div>
     <?php } ?>
-
 </div>
+
 
