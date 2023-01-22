@@ -92,12 +92,34 @@ class MiPerfilController extends Controller
             $this->layout='publica';
             Yii::$app->homeUrl=array('local/index');
         }
+        $enviados= Yii::$app->request->post('enviados');
+        $recibidos= Yii::$app->request->post('recibidos');
+        /*$params = Yii::$app->request->bodyParams;
+        $enviados = $params['enviados'];
+        $recibidos = $params['recibidos'];*/
         //-Avisos relacionados con el usuario
         $searchModelAvisosEnviados = new Usuarioaviso();
-        $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
-
+        if($enviados ==null){
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
+        }elseif ($enviados =='leido'){
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviadosLeidos($id);
+        }elseif ($enviados =='no-leido'){
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviadosNoLeidos($id);
+        }else{
+            $modelAvisosEnviados= $searchModelAvisosEnviados->getAvisosEnviados($id);
+        }
         $searchModelAvisosRecibidos = new Usuarioaviso();
-        $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
+
+        if($recibidos==null){
+            $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
+        }elseif ($recibidos=='leido'){
+            $modelAvisosRecibidos= $searchModelAvisosEnviados->getAvisosRecibidosLeidos($id);
+        }elseif ($recibidos=='no-leido'){
+            $modelAvisosRecibidos= $searchModelAvisosEnviados->getAvisosRecibidosNoLeidos($id);
+        }else{
+            $modelAvisosRecibidos= $searchModelAvisosRecibidos->getAvisosRecibidos($id);
+        }
+
 
         return $this->render('mensajes', [
             'modelAvisosEnviados'=>$modelAvisosEnviados,

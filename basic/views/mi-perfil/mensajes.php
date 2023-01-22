@@ -35,9 +35,10 @@ NavBar::end();
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 <div class="container">
-    <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
+   <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
 </div>
 
 <div class="container">
+
     <?php echo $this->render('_avisosEnviados',['model'=>$modelAvisosEnviados]);?>
 </div>

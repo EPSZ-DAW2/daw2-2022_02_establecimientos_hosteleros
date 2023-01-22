@@ -117,6 +117,19 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     {
         return usuarioaviso::find()->where(['origen_usuario_id' => $id])->all();
     }//getAvisosEnviados
+    /**
+     * Recoge todos los avisos enviados
+     */
+    public static function getAvisosEnviadosLeidos($id)
+    {
+        return usuarioaviso::find()->where(['origen_usuario_id' => $id])->andWhere(['not',['fecha_lectura' => null]])->all();
+
+    }//getAvisosEnviados
+    public static function getAvisosEnviadosNoLeidos($id)
+    {
+        return usuarioaviso::find()->where(['origen_usuario_id' => $id])->andWhere(['fecha_lectura' => null])->all();
+
+    }//getAvisosEnviados
 
     /**
      * Recoge todos los avisos recibidos
@@ -124,6 +137,14 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     public static function getAvisosRecibidos($id)
     {
         return usuarioaviso::find()->where(['destino_usuario_id' => $id])->all();
+    }//getAvisosRecibidos
+    public static function getAvisosRecibidosLeidos($id)
+    { return usuarioaviso::find()->where(['destino_usuario_id' => $id])->andWhere(['not',['fecha_lectura' => null]])->all();
+
+    }//getAvisosRecibidos
+    public static function getAvisosRecibidosNoLeidos($id)
+    {return usuarioaviso::find()->where(['destino_usuario_id' => $id])->andWhere(['fecha_lectura' => null])->all();
+
     }//getAvisosRecibidos
 
     /**
