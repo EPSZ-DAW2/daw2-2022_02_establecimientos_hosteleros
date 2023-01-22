@@ -90,9 +90,13 @@ class ZonasController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+        } else {
+            throw new NotFoundHttpException('No tiene permiso');
+        }
     }
 
     /**
@@ -103,23 +107,28 @@ class ZonasController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Zonas();
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            $model = new Zonas();
 
-        if ($this->request->isPost) {
-            //Comprobar los datos que llegan por post:
-            $model->load($this->request->post());       
-            //si los datos no son validos o no se puede guardar     
-            if ($model->ComprobarDatos() && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } 
-        } else {
-            $model->loadDefaultValues();
+            if ($this->request->isPost) {
+                //Comprobar los datos que llegan por post:
+                $model->load($this->request->post());       
+                //si los datos no son validos o no se puede guardar     
+                if ($model->ComprobarDatos() && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } 
+            } else {
+                $model->loadDefaultValues();
+                
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
             
+        } else {
+            throw new NotFoundHttpException('No tiene permiso');
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
     
 
@@ -132,23 +141,27 @@ class ZonasController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            $model = $this->findModel($id);
 
-        if ($this->request->isPost) {
-            //Comprobar los datos que llegan por post:
-            $model->load($this->request->post());       
-            //si los datos no son validos o no se puede guardar     
-            if ($model->ComprobarDatos() && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } 
+            if ($this->request->isPost) {
+                //Comprobar los datos que llegan por post:
+                $model->load($this->request->post());       
+                //si los datos no son validos o no se puede guardar     
+                if ($model->ComprobarDatos() && $model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                } 
+            } else {
+                $model->loadDefaultValues();
+                
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         } else {
-            $model->loadDefaultValues();
-            
+            throw new NotFoundHttpException('No tiene permiso');
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -160,9 +173,13 @@ class ZonasController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        } else {
+            throw new NotFoundHttpException('No tiene permiso');
+        }
     }
 
     /**

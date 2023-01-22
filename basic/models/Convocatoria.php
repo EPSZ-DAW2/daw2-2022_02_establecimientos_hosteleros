@@ -248,6 +248,11 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     *  Atributos virtuales para poder separar la fecha en sus diferentes parametros
+     * 
+     */
+
     protected $fecha_solo_inicio = null;
     protected $fecha_solo_fin = null;
     protected $hora_solo_inicio = null;
@@ -360,6 +365,7 @@ class Convocatoria extends \yii\db\ActiveRecord
        
 
     }
+
     public function CrearFechas(){
 
 
@@ -380,14 +386,7 @@ class Convocatoria extends \yii\db\ActiveRecord
     
     
 
-    /**
-     * Función que comprueba 1 asistente en la convocatoria
-     */
-
-  
-
-
-
+    
     /**
      *  Función que "reporta" una convocatoria     * 
      * 
@@ -426,7 +425,11 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
-
+    /**
+     * 
+     * Relaciones entre tablas
+    
+    */
  
     public function getAsistentes(){
         //buscador de locales
@@ -434,11 +437,15 @@ class Convocatoria extends \yii\db\ActiveRecord
        return $this->hasMany(Asistente::class, ['convocatoria_id' =>'id'])->inverseOf('convocatoria');
     
     }
+
+    //Atrivuto virtual 
     protected $localNombre = null;
 
     public function getLocal(){
         return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
     }
+
+    
     public function getLocalNombre(){
         //buscador de locales
            if($this->local==NULL)

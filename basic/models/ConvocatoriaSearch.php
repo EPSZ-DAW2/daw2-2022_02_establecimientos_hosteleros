@@ -77,6 +77,7 @@ class ConvocatoriaSearch extends Convocatoria
             ->andFilterWhere(['like', 'notas_bloqueo', $this->notas_bloqueo]);
             $query->andFilterWhere(['like', 'titulo', $this->localNombre]);
 
+            //filtros para que sean rangos y no un = 
             $query->andFilterWhere(['>', 'fecha_desde', $this->fecha_desde]);
             $query->andFilterWhere(['<', 'fecha_hasta', $this->fecha_hasta]);
         
