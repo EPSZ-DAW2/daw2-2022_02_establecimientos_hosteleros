@@ -2,6 +2,7 @@
 
 namespace app\models;
 use yii\base\ErrorException;
+use yii\helpers\ArrayHelper;
 
 use Yii;
 
@@ -32,7 +33,7 @@ class Zonas extends \yii\db\ActiveRecord
             [['clase_zona_id', 'nombre'], 'required'],
             [['zona_id'], 'integer'],
             [['clase_zona_id'], 'string', 'max' => 1],
-            [['nombre'], 'string', 'max' => 50],
+            [['nombre','tipo_zona','padre_Nombre'], 'string', 'max' => 50],
         ];
     }
 
@@ -43,9 +44,11 @@ class Zonas extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'clase_zona_id' => Yii::t('app', 'Clase Zona ID'),
+            'tipo_zona' => Yii::t('app', 'tipo_zona'),
+            'clase_zona_id' => Yii::t('app', 'clase_zona_id'),
             'nombre' => Yii::t('app', 'Nombre'),
             'zona_id' => Yii::t('app', 'Zona ID'),
+            'padre_Nombre' => Yii::t('app', 'padre_Nombre'),
         ];
     }
 
@@ -72,6 +75,19 @@ class Zonas extends \yii\db\ActiveRecord
             '9' => 'Area',
         ];
     }
+    public static function listaZonas_ID(){
+        return [
+            'Continente' => '1',
+            'Pais' => '2',
+            'Estado' => '3',
+            'Región' => '4',
+            'Provincia' => '5',
+            'Municipìo' => '6',
+            'Localidad' => '7',
+            'Barrio' => '8',
+            'Area' => '9' ,
+        ];
+    }
 
     public static function getTipoZona($zona_Id)
     {
@@ -84,35 +100,35 @@ class Zonas extends \yii\db\ActiveRecord
      * Función que devuelve la zona padre de una zona
      * 
      */
-    public function getZonaPadre(){
+    public function getPadre(){
         
-        return $this->hasOne(Zonas::class,[
+        return $this->hasOne(Zonas::className(),[
             //campos clave de zonas y  valor que tiene en el hijo
             'id' => 'zona_id',
-        ]);
+        ])->from(['padre' => Zonas::tableName()]);
 
     }
     /**
      * Función que devuelve los hijos de una zona
      */
-    public function getZonasHijo(){
+    public function getHijos(){
         
         return $this->hasMany(Zonas::class,[
             //campos clave de zonas y  valor que tiene en el hijo
             'zona_id' => 'id',
-        ]);
+        ])->from(['hijos' => Zonas::tableName()]);
 
     }
 
     public function ComprobarDatos(){
         //Comrpobar el id de la Clase zona [0-9]
         //Coger id del padre y buscarlo. 
-        $zona_padre=$this->zonaPadre;
-        if( $zona_padre != null){ //Si tiene padre
+        $padre=$this->padre;
+        if( $padre != null){ //Si tiene padre
             
             //Ver el tipo del padre            
             //Comparar Tipo Padre > Tipo Hijo
-            if($zona_padre->clase_zona_id < $this->clase_zona_id){ // El tipo de zona del padre debe ser menor en jerarquía
+            if($padre->clase_zona_id < $this->clase_zona_id){ // El tipo de zona del padre debe ser menor en jerarquía
                 
                 return true;
             } else { // el padre no puede ser un tipo de zona mas pequeño
@@ -127,6 +143,26 @@ class Zonas extends \yii\db\ActiveRecord
         
 
     }
+    protected $tipo_zona  = null;
+
+    public function getTipo_zona(){
+        
+        return $this->listaZonas()[$this->clase_zona_id];
+    }
+
+    protected $padre_Nombre = null;
+
+    public function getPadre_Nombre(){
+
+        if ($this->padre == null)
+            return "";
+        
+        return $this->padre->nombre;
+    }
+ 
+
+    
+
 
     
 

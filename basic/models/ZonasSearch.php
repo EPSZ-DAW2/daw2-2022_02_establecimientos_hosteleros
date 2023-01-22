@@ -18,7 +18,7 @@ class ZonasSearch extends Zonas
     {
         return [
             [['id', 'zona_id'], 'integer'],
-            [['clase_zona_id', 'nombre'], 'safe'],
+            [['clase_zona_id', 'nombre', 'padre_Nombre'], 'safe'],
         ];
     }
 
@@ -42,6 +42,8 @@ class ZonasSearch extends Zonas
     {
         $query = Zonas::find();
 
+        $query->joinWith(['padre','hijos']);
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -60,10 +62,14 @@ class ZonasSearch extends Zonas
         $query->andFilterWhere([
             'id' => $this->id,
             'zona_id' => $this->zona_id,
+            'zonas.clase_zona_id' => $this->clase_zona_id,
         ]);
 
-        $query->andFilterWhere(['like', 'clase_zona_id', $this->clase_zona_id])
+        $query->andFilterWhere(['like', 'zonas.clase_zona_id', $this->clase_zona_id])
             ->andFilterWhere(['like', 'nombre', $this->nombre]);
+
+            //$query->andFilterWhere(['like', 'tipo_zona', $this->tipo_zona]);
+            $query->andFilterWhere(['like', 'padre.nombre', $this->padre_Nombre]);
 
         return $dataProvider;
     }

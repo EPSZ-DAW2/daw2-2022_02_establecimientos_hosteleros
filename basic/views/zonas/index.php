@@ -28,12 +28,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             'id',
-            'clase_zona_id',
+            /*[
+                'label' => 'Tipo de Zona',
+                'format' => 'html',
+                'content' => function($model, $key, $index) {
+                    $tipo = $model->listaZonas()[$model->clase_zona_id];
+                return $tipo ;
+                }   
+            ],*/
+            [
+                'label' => 'Tipo de Zona',
+				'attribute'=>'clase_zona_id',
+				'content'=> function($model, $key, $index, $column){
+					return $model->listaZonas()[$model->clase_zona_id];
+				},
+				'contentOptions'=>['class'=>'text-center'],
+				'filter'=>\app\models\Zonas::listaZonas(),
+			],
+            //'clase_zona_id',
             'nombre',
-            'zona_id',
+            //'zona_id',
+            'padre_Nombre',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Zonas $model, $key, $index, $column) {
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],
