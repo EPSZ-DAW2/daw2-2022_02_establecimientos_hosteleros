@@ -10,20 +10,20 @@ use yii\widgets\ActiveForm;
 
 <div class="asistente-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+<?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'local_id')->textInput() ?>
+<?= $form->field($model, 'local_id')->hiddeninput(['value'=> $local])->label(false) ?>
 
-    <?= $form->field($model, 'convocatoria_id')->textInput() ?>
+<?= $form->field($model, 'convocatoria_id')->hiddeninput(['value'=> $convocatoria])->label(false)?>
 
-    <?= $form->field($model, 'usuario_id')->textInput() ?>
+<?= $form->field($model, 'usuario_id')->textInput() ?>
 
-    <?= $form->field($model, 'fecha_alta')->textInput() ?>
+<?= $form->field($model, 'fecha_alta')->hiddeninput(['value'=>date("Y-m-d h:i:sa")])->label(false)?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
+<div class="form-group">
+    <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+</div>
 
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end();?>
 
 </div>

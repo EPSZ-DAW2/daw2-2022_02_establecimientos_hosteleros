@@ -31,7 +31,7 @@ class Asistente extends \yii\db\ActiveRecord
         return [
             [['local_id', 'convocatoria_id'], 'required'],
             [['local_id', 'convocatoria_id', 'usuario_id'], 'integer'],
-            [['fecha_alta'], 'safe'],
+            [['fecha_alta','localNombre','usuarioNombre','usuarioApellidos'], 'safe'],
         ];
     }
 
@@ -43,8 +43,11 @@ class Asistente extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
+            'localNombre' =>Yii::t('app', 'Local'),
             'convocatoria_id' => Yii::t('app', 'Convocatoria ID'),
             'usuario_id' => Yii::t('app', 'Usuario ID'),
+            'usuarioNombre' => Yii::t('app', 'Nombre  Asistente'),
+            'usuarioApellidos' => Yii::t('app', 'Apellidos Asistente'),
             'fecha_alta' => Yii::t('app', 'Fecha Alta'),
         ];
     }
@@ -61,14 +64,14 @@ class Asistente extends \yii\db\ActiveRecord
      * Función que comprueba 1 asistente en la convocatoria
      */
 
-     public function getConvocatoria(){
+    /* public function getConvocatoria(){
 
         return $this->hasOne(Convocatoria::class,[
             //campos clave de Asistentes y  valores en convocatorias
             'id' => 'convocatoria_id',
         ])->inverseOf('Asistente');
 
-     }
+     }*/
 
     //GETS
 
@@ -84,12 +87,12 @@ class Asistente extends \yii\db\ActiveRecord
     }
     public function getConvocatoria_id(){
         
-        return $this->Convocatoria_id;
+        return $this->convocatoria_id;
 
     }
     public function getUsuario_id(){
         
-        return $this->Usuario_id;
+        return $this->usuario_id;
 
     }
     public function getFecha_alta(){
@@ -120,5 +123,55 @@ class Asistente extends \yii\db\ActiveRecord
         $this->fecha_alta = $Fecha;
 
     }
-
+    
+    
+    public function getUsuario(){
+        //buscador de usuarios
+       
+       return $this->hasOne(Usuario::class, ['id' =>'usuario_id'])->inverseOf('usuario');
+    
+    }
+    protected $usuarioNombre = null;
+    public function getUsuarioNombre(){
+        //buscador de nombre para poderlo poner en attribute labels w
+        if($this->usuario==NULL)
+        {
+          return "";
+        }else{
+        return  $this->usuario->nombre;}
+    }
+    protected $usuarioApellidos = null;
+    public function getUsuarioApellidos(){
+    
+        if($this->usuario==NULL)
+        {
+          return "";
+        }else{
+        return  $this->usuario->apellidos;}
+       
+    }    public function getLocal(){
+        return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
+    }
+    public function getLocalNombre(){
+        //buscador de locales
+           if($this->local==NULL)
+           {
+             return "";
+           }else{
+               
+            return $this->local->titulo;
+        
+           }
+    }
+    
+    protected $localNombre = null;
+    
+        public function getConvocatoria(){
+            //buscador de locales
+           
+           return $this->hasOne(Convocatoria::class, ['id' =>'convocatoria_id'])->inverseOf('Convocatoria');
+        
+        }
+        protected $Convocatoria = null;
+    
 }

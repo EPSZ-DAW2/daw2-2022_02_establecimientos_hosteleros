@@ -120,4 +120,30 @@ class Local extends \yii\db\ActiveRecord
 			'id'=>'categoria_id',
 		]);
 	}
+
+    public function getConvocatorias(){
+        
+        return $this->hasMany(Convocatoria::class,[
+            //campos clave de convocatorias y  local
+            'local_id' => 'id',
+        ]);
+
+     }
+
+   /*  public function getAsistentes(){
+        //buscador de locales
+       
+       return $this->hasMany(Local::class, ['idLocal' =>'id'])->inverseOf('Asistentes');
+    
+    }*/
+    public function getAsistentes(){
+        //buscador de locales
+       
+       return $this->hasMany(Asistentes::class, ['idLocal' =>'id'])->inverseOf('Local');
+    
+    }
+    public function getLocal(){
+        return $this->hasMany(Convocatoria::class, ['local_id' =>'id'])->inverseOf('Local');
+    }
+  
 }

@@ -34,6 +34,7 @@ $config = [
             'class' => 'yiisoft\db\console\controllers\MysqlController',
             'db' => 'db',
             'backupPath' => '@app/backups',
+            'expireTime'=> 86400,
         ],
     ],
     

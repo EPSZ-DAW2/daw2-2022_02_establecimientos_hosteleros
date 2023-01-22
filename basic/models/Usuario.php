@@ -309,6 +309,12 @@ class Usuario extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 			'usuario_id'=>'id',
 		]);
 	}
+	public function getUsuario(){
+		//buscador de locales
+	   
+	   return $this->hasOne(Asistente::class, ['usuario_id' =>'id'])->inverseOf('Asistentes');
+	
+	}
     /*****************************************************+
      * Obtener el Nick del usuario
      * ****************************************************/

@@ -15,15 +15,20 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+       
+    <?= $form->field($model, 'localNombre')->label('Nombre del local realizador')?>
 
-    <?= $form->field($model, 'local_id') ?>
+    <?= $form->field($model, 'texto')->label('Convocatoria') ?>
 
-    <?= $form->field($model, 'texto') ?>
+    <?= $form->field($model, 'fecha_desde')->widget(\yii\jui\DatePicker::classname(), [
+            'language' => 'es',
+            'dateFormat' => 'yyyy-MM-dd',
+        ]) ?>
 
-    <?= $form->field($model, 'fecha_desde') ?>
-
-    <?= $form->field($model, 'fecha_hasta') ?>
+    <?= $form->field($model, 'fecha_hasta')->widget(\yii\jui\DatePicker::classname(), [
+            'language' => 'es',
+            'dateFormat' => 'yyyy-MM-dd',
+        ]) ?>
 
     <?php // echo $form->field($model, 'num_denuncias') ?>
 
@@ -44,8 +49,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'modi_fecha') ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+        <?= Html::submitButton('Buscar', ['class' => 'btn colorlogin mt-2']) ?>
+        <?= Html::resetButton('Resetear', ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

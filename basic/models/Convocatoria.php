@@ -1,7 +1,10 @@
 <?php
 
 namespace app\models;
-
+use app\models\Local;
+use DataTimeZone;
+use DataTime;
+use DateTimeImmutable;
 use Yii;
 
 /**
@@ -42,7 +45,7 @@ class Convocatoria extends \yii\db\ActiveRecord
             //[['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id','_NumParticipantes'], 'integer'],
             [['local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id'], 'integer'],
             [['texto', 'notas_bloqueo'], 'string'],
-            [['fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha'], 'safe'],
+            [['fecha_solo_inicio','fecha_solo_fin','hora_solo_inicio','hora_solo_fin','fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha','localNombre','localFoto_Id'], 'safe'],
         ];
     }
 
@@ -54,9 +57,15 @@ class Convocatoria extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
+            'localNombre' => Yii::t('app', 'Local'),
+            'localFoto_Id' => Yii::t('app', 'localFoto_Id'),
             'texto' => Yii::t('app', 'Texto'),
             'fecha_desde' => Yii::t('app', 'Fecha Desde'),
-            'fecha_hasta' => Yii::t('app', 'Fecha Hasta'),
+            'fecha_solo_inicio' =>Yii::t('app', 'Fecha Hasta'),
+            'fecha_solo_fin' =>Yii::t('app', 'Fecha Inicio'),
+            'fecha_hasta' => Yii::t('app', 'Fecha fin'),
+            'hora_solo_inicio' =>Yii::t('app', 'Hora inicio'),
+            'hora_solo_fin' => Yii::t('app', 'Hora fin'),
             'num_denuncias' => Yii::t('app', 'Num Denuncias'),
             'fecha_denuncia1' => Yii::t('app', 'Fecha Denuncia1'),
             'bloqueada' => Yii::t('app', 'Bloqueada'),
@@ -164,7 +173,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         $this->fecha_denuncia1 = $fecha;
 
     }
-
+    
     //GETS
 
     public function getId(){
@@ -239,38 +248,145 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
-    /*
-    //Atributo virtual para saber cuantas personsas estan apuntadas a la convocatoria
-    protected $_NumParticipantes = null;
-
-    public function getNumParticipantes(){
-        if($this->_NumParticipantes === null){
-            $asistente=new Asistente();
-        
-            $this->_NumParticipantes = $asistente->find()->listar($this->getId)->count();
-            //$this->_NumParticipantes = $this->getAsistentes()->count();
-        }
-        return $this->_NumParticipantes;
-    }
-    */
-    
-    
-
     /**
-     * Función que comprueba 1 asistente en la convocatoria
+     *  Atributos virtuales para poder separar la fecha en sus diferentes parametros
+     * 
      */
 
-     public function getAsistentes(){
+    protected $fecha_solo_inicio = null;
+    protected $fecha_solo_fin = null;
+    protected $hora_solo_inicio = null;
+    protected $hora_solo_fin = null;
 
-        return $this->hasMany(Asistente::class,[
-            //campos clave de Asistentes y  valores en convocatorias
-            'id' => 'usuario_id',
-        ])->inverseOf('Convocatoria');
+    public function getFecha_solo_inicio(){
+        
+        if($this->fecha_desde != null){
+            $date = date_create($this->fecha_desde);
+            return date_format($date,'Y-m-d');
+        }
+        return $this->fecha_solo_inicio;
 
-     }
+    }
+    public function getFecha_solo_fin(){
+        
+        if($this->fecha_desde != null){
+            $date = date_create($this->fecha_hasta);
+            return $date->format('Y-m-d');
+        }
+        return $this->fecha_solo_fin;
+
+    }
+
+    public function getHora_solo_inicio(){
+        
+        if($this->fecha_desde != null){
+            $date = date_create($this->fecha_desde);
+            return $date->format('H:i');
+        }
+        return $this->hora_solo_inicio;
+
+    }
+    public function getHora_solo_fin(){
+        
+        if($this->fecha_desde != null){
+            $date = date_create($this->fecha_hasta);
+            return $date->format('H:i');
+        }
+        return $this->hora_solo_fin;
+
+    }
+
+    //
+    public function setFecha_solo_inicio($fecha){
+        
+        //cojemos la fecha completa vieja
+        $date_vieja = date_create($this->fecha_desde);
+        //nos quedamos con la hora
+        $hora_vieja = $date->format('H:i');
+
+        //Juntamos fecha nueva con hora vieja
+        $fecha_nueva = $fecha." ".$hora_vieja.":00";
+        //Formateamos fecha
+
+        $fecha_nueva2 = date_create($fecha_nueva);
+        //guardamos en el parametro real
+        $this->fecha_desde = $fecha_nueva2->format('Y-m-d H:i:s');
+       
+    }
+
+    public function setFecha_solo_fin($fecha){
+        
+        //cojemos la fecha completa vieja
+        $date_vieja = date_create($this->fecha_hasta);
+        //nos quedamos con la hora
+        $hora_vieja = $date->format('H:i');
+
+        //Juntamos fecha nueva con hora vieja
+        $fecha_nueva = $fecha." ".$hora_vieja.":00";
+        //Formateamos fecha
+
+        $fecha_nueva2 = date_create($fecha_nueva);
+        //guardamos en el parametro real
+        $this->fecha_hasta = $fecha_nueva2->format('Y-m-d H:i:s');
+        
+
+    }
+
+    public function setHora_solo_inicio($hora){
+        
+        //cojemos la fecha completa vieja
+        $date_vieja = date_create($this->fecha_desde);
+        //nos quedamos con el dia
+        $Fecha_vieja = $date->format('Y-m-d');
+
+        //Juntamos fecha vieja con hora nueva
+        $fecha_nueva = $Fecha_vieja." ".$hora.":00";
+        //Formateamos fecha
+
+        $fecha_nueva2 = date_create($fecha_nueva);
+        //guardamos en el parametro real
+        $this->fecha_desde = $fecha_nueva2->format('Y-m-d H:i:s');
+
+    }
+    public function setHora_solo_fin(){
+        
+        //cojemos la fecha completa vieja
+        $date_vieja = date_create($this->fecha_hasta);
+        //nos quedamos con el dia
+        $Fecha_vieja = $date->format('Y-m-d');
+
+        //Juntamos fecha vieja con hora nueva
+        $fecha_nueva = $Fecha_vieja." ".$hora.":00";
+        //Formateamos fecha
+
+        $fecha_nueva2 = date_create($fecha_nueva);
+        //guardamos en el parametro real
+        $this->fecha_hasta = $fecha_nueva2->format('Y-m-d H:i:s');
+       
+
+    }
+
+    public function CrearFechas(){
 
 
+        //creamos la fecha inicial
+        $fecha_inicio = date_create($this->fecha_solo_inicio." ". $this->hora_solo_inicio.":00");
+        //formateo y guardo
+        $this->fecha_desde= $fecha_inicio->format('Y-m-d H:i:s');
+        //creamos la fecha final
+        $fecha_fin = date_create($this->fecha_solo_fin." ". $this->hora_solo_fin.":00");
+        //formateo y guardo
+        $this->fecha_hasta=$fecha_fin->format('Y-m-d H:i:s');
+        
+        return true;
+        
 
+
+    }
+    
+    
+
+    
     /**
      *  Función que "reporta" una convocatoria     * 
      * 
@@ -295,7 +411,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         $this->setnum_denuncias($this->getnum_denuncias() + 1);
 
         //Si el numero de denuncias es mayor que 5, se tiene que bloquear
-        if(($this->getnum_denuncias()>5)&&$this->getBloqueada()==0){
+        if(($this->getnum_denuncias()>4)&&$this->getBloqueada()==0){
             echo"Bloqueadoooo".$this->getBloqueada();
             $this->setBloqueada(1);
             $timestamp = time()-(60*60*4);
@@ -309,8 +425,38 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * 
+     * Relaciones entre tablas
+    
+    */
+ 
+    public function getAsistentes(){
+        //buscador de locales
+       
+       return $this->hasMany(Asistente::class, ['convocatoria_id' =>'id'])->inverseOf('convocatoria');
+    
+    }
 
+    //Atrivuto virtual 
+    protected $localNombre = null;
 
+    public function getLocal(){
+        return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
+    }
+
+    
+    public function getLocalNombre(){
+        //buscador de locales
+           if($this->local==NULL)
+           {
+             return "";
+           }else{
+               
+            return $this->local->titulo;
+        
+           }
+    }
     
 
          

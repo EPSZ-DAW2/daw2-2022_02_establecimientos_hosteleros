@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'local_id',
+            'localNombre',
             'texto:ntext',
             'fecha_desde',
             'fecha_hasta',

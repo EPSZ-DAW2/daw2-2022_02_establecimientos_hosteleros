@@ -22,15 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-         'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+         
 
-            'id',
+            //'id',
             'local_id',
-            'convocatoria_id',
+            'localNombre',
+            'usuarioNombre' ,
+            'usuarioApellidos',
+            //'convocatoria_id',
             'usuario_id',
-            'fecha_alta',
+            //'fecha_alta',
             [
                 'class' => ActionColumn::className(),
                 'template' => '{delete}',
@@ -47,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-    <a href="<?= Url::toRoute(['asistentes/create','id' => $convocatoria,'id_local'=>$local]);?>">Añadir asistente</a>
+    <a href="<?= Url::toRoute(['asistentes/create','id' => $convocatoria,'id_local'=>$local]);?> class="class="btn pl-2 pr-2 mb-0 btn-default">Añadir asistente</a>
     </p>
    
 

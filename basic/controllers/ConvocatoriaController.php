@@ -9,6 +9,11 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+//Añade esto para el tema de paginador y roles
+use app\models\Configuracion;
+use app\models\UsuarioAviso;
+use yii\data\Pagination;
+
 //para el tema de roles
 
 use app\models\UsuarioRol;
@@ -63,25 +68,59 @@ class ConvocatoriaController extends Controller
      */
     public function actionIndex()
     {
+        //Buscamos todas las convocatorias
         $searchModel = new ConvocatoriaSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
         
-        $id=Yii::$app->user->id;        
-        //si no está logueada
-        if($id == Null){
-
-            return $this->render('index_publica', [
+        //creamos el paginador
+        $pagination = new Pagination([
+			'defaultPageSize' => Configuracion::getValorConfiguracion('numero_paginacion_hosteleros'),
+			'totalCount' => $dataProvider->query->count(),
+		]);
+        //sacamos los datos según elpaginador
+        $convocatorias=$dataProvider->query->offset($pagination->offset)
+			->limit($pagination->limit)->all();
+        
+         
+        
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+            return $this->render('index_admin', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
         } else {
-            //Comprobar roll
+            return $this->render('index_publica', [
+                'searchModel' => $searchModel,
+                'pagination' => $pagination,
+                'convocatorias' => $convocatorias,
+            ]);
+        }
             
-            return $this->render('index', [
+        
+    }
+    public function actionVerpropias()
+    {
+        //Buscamos todas las convocatorias
+        $searchModel = new ConvocatoriaSearch();
+        //find(Yii::$app->user->id)
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->query->where(['locales_convocatorias.crea_usuario_id' => Yii::$app->user->id]);
+        
+        //creamos el paginador
+        $pagination = new Pagination([
+			'defaultPageSize' => Configuracion::getValorConfiguracion('numero_paginacion_hosteleros'),
+			'totalCount' => $dataProvider->query->count(),
+		]);
+        //sacamos los datos según elpaginador
+        $convocatorias=$dataProvider->query->offset($pagination->offset)
+			->limit($pagination->limit)->all();
+
+        if(!Yii::$app->user->isGuest){
+            return $this->render('index_admin', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
-
         }
     }
 
@@ -94,7 +133,7 @@ class ConvocatoriaController extends Controller
     public function actionView($id)
     {
         
-        return $this->render('view', [
+        return $this->render('view_admin', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -113,7 +152,8 @@ class ConvocatoriaController extends Controller
             $model = new Convocatoria();
 
             if ($this->request->isPost) {
-                if ($model->load($this->request->post()) && $model->save()) {
+                $post = $this->request->post();
+                if ($model->load($post) && $model->CrearFechas() && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
             } else {
@@ -138,20 +178,21 @@ class ConvocatoriaController extends Controller
      */
     public function actionUpdate($id)
     {
-        $id_mod =Yii::$app->user->id;
+        //$id_mod =Yii::$app->user->id;
+        $model = $this->findModel($id);
         // Habría que añadir la comprobación de que tiene permisos 
-        if($id_mod != Null){
-            $model = $this->findModel($id);
+        if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id) || $model->crea_usuario_id == Yii::$app->user->id)){
+            //$model = $this->findModel($id);
 
             $timestamp = time()-(60*60*4);
             $model->setModi_fecha(date('Y-m-d H:i:s',$timestamp)); 
 
             //$id_mod = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
-            $id_mod =Yii::$app->user->id;
+            //$id_mod =Yii::$app->user->id;
 
-            $model->setModi_usuario_id($id_mod); 
+            $model->setModi_usuario_id(Yii::$app->user->id); 
 
-            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->CrearFechas() && $model->save()) {
                 
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -303,8 +344,9 @@ class ConvocatoriaController extends Controller
 
 
             $asistente=new Asistente();
-            
-            $model= $asistente->find()->listar($id);
+        $Convocatoria = Convocatoria::findOne($id);
+        $asistente = $Convocatoria->asistentes;
+         $model= $asistente;
         
             $searchModel = new AsistenteSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);

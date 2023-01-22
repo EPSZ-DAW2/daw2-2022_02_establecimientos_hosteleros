@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var app\models\Asistente $model */
 
-$this->title = 'Create Asistente';
-$this->params['breadcrumbs'][] = ['label' => 'Asistentes', 'url' => ['index']];
+$this->title = 'Crear Asistente';
+$this->params['breadcrumbs'][] = ['label' => 'Convocatorias', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="asistente-create">

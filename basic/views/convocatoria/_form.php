@@ -22,9 +22,18 @@ $timestamp = time()-(60*60*4);
 
     <?= $form->field($model, 'texto')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'fecha_desde')->textInput() ?>
+    <?= $form->field($model, 'fecha_solo_inicio')->widget(\yii\jui\DatePicker::classname(), [
+            'language' => 'es',
+            'dateFormat' => 'yyyy-MM-dd',
+        ])->label("Fecha de inicio") ?>
 
-    <?= $form->field($model, 'fecha_hasta')->textInput() ?>
+    <?= $form->field($model, 'fecha_solo_fin')->widget(\yii\jui\DatePicker::classname(), [
+            'language' => 'es',
+            'dateFormat' => 'yyyy-MM-dd',
+        ])->label("Fecha de finalización") ?>
+
+    <?= $form->field($model, 'hora_solo_inicio')->textInput()->label("Hora de inicio") ?>
+    <?= $form->field($model, 'hora_solo_fin') ->textInput()->label("Hora de finalización")?>
 
     <?php //$form->field($model, 'num_denuncias')->textInput() ?>
     <?= $form->field($model, 'num_denuncias')->hiddenInput([ 'value' => 0 ])->label(false) ?>

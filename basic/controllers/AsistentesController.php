@@ -91,7 +91,7 @@ class AsistentesController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['convocatoria/index', 'id' => $model->id]);
             }
         } 
 
@@ -113,7 +113,7 @@ class AsistentesController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['<convocatoria/index']);
+        return $this->redirect(['convocatoria/index']);
     }
 
     /**

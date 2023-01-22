@@ -18,7 +18,7 @@ class ConvocatoriaSearch extends Convocatoria
     {
         return [
             [['id', 'local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id'], 'integer'],
-            [['texto', 'fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'notas_bloqueo', 'crea_fecha', 'modi_fecha'], 'safe'],
+            [['localNombre','texto', 'fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'notas_bloqueo', 'crea_fecha', 'modi_fecha'], 'safe'],
         ];
     }
 
@@ -41,7 +41,8 @@ class ConvocatoriaSearch extends Convocatoria
     public function search($params)
     {
         $query = Convocatoria::find();
-
+        $query->joinWith(['local']);
+        $query->andFilterWhere(['=', 'titulo', $this->localNombre]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -60,8 +61,8 @@ class ConvocatoriaSearch extends Convocatoria
         $query->andFilterWhere([
             'id' => $this->id,
             'local_id' => $this->local_id,
-            'fecha_desde' => $this->fecha_desde,
-            'fecha_hasta' => $this->fecha_hasta,
+            //'fecha_desde' => $this->fecha_desde,
+           //'fecha_hasta' => $this->fecha_hasta,
             'num_denuncias' => $this->num_denuncias,
             'fecha_denuncia1' => $this->fecha_denuncia1,
             'bloqueada' => $this->bloqueada,
@@ -74,7 +75,12 @@ class ConvocatoriaSearch extends Convocatoria
 
         $query->andFilterWhere(['like', 'texto', $this->texto])
             ->andFilterWhere(['like', 'notas_bloqueo', $this->notas_bloqueo]);
+            $query->andFilterWhere(['like', 'titulo', $this->localNombre]);
 
+            //filtros para que sean rangos y no un = 
+            $query->andFilterWhere(['>', 'fecha_desde', $this->fecha_desde]);
+            $query->andFilterWhere(['<', 'fecha_hasta', $this->fecha_hasta]);
+        
         return $dataProvider;
     }
 }
