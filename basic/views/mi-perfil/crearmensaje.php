@@ -35,7 +35,7 @@ NavBar::end();
 
     <?= $this->render('_form', [
         'model' => $model,
-        'msgError' => $msgError
+        'msgError' => $msgError,
     ]) ?>
 
 </div>

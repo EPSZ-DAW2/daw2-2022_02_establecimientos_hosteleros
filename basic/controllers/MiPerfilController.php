@@ -189,11 +189,7 @@ class MiPerfilController extends Controller
                 $titulo=$model->nombreLocalInv;
                 $model->destino_usuario_id=Usuario::find()->select('id')->where(['nick'=>$nombre])->scalar();
                 $model->local_id=Local::find()->select('id')->where(['Titulo'=>$titulo])->scalar();
-
-
-
                 if($model->destino_usuario_id==null&& $model->local_id==null){
-
                     return $this->render('crearmensaje', ['model' => $model,'msgError'=>'El usuario o local no existe']);
                 }else if($model->destino_usuario_id!=null||$model->local_id!=null){
                     if($model->destino_usuario_id==null){

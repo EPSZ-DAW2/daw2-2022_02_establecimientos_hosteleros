@@ -191,15 +191,24 @@ class Usuarioaviso extends \yii\db\ActiveRecord
 
     public function getnickDestino(){
         $usuario=Usuario::find()->select(['nick'])->where(['id' => $this->destino_usuario_id])->one();
+        if($usuario==null){
+            return '';
+        }
         return $usuario->nick;
     }
     public function getnickOrigen(){
         $usuario =Usuario::find()->select(['nick'])->where(['id' => $this->origen_usuario_id])->one();
+        if($usuario==null){
+            return '';
+        }
         return $usuario->nick;
     }
 
     public function getnombreLocal(){
         $local =Local::find()->select(['titulo'])->where(['id' => $this->local_id])->one();
+        if($local==null){
+            return '';
+        }
         return $local->titulo;
     }
 
