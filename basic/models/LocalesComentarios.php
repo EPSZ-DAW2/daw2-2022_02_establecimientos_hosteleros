@@ -78,8 +78,42 @@ class LocalesComentarios extends \yii\db\ActiveRecord
     {
         return new LocalesComentariosQuery(get_called_class());
     }
-    public static function listarcomentarios($id){
-        return Yii::$app->db->createCommand('SELECT valoracion,texto,crea_fecha FROM '.LocalesComentarios::tableName().' WHERE id='.$id.' ORDER BY crea_fecha')->queryAll();
+    public static function listarcomentarios($local_id){
+        return Yii::$app->db->createCommand('SELECT id,valoracion,texto,crea_fecha FROM '.LocalesComentarios::tableName().' WHERE local_id='.$local_id.' AND comentario_id=0 ORDER BY crea_fecha')->queryAll();
+    }
+    public static function listarrespuestas($comentario_id){
+        return Yii::$app->db->createCommand('SELECT id,valoracion,texto,crea_fecha FROM '.LocalesComentarios::tableName().' WHERE comentario_id='.$comentario_id.' ORDER BY crea_fecha')->queryAll();
+    }
+    public static function agregarcomentario($local_id,$valoracion,$texto,$cerrado,$crea_usuario_id,$comentario_id){
+        //if($comentario_id==NULL){$comentario_id=0;}
+        $crea_fecha = date('Y-m-d H:i:s');
+        return Yii::$app->db->createCommand('INSERT INTO '.LocalesComentarios::tableName().'(local_id,valoracion,texto,cerrado,crea_usuario_id,crea_fecha,comentario_id) VALUES=("'.$local_id.'","'.$valoracion.'","'.$texto.'","'.$cerrado.'","'.$crea_usuario_id.'","'.$crea_fecha.'","'.$comentario_id.'","'.$texto.'","'.$texto.'")')->queryAll();
     }
 
 }
+
+
+/* POSIBLE IMPREMENTACION
+
+// funcion find father recibe el arreglo y el id por defecto 0
+function ffather($arr,$el=0){
+    // creamos una varible final que contendra nuestros hijos
+    $final=array();
+    // recorremos el arreglo
+    foreach ($arr as $key => $value) {
+        // validamos que el el id actual coincida con el id_padre "encontramos un hijo"
+        if ($el == $value["id_padre"]){
+            // volvemos a llamar a la funcion find father para buscar ahora los hijos de los hijos
+            $value["hijos"]=ffather($arr,$value["id"]);
+            // cargamos el nuevo valor en $final
+            $final[]= $value;
+        }
+    }
+    // retornamos $final
+    return $final;
+}
+
+echo "<pre>";
+print_r(ffather($arr));
+
+*/
