@@ -20,10 +20,10 @@ use yii\widgets\ActiveForm;
         if (isset($model->clase_zona_id) && ($model->clase_zona_id != null) ){
 
             //Si el padre no existe
-            if ($model->zonaPadre == null)
+            if ($model->padre == null)
                 echo Html::tag('div', 'El padre escogido no existe',['class' => 'error-summary']);
             //Si el padre elegido tiene un tipo de zona de menor categoría
-            else if ($model->clase_zona_id < $model->zonaPadre->clase_zona_id )
+            else if ($model->clase_zona_id < $model->padre->clase_zona_id )
                 echo Html::tag('div', 'El padre escogido es de un rango igual o inferior',['class' => 'error-summary']);
             
            
