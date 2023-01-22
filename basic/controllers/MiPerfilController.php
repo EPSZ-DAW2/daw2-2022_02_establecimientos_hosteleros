@@ -267,6 +267,18 @@ class MiPerfilController extends Controller
             'locales'=>$modellocal,
         ]);
     }
+
+    public function actionComentarios(){
+        $id = $_SESSION['__id'];
+        $model=NULL;
+        //Descomentar cuando se haga el modelo Comentario
+        //$model=Localescomentarios::findAll(['comentario_id' => $id]);
+       
+        return $this->render('comentarios', [
+            'comentarios'=>$model,
+        ]);
+    }
+
     public function actionActualizar(){
         $datos= (isset($_POST['Local']) ? $_POST['Local'] : NULL);
         $id=(isset($datos['id']) ? $datos['id'] : null);

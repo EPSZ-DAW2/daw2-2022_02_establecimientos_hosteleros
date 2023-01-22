@@ -25,6 +25,7 @@ $items=[
 	['label' => 'Mensajes', 'url' => ['/mi-perfil/mensajes']],
 	['label' => 'Locales', 'url' => ['/mi-perfil/establecimientos']],
 	['label' => 'Seguidos', 'url' => ['/mi-perfil/seguimiento']],
+    ['label' => 'Comentarios', 'url' => ['/mi-perfil/comentarios']],
 ];
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav'],
