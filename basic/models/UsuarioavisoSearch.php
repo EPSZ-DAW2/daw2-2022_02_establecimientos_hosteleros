@@ -15,6 +15,7 @@ class UsuarioavisoSearch extends Usuarioaviso
     public $nickDestino;
     public $nickOrigen;
     public $nombreLocal;
+    public $nombreLocalInv;
     /**
      * {@inheritdoc}
      */

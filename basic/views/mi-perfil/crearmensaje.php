@@ -26,13 +26,16 @@ echo Nav::widget([
 	'items' => $items,
 ]);
 NavBar::end();
+
 ?>
+
 <div class="usuarioaviso-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
+        'msgError' => $msgError
     ]) ?>
 
 </div>

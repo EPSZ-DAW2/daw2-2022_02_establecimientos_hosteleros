@@ -184,14 +184,35 @@ class MiPerfilController extends Controller
         $model->origen_usuario_id = $user;
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['mensajes', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $nombre=$model->nombreUsuarioInv;
+                $titulo=$model->nombreLocalInv;
+                $model->destino_usuario_id=Usuario::find()->select('id')->where(['nick'=>$nombre])->scalar();
+                $model->local_id=Local::find()->select('id')->where(['Titulo'=>$titulo])->scalar();
+
+
+
+                if($model->destino_usuario_id==null&& $model->local_id==null){
+
+                    return $this->render('crearmensaje', ['model' => $model,'msgError'=>'El usuario o local no existe']);
+                }else if($model->destino_usuario_id!=null||$model->local_id!=null){
+                    if($model->destino_usuario_id==null){
+                        $model->destino_usuario_id=0;
+                    }
+                    if($model->local_id==null){
+                        $model->local_id=0;
+                    }
+
+                    $model->fecha_aviso=date('Y-m-d H:i:s');
+                    $model->save();
+                    return $this->redirect(['mensajes', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
         }
 
-        return $this->render('crearmensaje', ['model' => $model,]);
+        return $this->render('crearmensaje', ['model' => $model,'msgError'=>null]);
     }
 
     public function actionLeer($id){

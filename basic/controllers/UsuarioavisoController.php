@@ -118,6 +118,8 @@ class UsuarioavisoController extends Controller
         ]);
     }
 
+    
+
     /**
      * Updates an existing Usuarioaviso model.
      * If update is successful, the browser will be redirected to the 'view' page.
