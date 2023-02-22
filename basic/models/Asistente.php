@@ -31,7 +31,7 @@ class Asistente extends \yii\db\ActiveRecord
         return [
             [['local_id', 'convocatoria_id'], 'required'],
             [['local_id', 'convocatoria_id', 'usuario_id'], 'integer'],
-            [['fecha_alta','localNombre','usuarioNombre','usuarioApellidos'], 'safe'],
+            [['fecha_alta','titulo','usuarioNombre','usuarioApellidos'], 'safe'],
         ];
     }
 
@@ -43,11 +43,11 @@ class Asistente extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
-            'localNombre' =>Yii::t('app', 'Local'),
+            'titulo' =>Yii::t('app', 'Local'),
             'convocatoria_id' => Yii::t('app', 'Convocatoria ID'),
             'usuario_id' => Yii::t('app', 'Usuario ID'),
-            'usuarioNombre' => Yii::t('app', 'Nombre  Asistente'),
-            'usuarioApellidos' => Yii::t('app', 'Apellidos Asistente'),
+            'nombre' => Yii::t('app', 'Nombre  Asistente'),
+            'apellidos' => Yii::t('app', 'Apellidos Asistente'),
             'fecha_alta' => Yii::t('app', 'Fecha Alta'),
         ];
     }
@@ -131,8 +131,8 @@ class Asistente extends \yii\db\ActiveRecord
        return $this->hasOne(Usuario::class, ['id' =>'usuario_id'])->inverseOf('usuario');
     
     }
-    protected $usuarioNombre = null;
-    public function getUsuarioNombre(){
+    protected $nombre = null;
+    public function getNombre(){
         //buscador de nombre para poderlo poner en attribute labels w
         if($this->usuario==NULL)
         {
@@ -140,8 +140,8 @@ class Asistente extends \yii\db\ActiveRecord
         }else{
         return  $this->usuario->nombre;}
     }
-    protected $usuarioApellidos = null;
-    public function getUsuarioApellidos(){
+    protected $apellidos = null;
+    public function getApellidos(){
     
         if($this->usuario==NULL)
         {
@@ -152,7 +152,7 @@ class Asistente extends \yii\db\ActiveRecord
     }    public function getLocal(){
         return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
     }
-    public function getLocalNombre(){
+    public function getTitulo(){
         //buscador de locales
            if($this->local==NULL)
            {
@@ -164,7 +164,7 @@ class Asistente extends \yii\db\ActiveRecord
            }
     }
     
-    protected $localNombre = null;
+    protected $lo = null;
     
         public function getConvocatoria(){
             //buscador de locales

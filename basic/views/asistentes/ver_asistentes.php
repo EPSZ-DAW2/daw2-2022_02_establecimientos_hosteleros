@@ -27,10 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
          
 
             //'id',
-            'local_id',
-            'localNombre',
-            'usuarioNombre' ,
-            'usuarioApellidos',
+           // 'local_id',
+            'titulo',
+            'nombre' ,
+            'apellidos',
             //'convocatoria_id',
             'usuario_id',
             //'fecha_alta',

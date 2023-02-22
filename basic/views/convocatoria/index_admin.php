@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
               //'id',
            // 'local_id',
-           'localNombre',
+           'titulo',
            'texto:ntext',
            'fecha_desde',
            'fecha_hasta',

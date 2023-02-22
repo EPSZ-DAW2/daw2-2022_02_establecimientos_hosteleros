@@ -18,7 +18,7 @@ class AsistenteSearch extends Asistente
     {
         return [
             [['id', 'local_id', 'convocatoria_id', 'usuario_id'], 'integer'],
-            [['fecha_alta','localNombre','usuarioNombre','usuarioApellidos','fecha_alta'], 'safe'],
+            [['fecha_alta','titulo','nombre','apellidos','fecha_alta'], 'safe'],
         ];
     }
 
@@ -42,16 +42,17 @@ class AsistenteSearch extends Asistente
     {
         $query = Asistente::find();
         $query->joinWith(['local']);
-        $query->andFilterWhere(['=', 'titulo', $this->localNombre]);
+        $query->andFilterWhere(['=', 'titulo', $this->titulo]);
         $query->joinWith(['usuario']);
-        $query->andFilterWhere(['=', 'nombre', $this->usuarioNombre]);
+        $query->andFilterWhere(['=', 'nombre', $this->nombre]);
         $query->joinWith(['usuario']);
-        $query->andFilterWhere(['=', 'apellidos', $this->usuarioApellidos]);
+        $query->andFilterWhere(['=', 'apellidos', $this->apellidos]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['attributes' => ['usuario_id', 'fecha_desde','fecha_hasta','titulo','nombre','apellidos']]
         ]);
 
         $this->load($params);
@@ -69,7 +70,7 @@ class AsistenteSearch extends Asistente
             'convocatoria_id' => $this->convocatoria_id,
             'usuario_id' => $this->usuario_id,
             'fecha_alta' => $this->fecha_alta,
-        ]);  $query->andFilterWhere(['like', 'titulo', $this->localNombre]); $query->andFilterWhere(['like', 'nombre', $this->usuarioNombre]); $query->andFilterWhere(['like', 'apellidos', $this->usuarioApellidos]);
+        ]);  $query->andFilterWhere(['like', 'titulo', $this->titulo]); $query->andFilterWhere(['like', 'nombre', $this->nombre]); $query->andFilterWhere(['like', 'apellidos', $this->apellidos]);
 
         return $dataProvider;
     }

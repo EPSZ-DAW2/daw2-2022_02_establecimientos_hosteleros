@@ -57,7 +57,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'Local ID'),
-            'localNombre' => Yii::t('app', 'Local'),
+            'titulo' => Yii::t('app', 'Local'),
             'localFoto_Id' => Yii::t('app', 'localFoto_Id'),
             'texto' => Yii::t('app', 'Texto'),
             'fecha_desde' => Yii::t('app', 'Fecha Desde'),
@@ -439,14 +439,14 @@ class Convocatoria extends \yii\db\ActiveRecord
     }
 
     //Atrivuto virtual 
-    protected $localNombre = null;
+    protected $titulo = null;
 
     public function getLocal(){
         return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
     }
 
     
-    public function getLocalNombre(){
+    public function getTitulo(){
         //buscador de locales
            if($this->local==NULL)
            {
