@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
        
-    <?= $form->field($model, 'localNombre')->label('Nombre del local realizador')?>
+    <?= $form->field($model, 'titulo')->label('Nombre del local realizador')?>
 
     <?= $form->field($model, 'texto')->label('Convocatoria') ?>
 
