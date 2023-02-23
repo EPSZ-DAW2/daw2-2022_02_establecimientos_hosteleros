@@ -80,7 +80,7 @@ class Asistente extends \yii\db\ActiveRecord
 
     //GETS
 
-    public function getid(){
+   /* public function getid(){
         
         return $this->id;
 
@@ -108,7 +108,7 @@ class Asistente extends \yii\db\ActiveRecord
 
     //SETS
     /*El Id normal al ser la clave de la tabla no se debería poder cambiar asi que directamente no pongo la opción */
-    public function setLocal_id($Id){
+    /*public function setLocal_id($Id){
         
         $this->local_id = $Id;
 
@@ -128,7 +128,7 @@ class Asistente extends \yii\db\ActiveRecord
         $this->fecha_alta = $Fecha;
 
     }
-    
+    */
     
     public function getUsuario(){
         //buscador de usuarios

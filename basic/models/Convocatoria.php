@@ -93,7 +93,7 @@ class Convocatoria extends \yii\db\ActiveRecord
      * 
      * Menos setear el campo clave id, el resto que puede modificar
      */
-    public function setLocal_id($id){
+   /* public function setLocal_id($id){
         
         $this->local_id = $id;
 
@@ -176,7 +176,7 @@ class Convocatoria extends \yii\db\ActiveRecord
     
     //GETS
 
-    public function getId(){
+   /* public function getId(){
         
         return $this->id;
 
