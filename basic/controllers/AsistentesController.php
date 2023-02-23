@@ -131,4 +131,22 @@ class AsistentesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    public function actionVer($id,$id_local)
+       
+    {     
+        $searchModel = new AsistenteSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->query->where(['convocatoria_id' =>$id]);
+
+          $asistente=$dataProvider;
+       // $Convocatoria = Convocatoria::findOne($id);
+       // $asistente = $Convocatoria->asistentes;
+         $model= $asistente;
+        
+          
+            return $this->render('ver_asistentes', ['searchModel' => $searchModel,'dataProvider' => $dataProvider,'model' => $model,'convocatoria'=>$id,'local'=>$id_local]);
+        
+
+    }
 }

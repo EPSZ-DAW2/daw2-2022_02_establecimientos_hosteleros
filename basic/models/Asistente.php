@@ -60,6 +60,11 @@ class Asistente extends \yii\db\ActiveRecord
     {
         return new AsistentesQuery(get_called_class());
     }
+    public static function listar($id)
+    {
+        $lista=Asistente::find()->Where(['=', 'convocatoria_id', $id]);
+        return $lista;
+    }
     /**
      * Función que comprueba 1 asistente en la convocatoria
      */
