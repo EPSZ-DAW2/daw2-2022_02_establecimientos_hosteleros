@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var app\models\Asistente $model */
 
 $this->title = 'Crear Asistente';
-$this->params['breadcrumbs'][] = ['label' => 'Convocatorias', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Convocatorias', 'url' => ['convocatoria/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="asistente-create">
