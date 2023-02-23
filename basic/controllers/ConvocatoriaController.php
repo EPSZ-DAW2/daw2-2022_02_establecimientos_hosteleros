@@ -343,13 +343,19 @@ class ConvocatoriaController extends Controller
             $permisos = new UsuarioRol;
 
 
-            $asistente=new Asistente();
+          
        // $Convocatoria = Convocatoria::findOne($id);
        // $asistente = $Convocatoria->asistentes;
-         $model= $asistente->listar($id);
+    
         
             $searchModel = new AsistenteSearch();
             $dataProvider = $searchModel->search($this->request->queryParams);
+            $dataProvider->query->where(['convocatoria_id' =>$id]);
+
+            $asistente=$dataProvider;
+         // $Convocatoria = Convocatoria::findOne($id);
+         // $asistente = $Convocatoria->asistentes;
+           $model= $asistente;
             return $this->render('../asistentes/ver_asistentes', ['model' => $model,'searchModel' => $searchModel,'dataProvider' => $dataProvider,'convocatoria'=>$id,'local'=>$id_local]);
         }
 

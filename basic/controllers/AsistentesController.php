@@ -131,7 +131,7 @@ class AsistentesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actionVer($id,$id_local)
+  /*  public function actionVer($id,$id_local)
        
     {     
         $searchModel = new AsistenteSearch();
@@ -148,5 +148,5 @@ class AsistentesController extends Controller
             return $this->render('ver_asistentes', ['searchModel' => $searchModel,'dataProvider' => $dataProvider,'model' => $model,'convocatoria'=>$id,'local'=>$id_local]);
         
 
-    }
+    }*/
 }

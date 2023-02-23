@@ -85,7 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ], [ 'label' => 'ver asistentes',
             'format' => 'html',
             'content' => function($model, $key, $index) {
-                return '<a href="'.Url::to(['asistentes/ver', 'id' => $model->id, 'id_local' => $model->local_id]).'" class="btn pl-2 pr-2 mb-0 btn-default">Ver asistentes</a>';
+                return '<a href="'.Url::to(['convocatoria/ver', 'id' => $model->id, 'id_local' => $model->local_id]).'" class="btn pl-2 pr-2 mb-0 btn-default">Ver asistentes</a>';
             },
                
             ],],
