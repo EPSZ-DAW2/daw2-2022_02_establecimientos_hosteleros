@@ -13,10 +13,10 @@ use yii\data\Pagination;
 <h1 style="margin-bottom:2%;margin-top:6%;margin-left:7%">Copias de seguridad</h1>
 
 <?php echo '<a href="'.Url::to(['backup/copia', 'btn' =>'si']).'" class=" btn colorlogin mt-2" style=" margin-left:7% ;margin-right:75%">Hacer copia</a>'?> </td>
-<table  style="margin-top:4%;margin-left:8%;"class="table table-hover">
+<div style="margin-right:40%; margin-top:4%;margin-left:8%;margin-bottom:-15%;"><table  class="table table-hover">
 <?php     while (($archivo = readdir($model)) !== false)  {?>
 <?php      if ($archivo != "." && $archivo != "..") { $i++?>
-                 
+                
                  <tr><td>
                 <?php 
              
@@ -35,6 +35,7 @@ use yii\data\Pagination;
             ?>
             </tr>
             </table>
+            </div>
             <?php  $pagination = new Pagination(['totalCount' => $i, 'pageSize'=>10]);
 
 echo \yii\widgets\LinkPager::widget([

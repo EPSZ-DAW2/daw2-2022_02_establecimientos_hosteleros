@@ -40,6 +40,10 @@ class BackupController extends \yii\web\Controller
     }
     public function actionRestaurar($archivo){
         
+      $comando = new CopiaController('restore', Yii::$app);
+      $comando->ActionRestore($archivo);
+      $model= opendir('../backups');
+      return $this->render('index',['model'=>$model]); // aquí le voy a pasar la carpeta  de los backups 
     }
 
 }
