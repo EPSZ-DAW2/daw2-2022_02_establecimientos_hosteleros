@@ -69,7 +69,7 @@ class LocalesMantenimientoController extends \yii\web\Controller
         
         $searchModel = new LocalesMantenimientoSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->setPagination(['pageSize' => 10]);
+        $dataProvider->setPagination(['pageSize' => 1]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

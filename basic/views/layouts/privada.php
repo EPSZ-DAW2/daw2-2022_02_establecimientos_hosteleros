@@ -60,7 +60,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     }
     //Si el usuario es adm
     if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
-        array_push($items, ['label' => 'Backups', 'url' => ['/Backups/index']]);
+        array_push($items, ['label' => 'Backups', 'url' => ['/backup/index']]);
     }
 	//Si el usuario es invitado se añaden opciones de login y registro, si no de logout
     if(Yii::$app->user->isGuest){

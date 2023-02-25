@@ -6,7 +6,7 @@ use yii\console\Controller;
 use yii\console\ExitCode;
 use yii\helpers\FileHelper;
 use yii\helpers\Console;
-class BackupController extends Controller
+class CopiaController extends Controller
 {
     public function actionCreate()
     {
@@ -29,9 +29,9 @@ class BackupController extends Controller
 
         if ($return === 0) {
             $this->stdout("La copia de seguridad se ha creado de manera correcta: $fileName");
-        } else {
-            $this->stdout(" Error al crear la copia de seguridad: $output");
-        }
+        } //else {
+          //  $this->stdout(" Error al crear la copia de seguridad: $output");
+       // }
     }
 }
    
