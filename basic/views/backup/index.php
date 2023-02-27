@@ -23,10 +23,7 @@ use yii\data\Pagination;
               
                     // Si es un directorio se recorre recursivamente
                     
-                        echo "" . $archivo . "";?> </td><td><?php $form = ActiveForm::begin([
-                            'action' => ['restaurar'],
-                            'method' => 'get',
-                        ]); ?>
+                        echo  $archivo ;?> </td><td>
                     
                     <?php echo '<a href="'.Url::to(['backup/restaurar', 'archivo' =>$archivo]).'" class="btn pl-2 pr-2 mb-0 btn-default">restaurar copia</a>'?> </td><?php
                   
