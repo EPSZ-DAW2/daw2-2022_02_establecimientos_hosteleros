@@ -23,6 +23,8 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+    public $nombreUsuarioInv;
+    public $nombreLocalInv;
     public static function tableName()
     {
         return 'usuarios_avisos';
@@ -34,9 +36,9 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fecha_aviso'], 'required'],
+            [['fecha_aviso','texto'], 'required'],
             [['fecha_aviso', 'fecha_lectura', 'fecha_aceptado'], 'safe'],
-            [['texto'], 'string'],
+            [['texto','nombreUsuarioInv','nombreLocalInv'], 'string'],
             [['destino_usuario_id', 'origen_usuario_id', 'local_id', 'comentario_id'], 'integer'],
             [['clase_aviso_id'], 'string', 'max' => 1],
         ];
@@ -58,12 +60,15 @@ class Usuarioaviso extends \yii\db\ActiveRecord
             'comentario_id' => Yii::t('app', 'Comentario ID'),
             'fecha_lectura' => Yii::t('app', 'Fecha Lectura'),
             'fecha_aceptado' => Yii::t('app', 'Fecha Aceptado'),
-            
+
             //Atributos virtuales
             'nombreAviso' => Yii::t('app', 'Aviso'),
             'nickDestino'=> Yii::t('app', 'Nombre destino'),
             'nickOrigen'=> Yii::t('app', 'Nombre origen'),
             'nombreLocal'=> Yii::t('app', 'Nombre Local'),
+            //Atributos intermedios
+            'nombreUsuarioInv' => Yii::t('app', 'Nombre de usuario'),
+            'nombreLocalInv' => Yii::t('app', 'Nombre del Local'),
         ];
     }
 
@@ -117,6 +122,19 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     {
         return usuarioaviso::find()->where(['origen_usuario_id' => $id])->all();
     }//getAvisosEnviados
+    /**
+     * Recoge todos los avisos enviados
+     */
+    public static function getAvisosEnviadosLeidos($id)
+    {
+        return usuarioaviso::find()->where(['origen_usuario_id' => $id])->andWhere(['not',['fecha_lectura' => null]])->all();
+
+    }//getAvisosEnviados
+    public static function getAvisosEnviadosNoLeidos($id)
+    {
+        return usuarioaviso::find()->where(['origen_usuario_id' => $id])->andWhere(['fecha_lectura' => null])->all();
+
+    }//getAvisosEnviados
 
     /**
      * Recoge todos los avisos recibidos
@@ -124,6 +142,14 @@ class Usuarioaviso extends \yii\db\ActiveRecord
     public static function getAvisosRecibidos($id)
     {
         return usuarioaviso::find()->where(['destino_usuario_id' => $id])->all();
+    }//getAvisosRecibidos
+    public static function getAvisosRecibidosLeidos($id)
+    { return usuarioaviso::find()->where(['destino_usuario_id' => $id])->andWhere(['not',['fecha_lectura' => null]])->all();
+
+    }//getAvisosRecibidos
+    public static function getAvisosRecibidosNoLeidos($id)
+    {return usuarioaviso::find()->where(['destino_usuario_id' => $id])->andWhere(['fecha_lectura' => null])->all();
+
     }//getAvisosRecibidos
 
     /**
@@ -165,15 +191,24 @@ class Usuarioaviso extends \yii\db\ActiveRecord
 
     public function getnickDestino(){
         $usuario=Usuario::find()->select(['nick'])->where(['id' => $this->destino_usuario_id])->one();
+        if($usuario==null){
+            return '';
+        }
         return $usuario->nick;
     }
     public function getnickOrigen(){
         $usuario =Usuario::find()->select(['nick'])->where(['id' => $this->origen_usuario_id])->one();
+        if($usuario==null){
+            return '';
+        }
         return $usuario->nick;
     }
 
     public function getnombreLocal(){
         $local =Local::find()->select(['titulo'])->where(['id' => $this->local_id])->one();
+        if($local==null){
+            return '';
+        }
         return $local->titulo;
     }
 
@@ -207,12 +242,15 @@ class Usuarioaviso extends \yii\db\ActiveRecord
         $aviso->texto=$texto;
         $aviso->destino_usuario_id=$id_destino;
         $aviso->origen_usuario_id=$id_origen;
-        $aviso->local_id=null;
         $aviso->comentario_id=$comentario_id;
         $aviso->local_id=$local_id;
         $aviso->fecha_lectura=null;
         $aviso->fecha_aceptado=null;
         $aviso->save();
+        var_dump($aviso);
+            // El modelo tiene errores
+
+
     }
     public function getUsuarioDestino(){
         //Nombre de la tablaOrigen, Lo que relaciona las tablas [keyOrigen=>keyDestino,....]

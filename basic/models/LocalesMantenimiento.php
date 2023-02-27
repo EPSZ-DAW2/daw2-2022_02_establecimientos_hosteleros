@@ -104,10 +104,17 @@ class LocalesMantenimiento extends \yii\db\ActiveRecord
         return new LocalesQuery(get_called_class());
     }
     //Se bloquea un local según el tipo indicado
-	public function bloquear($tipo){
+    //Actualiza la base de datos para bloquear el local
+	public function bloquear($idLocal, $tipo){
 		$this->bloqueado=$tipo;
 		$this->save();
+        return Yii::$app->db->createCommand('UPDATE '.LocalesMantenimiento::tableName().' SET bloqueado='.$tipo.' WHERE id='.$idLocal)->queryOne();
+        
 	}
+    public function denunciar($id){//Hacer Update para sumar 1 al valor que ya esté definido
+        
+        return Yii::$app->db->createCommand('UPDATE '.LocalesMantenimiento::tableName().' SET num_denuncias=num_denuncias+1 WHERE id='.$id)->queryOne();
+    }
     //Lista de opciones para ver si el local está bloqueado
 	public static function listaOpcionesBloqueo(){
 		$opciones= array(
@@ -161,7 +168,7 @@ class LocalesMantenimiento extends \yii\db\ActiveRecord
 
     //lista la informacion de un local para la parte publica
     public static function listarinfolocal($id){
-        return Yii::$app->db->createCommand('SELECT titulo,descripcion,lugar,url,categoria_id,imagen_id,bloqueado FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryAll();
+        return Yii::$app->db->createCommand('SELECT * FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryAll();
     }
     public static function mediaValoraciones($id){
         $suma=Yii::$app->db->createCommand('SELECT sumaValores  FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryOne();
@@ -169,7 +176,5 @@ class LocalesMantenimiento extends \yii\db\ActiveRecord
         return $valoracion=$suma["sumaValores"]/$nvotos["totalVotos"];
 
     }
-    public static function denunciar(){
-        return Yii::$app->db->createCommand('SELECT sumaValores  FROM '.LocalesMantenimiento::tableName().' WHERE id='.$id)->queryOne();
-    }
+
 }

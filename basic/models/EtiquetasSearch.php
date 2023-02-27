@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\LocalesEtiquetas;
+use app\models\Etiquetas;
 
 /**
- * LocalesEtiquetasSearch represents the model behind the search form of `app\models\LocalesEtiquetas`.
+ * EtiquetasSearch represents the model behind the search form of `app\models\Etiquetas`.
  */
-class LocalesEtiquetasSearch extends LocalesEtiquetas
+class EtiquetasSearch extends Etiquetas
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,8 @@ class LocalesEtiquetasSearch extends LocalesEtiquetas
     public function rules()
     {
         return [
-            [['id', 'local_id', 'etiqueta_id'], 'integer'],
+            [['id', 'revisada'], 'integer'],
+            [['nombre', 'descripcion'], 'safe'],
         ];
     }
 
@@ -39,7 +40,7 @@ class LocalesEtiquetasSearch extends LocalesEtiquetas
      */
     public function search($params)
     {
-        $query = LocalesEtiquetas::find();
+        $query = Etiquetas::find();
 
         // add conditions that should always apply here
 
@@ -58,11 +59,11 @@ class LocalesEtiquetasSearch extends LocalesEtiquetas
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'local_id' => $this->local_id,
-            'etiqueta_id' => $this->etiqueta_id,
+            'revisada' => $this->revisada,
         ]);
 
-        $query->andFilterWhere(['like', 'etiqueta_id', $this->etiqueta_id]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre])
+            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 
         return $dataProvider;
     }

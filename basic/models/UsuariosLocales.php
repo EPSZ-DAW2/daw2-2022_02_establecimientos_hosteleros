@@ -58,40 +58,12 @@ class UsuariosLocales extends \yii\db\ActiveRecord
 
 
     public function comprobarSeguimiento($usuario_id, $local_id){
-        $relaciones=$this->find();
-        $sigue = $relaciones->andWhere(["usuario_id"=>$usuario_id], ["local_id"=>$local_id]);
-
-        if($sigue){
-            return TRUE;
+        $relaciones=$this->find()->where(["usuario_id"=>$usuario_id, "local_id"=>$local_id]);
+        
+        if($relaciones->count()==1){
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
-    }
-
-    public function follow($local_id,$usuario_id){
-        $relaciones=$this->find();
-        $sigue = $relaciones->andWhere(["usuario_id"=>$usuario_id], ["local_id"=>$local_id]);
-        //Si no almacena nada, el user no sigue al local
-        if($sigue==NULL){
-            $this->usuario_id=$usuario_id;
-            $this->local_id=$local_id;
-            $this->fecha_alta=date("Y-m-d H:i:s");
-        }
-        $retorno=$this->save();
-        return $retorno;
-        //if no estas en la tabla te creo
-    }
-
-
-    public function unfollow($local_id,$usuario_id){
-        $relaciones=$this->find();
-        $sigue = $relaciones->andWhere(["usuario_id"=>$usuario_id], ["local_id"=>$local_id]);
-        if($sigue!=NULL){
-            $retorno=$sigue->delete();
-        }else{
-            $retorno=False;
-        }
-        return $retorno;
-        //if estas en la tabla te borro
     }
 }

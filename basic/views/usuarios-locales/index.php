@@ -1,5 +1,6 @@
 <?php
-
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 use app\models\UsuariosLocales;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -16,7 +17,22 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="usuarios-locales-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <?php
+        NavBar::begin([
+            'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
+        ]);
+        $items=[
+            ['label' => 'Locales', 'url' => ['/locales-mantenimiento/index']],
+            ['label' => 'Etiquetas', 'url' => ['/locales-etiquetas/index']],
+            ['label' => 'Imagenes', 'url' => ['/locales-imagenes/index']],
+            ['label' => 'Seguidos', 'url' => ['/usuarios-locales/index']],
+        ];
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav'],
+            'items' => $items,
+        ]);
+        NavBar::end();
+    ?>
     <p>
         <?= Html::a(Yii::t('app', 'Create Usuarios Locales'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
