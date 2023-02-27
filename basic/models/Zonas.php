@@ -44,11 +44,11 @@ class Zonas extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'tipo_zona' => Yii::t('app', 'tipo_zona'),
-            'clase_zona_id' => Yii::t('app', 'clase_zona_id'),
+            'tipo_zona' => Yii::t('app', 'Tipo de Zona'),
+            'clase_zona_id' => Yii::t('app', 'Id de Clase Zona'),
             'nombre' => Yii::t('app', 'Nombre'),
             'zona_id' => Yii::t('app', 'Zona ID'),
-            'padre_Nombre' => Yii::t('app', 'padre_Nombre'),
+            'padre_Nombre' => Yii::t('app', 'Nombre del Padre'),
         ];
     }
 
@@ -75,7 +75,7 @@ class Zonas extends \yii\db\ActiveRecord
             '9' => 'Area',
         ];
     }
-    public static function listaZonas_ID(){
+    /*public static function listaZonas_ID(){
         return [
             'Continente' => '1',
             'Pais' => '2',
@@ -87,7 +87,7 @@ class Zonas extends \yii\db\ActiveRecord
             'Barrio' => '8',
             'Area' => '9' ,
         ];
-    }
+    }*/
 
     public static function getTipoZona($zona_Id)
     {

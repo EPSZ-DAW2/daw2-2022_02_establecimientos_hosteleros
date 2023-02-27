@@ -185,12 +185,12 @@ class ConvocatoriaController extends Controller
             //$model = $this->findModel($id);
 
             $timestamp = time()-(60*60*4);
-            $model->setModi_fecha(date('Y-m-d H:i:s',$timestamp)); 
+            $model->modi_fecha = date('Y-m-d H:i:s',$timestamp); 
 
             //$id_mod = 7; //quitar esta linea y poner la de abajo cuando el loguin vaya
             //$id_mod =Yii::$app->user->id;
 
-            $model->setModi_usuario_id(Yii::$app->user->id); 
+            $model->modi_usuario_id =Yii::$app->user->id; 
 
             if ($this->request->isPost && $model->load($this->request->post()) && $model->CrearFechas() && $model->save()) {
                 

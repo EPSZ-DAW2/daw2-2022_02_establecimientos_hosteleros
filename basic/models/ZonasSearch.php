@@ -48,7 +48,17 @@ class ZonasSearch extends Zonas
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            //'sort' => ['attributes' => ['id','nombre','padre.nombre']]
         ]);
+
+        $sort = $dataProvider->sort;
+
+        $sort->attributes['padre_Nombre'] = [
+            'asc' => ['padre.Nombre' => SORT_ASC],
+            'desc' => ['padre.Nombre' => SORT_DESC],
+            'default' => SORT_DESC,
+            'label' => 'Nombre del Padre',
+        ];
 
         $this->load($params);
 
@@ -62,13 +72,13 @@ class ZonasSearch extends Zonas
         $query->andFilterWhere([
             'id' => $this->id,
             'zona_id' => $this->zona_id,
-            'zonas.clase_zona_id' => $this->clase_zona_id,
+            //'zonas.clase_zona_id' => $this->clase_zona_id,
         ]);
 
         $query->andFilterWhere(['like', 'zonas.clase_zona_id', $this->clase_zona_id])
             ->andFilterWhere(['like', 'nombre', $this->nombre]);
 
-            //$query->andFilterWhere(['like', 'tipo_zona', $this->tipo_zona]);
+            $query->andFilterWhere(['like', 'tipo_zona', $this->tipo_zona]);
             $query->andFilterWhere(['like', 'padre.nombre', $this->padre_Nombre]);
 
         return $dataProvider;
