@@ -4,6 +4,7 @@ namespace app\controllers;
 use app\models\UsuarioRol;
 use yii\web\Controller;
 use app\commands\CopiaController;
+use yii\helpers\FileHelper;
 use Yii;
 //Para la parte de Angel
 use app\models\Usuario;
@@ -24,6 +25,11 @@ class BackupController extends \yii\web\Controller
     public function actionIndex()
     { 
         if((Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
+          //en caso de que la carpeta no se haya cargado por alguna razón la volvemos a crear si no existe
+          $backupPath = \Yii::getAlias('@app/backups');
+          if (!file_exists($backupPath)) {
+              FileHelper::createDirectory($backupPath);
+          }
          $model= opendir('../backups');
         return $this->render('index',['model'=>$model]); // aquí le voy a pasar la carpeta  de los backups 
         }
