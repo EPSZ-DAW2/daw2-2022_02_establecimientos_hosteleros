@@ -457,6 +457,14 @@ class Convocatoria extends \yii\db\ActiveRecord
     
     }
 
+    protected $numParticipantes = null;
+
+    public function getNumParticipantes(){
+        return $this->hasMany( Asistente::class , [
+            'convocatoria_id' => 'id'
+        ])->count();
+    }
+
     //Atrivuto virtual 
     protected $titulo = null;
 

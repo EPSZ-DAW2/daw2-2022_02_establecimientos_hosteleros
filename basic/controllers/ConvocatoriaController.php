@@ -123,6 +123,31 @@ class ConvocatoriaController extends Controller
             ]);
         }
     }
+    public function actionVerinscripciones()
+    {
+        //Buscamos todas las asistencias de un usuario
+        $searchModel = new AsistenteSearch();
+        //find(Yii::$app->user->id)
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        $dataProvider->query->where(['locales_convocatorias_asistentes.usuario_id' => Yii::$app->user->id]);
+        
+        //creamos el paginador
+        $pagination = new Pagination([
+			'defaultPageSize' => Configuracion::getValorConfiguracion('numero_paginacion_hosteleros'),
+			'totalCount' => $dataProvider->query->count(),
+		]);
+        //sacamos los datos según elpaginador
+        $convocatorias=$dataProvider->query->offset($pagination->offset)
+			->limit($pagination->limit)->all();
+
+        if(!Yii::$app->user->isGuest){
+            return $this->render('index_usuario', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+    }
 
     /**
      * Displays a single Convocatoria model.
