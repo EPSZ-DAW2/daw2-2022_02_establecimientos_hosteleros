@@ -51,25 +51,7 @@ class DetalleLocalesController extends \yii\web\Controller
         
         $countQuery = clone $query;
         $pages = new Pagination(['totalCount'=>$countQuery->count(), 'pageSize'=>5]); 
-        //$pages = new Pagination(['totalCount'=>$countQuery->count()]);
         $models = $query->offset($pages->offset)->limit($pages->limit)->all();
-
-        /* $query = Article::find()->where(['status' => 1]);
-            $countQuery = clone $query;
-            $pages = new Pagination(['totalCount' => $countQuery->count()]);
-            $models = $query->offset($pages->offset)
-                ->limit($pages->limit)
-                ->all();
-
-            return $this->render('index', [
-                'models' => $models,
-                'pages' => $pages,
-            ]); */
-        
-
-
-
-
 
         return $this->render('index',['info'=>$info,'mediaVal'=>$mediaVal,'models'=>$models, 'pages' => $pages,]);
     }

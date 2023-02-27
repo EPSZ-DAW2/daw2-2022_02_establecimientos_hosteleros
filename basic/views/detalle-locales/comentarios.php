@@ -5,7 +5,6 @@ use yii\bootstrap5\LinkPager;
 use app\models\LocalesComentarios;
 use app\models\Usuario;
 use yii\data\Pagination;
-//use yii\widgets\LinkPager;
 use yii\db\ActiveRecord;
 
 ?> 
