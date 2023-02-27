@@ -394,7 +394,7 @@ class Convocatoria extends \yii\db\ActiveRecord
     public function report(){
         //echo"\n El numero de denuncias iniciar es: ".$this->getnum_denuncias()."</br>" ;
 
-        if(($this->getnum_denuncias())==0){
+        if($this->num_denuncias==0){
             //Se guarda la fecha en la que se realiza la denuncia
             $timestamp = time()-(60*60*4);
             
@@ -408,14 +408,14 @@ class Convocatoria extends \yii\db\ActiveRecord
             //print_r(date('Y-M-D H:I:S',$timestamp));
         }
         //Seteamos el valor de las denuncias al que tenía + 1
-        $this->setnum_denuncias($this->getnum_denuncias() + 1);
+        $this->setnum_denuncias($this->num_denuncias + 1);
 
         //Si el numero de denuncias es mayor que 5, se tiene que bloquear
-        if(($this->getnum_denuncias()>4)&&$this->getBloqueada()==0){
-            echo"Bloqueadoooo".$this->getBloqueada();
-            $this->setBloqueada(1);
+        if(($this->num_denuncias>4)&&$this->bloqueada==0){
+            echo"Bloqueadoooo".$this->bloqueada;
+            $this->bloqueada = 1;
             $timestamp = time()-(60*60*4);
-            $this->setFecha_bloqueo(date('Y-m-d H:i:s',$timestamp));    
+            $this->fecha_bloqueo = date('Y-m-d H:i:s',$timestamp);    
         }
         $_SESSION['REPORT_VECES'] = 1;
         //print_r( $this->getfecha_denuncia1());

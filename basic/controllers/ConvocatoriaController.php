@@ -280,12 +280,12 @@ class ConvocatoriaController extends Controller
                 //Creo que esto no es necesario
                 //$inscripcion->loadDefaultValues();
 
-                $inscripcion->setConvocatoria_id($model->getId());
-                $inscripcion->setLocal_id($model->getLocal_Id());
-                $inscripcion->setUsuario_id($id_asistente);
+                $inscripcion->convocatoria_id = $model->id ;
+                $inscripcion->local_id = $model->local_id;
+                $inscripcion->usuario_id = $id_asistente;
 
                 $timestamp = time()-(60*60*4);
-                $inscripcion->setFecha_alta(date('Y-m-d H:i:s',$timestamp));        
+                $inscripcion->fecha_alta = date('Y-m-d H:i:s',$timestamp);        
 
                 $inscripcion->save();
             }
