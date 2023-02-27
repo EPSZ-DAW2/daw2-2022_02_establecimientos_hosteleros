@@ -113,8 +113,8 @@ class ZonasController extends Controller
             if ($this->request->isPost) {
                 //Comprobar los datos que llegan por post:
                 $model->load($this->request->post());       
-                //si los datos no son validos o no se puede guardar     
-                if ($model->ComprobarDatos() && $model->save()) {
+                //si los datos son validos y  se puede guardar     
+                if (!is_string($model->ComprobarDatos()) && $model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
                 } 
             } else {

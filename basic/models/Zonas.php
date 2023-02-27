@@ -124,6 +124,7 @@ class Zonas extends \yii\db\ActiveRecord
         //Comrpobar el id de la Clase zona [0-9]
         //Coger id del padre y buscarlo. 
         $padre=$this->padre;
+
         if( $padre != null){ //Si tiene padre
             
             //Ver el tipo del padre            
@@ -132,13 +133,14 @@ class Zonas extends \yii\db\ActiveRecord
                 
                 return true;
             } else { // el padre no puede ser un tipo de zona mas pequeño
-                
-                return false;
+                //return false;
+                return 'El padre escogido es de un rango igual o inferior';
             }
             
         } else {
             if ($this->clase_zona_id == 1) return true; //Si es un continente
-            return false; 
+            //return false;
+            return 'El padre escogido no existe'; 
         }
         
 

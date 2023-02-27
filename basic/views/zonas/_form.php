@@ -16,17 +16,9 @@ use yii\widgets\ActiveForm;
     <?php 
     
     //Comprobación de errores si ya se ha validado pero ha vuelto al form
-
-        if (isset($model->clase_zona_id) && ($model->clase_zona_id != null) ){
-
-            //Si el padre no existe
-            if ($model->padre == null)
-                echo Html::tag('div', 'El padre escogido no existe',['class' => 'error-summary']);
-            //Si el padre elegido tiene un tipo de zona de menor categoría
-            else if ($model->clase_zona_id < $model->padre->clase_zona_id )
-                echo Html::tag('div', 'El padre escogido es de un rango igual o inferior',['class' => 'error-summary']);
-            
-           
+        $error = $model->ComprobarDatos();
+        if (is_string($model->ComprobarDatos())){ //Si el formulario no está vacío
+            echo Html::tag('div', $error,['class' => 'error-summary']);               
         }
         //echo("a");
     
