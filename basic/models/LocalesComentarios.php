@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Local;
 
 /**
  * This is the model class for table "locales_comentarios".
@@ -84,36 +85,35 @@ class LocalesComentarios extends \yii\db\ActiveRecord
     public static function listarrespuestas($comentario_id){
         return Yii::$app->db->createCommand('SELECT id,valoracion,texto,crea_fecha FROM '.LocalesComentarios::tableName().' WHERE comentario_id='.$comentario_id.' ORDER BY crea_fecha')->queryAll();
     }
-    public static function agregarcomentario($local_id,$valoracion,$texto,$cerrado,$crea_usuario_id,$comentario_id){
-        //if($comentario_id==NULL){$comentario_id=0;}
-        $crea_fecha = date('Y-m-d H:i:s');
-        return Yii::$app->db->createCommand('INSERT INTO '.LocalesComentarios::tableName().'(local_id,valoracion,texto,cerrado,crea_usuario_id,crea_fecha,comentario_id) VALUES=("'.$local_id.'","'.$valoracion.'","'.$texto.'","'.$cerrado.'","'.$crea_usuario_id.'","'.$crea_fecha.'","'.$comentario_id.'","'.$texto.'","'.$texto.'")')->queryAll();
-    }
-
-}
-
-
-/* POSIBLE IMPREMENTACION
-
-// funcion find father recibe el arreglo y el id por defecto 0
-function ffather($arr,$el=0){
-    // creamos una varible final que contendra nuestros hijos
-    $final=array();
-    // recorremos el arreglo
-    foreach ($arr as $key => $value) {
-        // validamos que el el id actual coincida con el id_padre "encontramos un hijo"
-        if ($el == $value["id_padre"]){
-            // volvemos a llamar a la funcion find father para buscar ahora los hijos de los hijos
-            $value["hijos"]=ffather($arr,$value["id"]);
-            // cargamos el nuevo valor en $final
-            $final[]= $value;
+    public function agregarcomentario($local_id,$valoracion,$texto,$cerrado,$crea_usuario_id,$comentario_id){
+        if($comentario_id==0){ 
+            Yii::$app->db->createCommand('UPDATE '.Local::tableName().' SET sumaValores = sumaValores +'.$valoracion.',totalVotos=totalVotos+1 WHERE id='.$local_id)->queryOne();
         }
+        $crea_fecha = date('Y-m-d H:i:s');
+        return Yii::$app->db->createCommand('INSERT INTO '.LocalesComentarios::tableName().' (local_id,valoracion,texto,cerrado,crea_usuario_id,crea_fecha,comentario_id) VALUES ("'.$local_id.'","'.$valoracion.'","'.$texto.'","'.$cerrado.'","'.$crea_usuario_id.'","'.$crea_fecha.'","'.$comentario_id.'")')->queryAll();
     }
-    // retornamos $final
-    return $final;
+
+    public static function num_comentarios($local_id){
+        //return Yii::$app->db->createCommand('SELECT COUNT(id) as "count" FROM '.LocalesComentarios::tableName().' WHERE local_id= '.$local_id)->queryAll();
+        $query = LocalesComentarios::find()->where(['local_id'=>$local_id]);
+    
+        $count = $query->count();
+
+        //$count= Yii::$app->db->createCommand()->select("count(id) as 'count' ")->from('locales_comentarios')->queryAll();
+        return $count;
+    }
+
+
+    public function esCerrado($comentario_id){
+        $valor = Yii::$app->db->createCommand('SELECT cerrado FROM '.LocalesComentarios::tableName().' WHERE id='.$comentario_id)->queryAll();
+        
+        if($valor[0]['cerrado']==0){
+            return 0;
+        } elseif($valor[0]['cerrado']==1){
+            return 1;
+        } else {return 3;}
+
+        
+    }
+
 }
-
-echo "<pre>";
-print_r(ffather($arr));
-
-*/

@@ -6,12 +6,12 @@ use yii\helpers\Html;
 $this->title = 'Listado Locales';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-    <?php echo $this->render('_patrocinados',['localespat'=>$localespat,]);?>
 
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php echo $this->render('_patrocinados',['localespat'=>$localespat,]);?>
+</br>
 <h1>
     <?php
-
-
 
     if(Yii::$app->request->get('id')) {
 		$hostelero = Hostelero::findOne(['id' => Yii::$app->request->get('id')]);

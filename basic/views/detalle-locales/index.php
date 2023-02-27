@@ -7,124 +7,101 @@ use app\models\Usuario;
 use app\models\LocalesComentarios;
 use yii\web\Session;
 use yii\bootstrap5\ActiveForm;
+use app\controllers\CPagination;
+use yii\db\ActiveRecord;
+
 /** @var yii\web\View $this */
 
 $this->title = $info[0]['titulo'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<section class="mx-3 my-3" style="max-width: 23rem;">
-    <div class="card">
-
-       
-        <?php
-            $idUsuario = Yii::$app->session->get('__id');
-            echo $info[0]['titulo'];echo "</br>";
-            echo $info[0]['descripcion'];echo "</br>";
-            echo $info[0]['lugar'];echo "</br>";
-            echo $info[0]['url'];echo "</br>";
-            if( Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){
-                //echo cositas que solo ven los admin y esa gente
-            }
-            echo $mediaVal;echo "</br>";
-
-            
-        ?>
-    
-        <div class="card-img">
-         <img src="<?php echo Url::to("@web/uploadimages/".$info[0]['imagen_id'].'.jpg')?>" alt="Imagen" class="img-fluid">
+<div class="container">
+  <div class="row justify-content-between"> <!-- Titulo, datos y boton seguir -->
+    <div class="col-7 d-flex">
+      <div class="col">
+        <div class="col-12 d-flex justify-content-between">
             <?php
-            if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){
+              $idUsuario = Yii::$app->session->get('__id');
+              echo "<h2>".$info[0]['titulo']."</h2>";
+              if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){
                 $modeloUsuLocales = new UsuariosLocales();
                 $retorno = $modeloUsuLocales->comprobarSeguimiento($idUsuario, $info[0]['id']);
                 if($retorno === true){
-                    //Mostrar boton de dejar de seguir
-                    ?>
-                    <?= Html::a("Dejar de seguir", ['detalle-locales/unfollow','usuario_id'=>$idUsuario, 'local_id'=>$info[0]['id']], ['class' => 'btn btn-primary']);?>
-                    <?php
+                  //Mostrar boton de dejar de seguir
+                  ?>
+                    <?= Html::a("Dejar de seguir", ['detalle-locales/unfollow','usuario_id'=>$idUsuario, 'local_id'=>$info[0]['id']], ['class' => 'btn btn-danger']);?>
+                  <?php
                 } elseif ($retorno === false) {
-                    ?>
-                    <?= Html::a("Seguir", ['detalle-locales/follow','usuario_id'=>$idUsuario, 'local_id'=>$info[0]['id']], ['class' => 'btn btn-primary']);?>
-                    <?php
-                    //Mostrar boton de seguir
+                  //Mostrar boton de seguir
+                  ?>
+                    <?= Html::a("Seguir", ['detalle-locales/follow','usuario_id'=>$idUsuario, 'local_id'=>$info[0]['id']], ['class' => 'btn btn-success']);?>
+                  <?php
                 }
-            }
+              }
             ?>
-            <!--<a href="<?php// Url::toRoute(['detalle-locales/index', 'idLocal'=>$local->id]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Saber más</a>-->
-            
-        </div>        
-        <?php
-        if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){?>
-          <?=Html::a("Denunciar local", ['detalle-locales/denunciarlocal', 'idLocal' => $info[0]['id'] ] , ['class' => 'btn btn-success']);?>
-          <?php
-        }
-        ?>
-        <?= Html::a("Quedadas", ['convocatoria/index'] , ['class' => 'btn btn-success']) ?>
-        <div class="d-flex justify-content-center">
-        <?php
-        if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){
-         $form = ActiveForm::begin(); 
-            $model = new LocalesComentarios();?>
-            
-            <div class="form-group">
-                <p class="clasificacion">
-
-                    <?= $form->field($model, 'valoracion')->inline()->radioList(['1' => 1,'2' => 2,'3' => 3,'4' => 4,'5' => 5]);?>
-                </p>
-                <?=$form->field($model, 'texto')->textInput()?>
-                <div>
-                    <?= $form->field($model, 'cerrado')->checkbox(['value' => 1])->label('Comentario cerrado'); ?>
-                    <!--<input type="checkbox" id="cerrado" name="cerrado" value=1★>
-                    <label for="cerrado">Comentario cerrado</label>-->
-                </div>
-                <?= Html::submitButton('Valorar', ['class' => 'btn btn-primary']) ?>
-            </div>
         </div>
+        <?php
+          echo "<p><h5 class='d-inline'>Calificación: ".round($mediaVal,1)."/5</h5></p>";
+          echo "<p>".$info[0]['descripcion']."</p>";
+          echo "<p><h5 class='d-inline'>Dirección: ".$info[0]['lugar']."</h5></p>";
+          echo "<p><h5 class='d-inline'>URL: <a target='_blank' href='".$info[0]['url']."'>".$info[0]['url']."</a></h5></p>";
+        ?>
+        <?= Html::a("Quedadas", ['convocatoria/index'] , ['class' => 'btn pl-2 pr-2 mb-0 btn-default']) ?></br>
+      </div>
+
+      
+    </div>
+
+    <div class="col-5 d-flex align-items-end flex-column mb-3">
+      <img src="<?php echo Url::to("@web/uploadimages/".$info[0]['imagen_id'].'.jpg')?>" alt="Imagen" width="100%" height="85%">      
+      <?php
+        if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){?>
+          <?=Html::a("Denunciar local", ['detalle-locales/denunciarlocal', 'idLocal' => $info[0]['id'] ] , ['class' => 'btn btn-danger mt-auto p-2', 'type'=>'button']);?>
+      <?php
+        }
+      ?>
+    </div>
+  </div>
+
+  <div class="row">
+    <?php if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){ ?>
+    <div class="row" style="margin-bottom:25px;margin-left:0.5%;margin-right:1%; background-color:#e2e2e2;border: 1px solid black;box-shadow: 1px 2px 6px black;border-radius:15px;"> <!-- Comentar local -->
+      <?php
+          $form = ActiveForm::begin(['action' =>['detalle-locales/comentar'], 'id' => 'detalle-locales', 'method' => 'post',]); 
+            $model = new LocalesComentarios();?>
+              <div class="row"> <!-- Formulario comentario local -->
+                <div class="col-4">
+                  <p class="clasificacion">
+                      <?= $form->field($model, 'local_id')->hiddenInput(array('value'=>$info[0]['id']))->label(false) ?>
+                      <?= $form->field($model, 'crea_usuario_id')->hiddenInput(array('value'=>$idUsuario))->label(false) ?>
+                      <?= $form->field($model, 'comentario_id')->hiddenInput(array('value'=>0))->label(false) ?>
+                      <?= $form->field($model, 'valoracion')->inline()->radioList(['1' => 1,'2' => 2,'3' => 3,'4' => 4,'5' => 5])->label("Valoración");?>
+                  </p>
+                </div>
+                <div class="col-8 d-flex align-items-end justify-content-left">
+                  <?= $form->field($model, 'cerrado')->checkbox(['value' => 1])->label('Comentario cerrado'); ?>
+                </div>
+              </div>
+
+              <div class="row justify-content-between"> <!-- Texto y enviar comentario a local -->
+                <div class="col-xl-10">
+                  <?=$form->field($model, 'texto')->textInput()?>
+                </div>
+                <div class="col-md-auto d-flex align-items-end justify-content-end" style="margin-bottom:19px;">
+                  <?= Html::submitButton('Valorar', ['class' => 'btn pl-2 pr-2 mb-0 btn-default']) ?>
+                </div>
+              </div>
+    </div>
+    <div class="col" style="padding:0px">
+      <div class="d-flex flex-column align-items-center justify-content-center" style="background-color:none !important;"> <!-- Comentarios del local -->
         <?php ActiveForm::end();
         }
         $idLocal=$info[0]['id'];
-        if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){
-          echo $this->render('comentarios',['usuario_id'=>$idUsuario, 'local_id'=>$idLocal]);
-        
-        }
-
+          
+        echo $this->render('comentarios',['idUsuario'=>$idUsuario, 'local_id'=>$idLocal, 'pages'=>$pages, 'comentarios'=>$models]);
         ?>
-        
+      </div>
     </div>
-</section>
-<!-- codigo css para las estrellas que no se donde ponerlo
-#form {
-  width: 250px;
-  margin: 0 auto;
-  height: 50px;
-}
-
-#form p {
-  text-align: center;
-}
-
-#form label {
-  font-size: 20px;
-}
-
-input[type="radio"] {
-  display: none;
-}
-
-label {
-  color: grey;
-}
-
-.clasificacion {
-  direction: rtl;
-  unicode-bidi: bidi-override;
-}
-
-label:hover,
-label:hover ~ label {
-  color: orange;
-}
-
-input[type="radio"]:checked ~ label {
-  color: orange;
-}-->
+  </div>
+</div>

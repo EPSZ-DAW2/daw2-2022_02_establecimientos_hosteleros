@@ -4,11 +4,13 @@ namespace app\controllers;
 
 use app\models\Usuario;
 
+use app\models\Configuracion;
 use app\models\LocalesMantenimiento;
 use app\models\LocalesComentarios;
 use app\models\UsuariosLocales;
 use Yii;
-
+use yii\data\Pagination;
+use yii\db\ActiveRecord;
 
 class DetalleLocalesController extends \yii\web\Controller
 {
@@ -40,7 +42,36 @@ class DetalleLocalesController extends \yii\web\Controller
         $info=LocalesMantenimiento::listarinfolocal($idLocal);
         $mediaVal=LocalesMantenimiento::mediaValoraciones($idLocal);
         $comentarios=LocalesComentarios::listarcomentarios($idLocal);
-        return $this->render('index',['info'=>$info,'mediaVal'=>$mediaVal,'comentarios'=>$comentarios]);
+        $count = LocalesComentarios::num_comentarios($idLocal);
+        
+
+        $query = LocalesComentarios::find()
+                    ->where(['local_id'=>$idLocal])
+                    ->where(['comentario_id'=>0]);
+        
+        $countQuery = clone $query;
+        $pages = new Pagination(['totalCount'=>$countQuery->count(), 'pageSize'=>5]); 
+        //$pages = new Pagination(['totalCount'=>$countQuery->count()]);
+        $models = $query->offset($pages->offset)->limit($pages->limit)->all();
+
+        /* $query = Article::find()->where(['status' => 1]);
+            $countQuery = clone $query;
+            $pages = new Pagination(['totalCount' => $countQuery->count()]);
+            $models = $query->offset($pages->offset)
+                ->limit($pages->limit)
+                ->all();
+
+            return $this->render('index', [
+                'models' => $models,
+                'pages' => $pages,
+            ]); */
+        
+
+
+
+
+
+        return $this->render('index',['info'=>$info,'mediaVal'=>$mediaVal,'models'=>$models, 'pages' => $pages,]);
     }
 
 
@@ -107,7 +138,19 @@ class DetalleLocalesController extends \yii\web\Controller
     public function actionComentarios($local_id){
         $model = new LocalesComentarios();
 
-        return $model->listarcomentarios($local_id);
+        $model->listarcomentarios($local_id);
+        $model->setPagination(['pageSize'=>1]);
+        return $model;
+    }
+
+    public function actionComentar(){
+        $model = new LocalesComentarios();
+
+        if($model->load(Yii::$app->request->post())){
+            $model->crea_fecha = date('Y-m-d H:i:s');
+            $model->agregarcomentario($model->local_id, $model->valoracion, $model->texto, $model->cerrado, $model->crea_usuario_id, $model->comentario_id);
+            return $this->goBack(Yii::$app->request->referrer);
+        }
     }
 
 }

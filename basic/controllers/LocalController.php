@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Local;
+use app\models\LocalSearch;
 use app\models\Usuario;
 use Yii;
 
@@ -32,7 +33,9 @@ class LocalController extends \yii\web\Controller
     public function actionIndex($id=null,$zona=null)
     {
 		$locales=Local::find()->where(['visible'=>1]);
+		$searchModel = new LocalSearch();
 
+		$dataProvider = $searchModel->search($this->request->queryParams);
         //$zona= (isset($_GET['zona']) ? $_GET['zona'] : NULL);
         //$zona = Yii::$app->request->get('zona');
 
@@ -49,19 +52,20 @@ class LocalController extends \yii\web\Controller
 
 
 		if(isset($id) && $id!=null)
-			$locales->andWhere(['hostelero_id'=>$id]);
+			//$locales->andWhere(['hostelero_id'=>$id]);
+			$locales=$dataProvider->query->all()->andWhere(['hostelero_id'=>$id]);
         if(isset($zona)&& $zona!=null){
-            $locales->andWhere(['zona_id'=>$zona]);
+            //$locales->andWhere(['zona_id'=>$zona]);
+			$locales=$dataProvider->query->all()->andWhere(['zona_id'=>$zona]);
         }
-
+		$locales=$dataProvider->query->all();
 		return $this->render('index', [
-			'locales'=>$locales->all(),
+			'searchModel' => $searchModel,
+			//'locales'=>$locales->all(),
+			'locales'=>$locales,
 			'localespat'=>$localespat->all(),
 		]);
     }
 
-	public function actionDetalle()
-	{
-		//TODO
-	}
+
 }

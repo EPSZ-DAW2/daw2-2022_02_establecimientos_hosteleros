@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\models\Local;
 use Yii;
 
 /**
@@ -43,6 +44,18 @@ class LocalesEtiquetas extends \yii\db\ActiveRecord
             'etiqueta_id' => Yii::t('app', 'Etiqueta'),
         ];
     }
+/* 
+    public function relations()
+    {
+        return [
+            'local' => [
+                'class' => Local::class,
+                'foreignKey' => 'local_id',
+                'on' => 'Local.id = LocalesEtiquetas.local_id',
+            ],
+        ];
+    }
+ */
 
     /**
      * {@inheritdoc}
@@ -52,4 +65,36 @@ class LocalesEtiquetas extends \yii\db\ActiveRecord
     {
         return new LocalesEtiquetasQuery(get_called_class());
     }
+
+
+    /* public function getLocales(){
+        return $this->hasMany(Local::class,[
+            //campos clave de convocatorias y  local
+            'local_id' => 'id',
+        ])->inverseOf('Local');
+    } */
+
+
+    public function getLocalesEtiquetas(){
+        return $this->hasMany(Local::class,[
+            //campos clave de convocatorias y  local
+            'id' => 'local_id',
+        ])->inverseOf('LocalesEtiquetas');
+    }
+
+    public static function listaEtiquetas(){
+        $tipos=LocalesEtiquetas::find()->orderBy('nombre')->all();
+		$lista=ArrayHelper::map($tipos, 'id', 'nombre');
+        return $lista;
+    }
+
+
+    // $userQuery = (new Query)->select('id')->from('user');
+    //     $query->where(['id' => $userQuery]); 
+    //     que generará el siguiente código SQL:
+    //     WHERE `id` IN (SELECT `id` FROM `user`)
+
+    /* public static function listaEtiquetas(){
+        $queryAUX = (new Query)->select()
+    } */
 }
