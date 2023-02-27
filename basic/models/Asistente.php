@@ -174,7 +174,7 @@ class Asistente extends \yii\db\ActiveRecord
         public function getConvocatoria(){
             //buscador de locales
            
-           return $this->hasOne(Convocatoria::class, ['id' =>'convocatoria_id'])->inverseOf('Convocatoria');
+           return $this->hasOne(Convocatoria::class, ['id' =>'convocatoria_id'])->inverseOf('asistentes');
         
         }
         protected $Convocatoria = null;

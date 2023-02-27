@@ -19,22 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php
-        if(!(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id))){
-            NavBar::begin([
-                'brandLabel' => '',
-                'options' => ['class' => 'navbar-expand-md navbar-light navcolor mb-3'],
-            ]);
-            $items=[
-                ['label' => 'Ver Convoctorias', 'url' => ['convocatoria/index']],
-                ['label' => 'Crear convoctorias', 'url' => ['convocatoria/create']],
-                ['label' => 'Administrar convocatorias propias', 'url' => ['convocatoria/verpropias']],
-            ];
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav'],
-                'items' => $items,
-            ]);
-            NavBar::end();
-        }
+        include('menu.php');
     ?>
     <?= $this->render('_form', [
         'model' => $model,

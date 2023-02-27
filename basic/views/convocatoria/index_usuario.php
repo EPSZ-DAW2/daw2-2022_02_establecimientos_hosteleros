@@ -10,22 +10,24 @@ use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
+use yii\bootstrap5\LinkPager;
 
+use yii\bootstrap5\Nav;
+use yii\bootstrap5\NavBar;
 
 /** @var yii\web\View $this */
 /** @var app\models\ConvocatoriaSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Convocatorias';
+$this->title = 'Asistencias';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="convocatoria-index">
+<div class="container">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    
+    <?php include('menu.php'); ?>
 
-    <p>
-        <?= Html::a('Create Convocatoria', ['create'], ['class' => 'btn colorlogin mt-2']) ?>
-    </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     
@@ -35,11 +37,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            //'id',
-            'local_id',
-            'texto:ntext',
-            'fecha_desde',
-            'fecha_hasta',
+            'id',
+            //'local_id',
+            //'convocatoria_id',
+            //'fecha_alta',
+            //'fecha_hasta',
             //'num_denuncias',
             //'fecha_denuncia1',
             //'bloqueada',
@@ -49,22 +51,19 @@ $this->params['breadcrumbs'][] = $this->title;
             //'crea_fecha',
             //'modi_usuario_id',
             //'modi_fecha',
-            /*[
-                'attribute'=>'Participantes',
-                'content'=> function(Convocatoria $model, $key, $index, $column){
-                   // echo "<pre>";
-                   // print_r($model->getAsistentes());
-                    //echo "</pre>";
-                    echo "Num partici:".$model->getNumParticipantes();
-                    return $model->getNumParticipantes();
-                }
-            ],*/
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
+                'attribute'=>'Convocatoria',
+                'content'=> function(Asistente $model, $key, $index, $column){
+                    return $model->convocatoria->texto;
                 }
             ],
+            [
+                'attribute'=>'Participantes',
+                'content'=> function(Asistente $model, $key, $index, $column){
+                    return $model->convocatoria->getNumParticipantes();
+                }
+            ],
+
             [
                 'label' => '',
                 'format' => 'raw',
@@ -72,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     //si ya se ha reportado en esta sesión tiene que existir la variable o ser diferente de 0
                     //en este caso aparece el botón bloqueado
 
-                    return !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0) ? Html::a('reportar',Url::toRoute(["reportar", 'id' => $model->id]),['class' => 'btn btn-danger']) :'Superado el límite de reportes';
+                    return !(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0) ? Html::a('reportar',Url::toRoute(["reportar", 'id' => $model->convocatoria->id]),['class' => 'btn btn-danger']) :'Superado el límite de reportes';
                     /*if(isset($_SESSION['REPORT_VECES']) && $_SESSION['REPORT_VECES']!=0){
                         echo "Veces reportado = ".$_SESSION['REPORT_VECES'];
                         $btn = '<a data-toggle="tooltip title="Members">Usted ya ha reportado</a>';
@@ -89,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  }
             ],
             [
-                'label' => 'Asistencia',
+                'label' => '',
                 'format' => 'raw',
                 'value' => function($model){
                     //Si no se está logueado
@@ -100,11 +99,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     } else {*/
                         //Crear una busqueda en Asistente
                         //$id_asistente = 7;
-                        $id_asistente =Yii::$app->user->id;
-                        $asistente= Asistente::findOne(['convocatoria_id' => $model->id ,'usuario_id' => $id_asistente ]);
+                        //$id_asistente = Yii::$app->user->id;
+                        //$asistente= Asistente::findOne(['convocatoria_id' => $model->convocatoria->id ,'usuario_id' => $id_asistente ]);
                         //si ya está suscrito al $model->id
                         
-                        return (!empty($asistente)) ? Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->id]),['class' => 'btn colorlogin mt-2']) : Html::a('inscribir',Url::toRoute(["inscribir", 'id' => $model->id]),['class' => 'btn colorlogin mt-2']);
+                        return Html::a('desinscribir',Url::toRoute(["desinscribir", 'id' => $model->convocatoria->id]),['class' => 'btn colorlogin mt-2']);
                         /*
                         if(!empty($asistente)){ //sale el botón desuscribirse (Se hace una busqueda con el id del modelo y el del usuario)
                             $btn = '<a href="'.Url::toRoute(["desinscribir", 'id' => $model->id]).'"
@@ -117,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }*/
                     //}
                     
-                    return $btn;
+                    //return $btn;
                  }
             ],
         ],
