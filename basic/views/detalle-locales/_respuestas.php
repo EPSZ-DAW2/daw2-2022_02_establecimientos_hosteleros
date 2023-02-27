@@ -33,7 +33,7 @@ use app\models\Usuario;
                         }
                     } 
                     
-                    if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){ ?> 
+                    if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)||Usuario::esRolSistema($idUsuario)){ ?> 
                         <div class="col"><?= Html::a("Denunciar", ['detalle-locales/denunciarcomentario', 'idLocal' =>$comentario['id'] ] , ['class' => 'btn btn-outline-danger']) ?></td>
                         </div><!-- col -->
                         <?php } ?>
@@ -42,7 +42,7 @@ use app\models\Usuario;
                         <div class="col">
                             <?php 
                             if($modeloComentarios->esCerrado($comentario_id)==0){
-                                if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){ ?>
+                                if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)||Usuario::esRolSistema($idUsuario)){ ?>
                                     <details><summary>Responder</summary>
                                         <div>
                                             <?php echo $this->render('_responder', ['idComentario'=>$comentario['id'],'local_id'=>$local_id, 'idUsuario'=>$idUsuario]);?>

@@ -64,7 +64,7 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
 			return $this->goHome();
         
         $searchModel = new LocalesMantenimientoSearch();
@@ -84,7 +84,7 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionView($id)
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
 			return $this->goHome();
         
         return $this->render('view', [
@@ -99,7 +99,7 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
 			return $this->goHome();
         
         $model = new LocalesMantenimiento();
@@ -126,7 +126,7 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionUpdate($id)
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
 			return $this->goHome();
         
         $model = $this->findModel($id);
@@ -149,7 +149,7 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionDelete($id)
     {   
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id))
+        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
             return $this->goHome();
         $this->findModel($id)->delete();
 

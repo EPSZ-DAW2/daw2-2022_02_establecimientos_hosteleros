@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php
               $idUsuario = Yii::$app->session->get('__id');
               echo "<h2>".$info[0]['titulo']."</h2>";
-              if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)){
+              if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)||Usuario::esRolSistema($idUsuario)){
                 $modeloUsuLocales = new UsuariosLocales();
                 $retorno = $modeloUsuLocales->comprobarSeguimiento($idUsuario, $info[0]['id']);
                 if($retorno === true){

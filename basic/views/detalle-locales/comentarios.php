@@ -43,7 +43,7 @@ use yii\db\ActiveRecord;
             echo '<div class="col">'.html::encode($value).'</div>';
           }
         }
-          if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario))
+          if(Usuario::esRolNormal($idUsuario) || Usuario::esRolModerador($idUsuario)||Usuario::esRolPatrocinador($idUsuario)||Usuario::esRolAdmin($idUsuario)||Usuario::esRolSistema($idUsuario))
           {
             ?> 
             <div class="col" ><?= Html::a("Denunciar", ['detalle-locales/denunciarcomentario', 'idComentario' => $comentario['id']] , ['class' => 'btn btn-outline-danger']) ?>

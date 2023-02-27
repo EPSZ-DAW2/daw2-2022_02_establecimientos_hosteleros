@@ -13,6 +13,27 @@ use yii\filters\VerbFilter;
  */
 class EtiquetasController extends Controller
 {
+
+    /*
+	 * Función sobreescrita para comprobar que layout usar
+	 * y que homeUrl definir según el rol del usuario
+	 * */
+	public function beforeAction($action)
+	{
+		if(!Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+				$this->layout='privada';
+				Yii::$app->homeUrl=array('local/index');
+			}
+
+		}else{
+			$this->layout='publica';
+			Yii::$app->homeUrl=array('local/index');
+		}
+
+		return parent::beforeAction($action);
+	}
+
     /**
      * @inheritDoc
      */
