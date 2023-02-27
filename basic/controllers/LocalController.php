@@ -30,7 +30,7 @@ class LocalController extends \yii\web\Controller
 	}
 
 	//Acción inicial de la web, muestra un listado de locales
-    public function actionIndex($id=null,$zona=null)
+    public function actionIndex($id=null,$zona=null,$prioridad=null)
     {
 		$locales=Local::find()->where(['visible'=>1]);
 		$searchModel = new LocalSearch();
@@ -39,15 +39,25 @@ class LocalController extends \yii\web\Controller
         //$zona= (isset($_GET['zona']) ? $_GET['zona'] : NULL);
         //$zona = Yii::$app->request->get('zona');
 
-        //Cuando se cree un filtro de locales añadir en la variable $filtro ese filtro
-		$filtro='prioridad';
+      
+
         //Cuando las zonas sean funcionales descomentar las siguientes lineas y comentar la linea marcada
         //Al descomentar la siguiente linea añadir a esa variable la zona filtro
         $filtro_zona=$zona;
         if($filtro_zona!=null){
-            $localespat=Local::find()->where(['visible'=>1,'zona_id'=>$filtro_zona])->orderBy([$filtro=>SORT_ASC])->limit(5);
+			if($prioridad!=null){
+				$localespat=Local::find()->where(['visible'=>1,'zona_id'=>$filtro_zona])->orderBy(['prioridad'=>SORT_DESC])->limit(5);
+			}else{
+				$localespat=Local::find()->where(['visible'=>1,'zona_id'=>$filtro_zona]);
+			}
+           
         }else{
-            $localespat=Local::find()->where(['visible'=>1])->orderBy([$filtro=>SORT_ASC])->limit(5);
+			if($prioridad!=null){
+				$localespat=Local::find()->where(['visible'=>1])->orderBy(['prioridad'=>SORT_DESC])->limit(5);
+						}else{
+				$localespat=Local::find()->where(['visible'=>1]);
+			}
+           
         }
 
 

@@ -56,7 +56,7 @@ class LocalSearch extends Local
         ]);
         
         
-        $this->load($params);
+         $this->load($params);
         
         $query->andFilterWhere(['=', LocalesEtiquetas::tableName().'.etiqueta_id', $this->etiqueta_id]);
         if (!$this->validate()) {
@@ -98,7 +98,7 @@ class LocalSearch extends Local
             ->andFilterWhere(['like', 'notas_admin', $this->notas_admin]);
 
         $query->andFilterWhere(['like', 'titulo', $this->titulo]);
-
+        $query->andFilterWhere(['like', 'prioridad', $this->prioridad]);
         //$query->andFilterWhere(['like', 'id', $this->id])->andFilterWhere(['like', ])
         return $dataProvider;
     }

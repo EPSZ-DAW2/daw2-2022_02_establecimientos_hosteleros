@@ -17,7 +17,7 @@
 use \app\models\Local;
 use \app\models\Zonas;
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 $this->title = Yii::t('app', 'Patrocinados');
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="right">
 
     <h1 class="text-center">Patrocinados</h1>
+    <?php echo '<a href="'.Url::to(['local/index', 'prioridad' =>1]).'" class=" btn colorlogin mt-2" style=" margin-left:20% ;">Filtrar por prioridad</a>'?> 
 
     <div class="container">
         <div class="row">
