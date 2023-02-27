@@ -32,8 +32,8 @@ $timestamp = time()-(60*60*4);
             'dateFormat' => 'yyyy-MM-dd',
         ])->label("Fecha de finalización") ?>
 
-    <?= $form->field($model, 'hora_solo_inicio')->textInput()->label("Hora de inicio") ?>
-    <?= $form->field($model, 'hora_solo_fin') ->textInput()->label("Hora de finalización")?>
+    <?= $form->field($model, 'hora_solo_inicio')->textInput(['value' => date('H:i', $model->hora_solo_inicio)])->label("Hora de inicio") ?>
+    <?= $form->field($model, 'hora_solo_fin') ->textInput(['value' => date('H:i', $model->hora_solo_fin)])->label("Hora de finalización")?>
 
     <?php //$form->field($model, 'num_denuncias')->textInput() ?>
     <?= $form->field($model, 'num_denuncias')->hiddenInput([ 'value' => 0 ])->label(false) ?>

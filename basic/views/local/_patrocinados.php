@@ -15,11 +15,18 @@
 <?php
 /** @var yii\web\View $this */
 use \app\models\Local;
+use \app\models\Zonas;
+use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Patrocinados');
-$this->params['breadcrumbs'][] = $this->title;?>
+$this->params['breadcrumbs'][] = $this->title;
+
+?>
+
 <div class="right">
+
     <h1 class="text-center">Patrocinados</h1>
+
     <div class="container">
         <div class="row">
             <?php

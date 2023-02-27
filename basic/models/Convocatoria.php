@@ -297,7 +297,7 @@ class Convocatoria extends \yii\db\ActiveRecord
     }
 
     //
-    public function setFecha_solo_inicio($fecha){
+    public function setFecha_solo_inicio($fecha = null ){
         
         //cojemos la fecha completa vieja
         $date_vieja = date_create($this->fecha_desde);
@@ -305,7 +305,10 @@ class Convocatoria extends \yii\db\ActiveRecord
         $hora_vieja = $date->format('H:i');
 
         //Juntamos fecha nueva con hora vieja
-        $fecha_nueva = $fecha." ".$hora_vieja.":00";
+        if($fecha != null)
+            $fecha_nueva = $fecha." ".$hora_vieja.":00";
+        else 
+        $fecha_nueva = "0000-00-00 ".$hora_vieja.":00";
         //Formateamos fecha
 
         $fecha_nueva2 = date_create($fecha_nueva);
@@ -322,7 +325,10 @@ class Convocatoria extends \yii\db\ActiveRecord
         $hora_vieja = $date->format('H:i');
 
         //Juntamos fecha nueva con hora vieja
-        $fecha_nueva = $fecha." ".$hora_vieja.":00";
+        if($fecha != null)
+            $fecha_nueva = $fecha." ".$hora_vieja.":00";
+        else 
+            $fecha_nueva = "0000-00-00 ".$hora_vieja.":00";
         //Formateamos fecha
 
         $fecha_nueva2 = date_create($fecha_nueva);
@@ -332,7 +338,7 @@ class Convocatoria extends \yii\db\ActiveRecord
 
     }
 
-    public function setHora_solo_inicio($hora){
+    public function setHora_solo_inicio($hora = null){
         
         //cojemos la fecha completa vieja
         $date_vieja = date_create($this->fecha_desde);
@@ -340,7 +346,10 @@ class Convocatoria extends \yii\db\ActiveRecord
         $Fecha_vieja = $date->format('Y-m-d');
 
         //Juntamos fecha vieja con hora nueva
-        $fecha_nueva = $Fecha_vieja." ".$hora.":00";
+        if($hora != null)
+            $fecha_nueva = $Fecha_vieja." ".$hora.":00";
+        else 
+            $fecha_nueva = $Fecha_vieja." 00:00:00";
         //Formateamos fecha
 
         $fecha_nueva2 = date_create($fecha_nueva);
@@ -348,7 +357,7 @@ class Convocatoria extends \yii\db\ActiveRecord
         $this->fecha_desde = $fecha_nueva2->format('Y-m-d H:i:s');
 
     }
-    public function setHora_solo_fin(){
+    public function setHora_solo_fin($hora = null){
         
         //cojemos la fecha completa vieja
         $date_vieja = date_create($this->fecha_hasta);
@@ -356,7 +365,10 @@ class Convocatoria extends \yii\db\ActiveRecord
         $Fecha_vieja = $date->format('Y-m-d');
 
         //Juntamos fecha vieja con hora nueva
-        $fecha_nueva = $Fecha_vieja." ".$hora.":00";
+        if($hora != null)
+            $fecha_nueva = $Fecha_vieja." ".$hora.":00";
+        else 
+        $fecha_nueva = $Fecha_vieja." 00:00:00";
         //Formateamos fecha
 
         $fecha_nueva2 = date_create($fecha_nueva);
@@ -372,11 +384,18 @@ class Convocatoria extends \yii\db\ActiveRecord
         //creamos la fecha inicial
         $fecha_inicio = date_create($this->fecha_solo_inicio." ". $this->hora_solo_inicio.":00");
         //formateo y guardo
-        $this->fecha_desde= $fecha_inicio->format('Y-m-d H:i:s');
+        if ($fecha_inicio == false  )
+            $this->fecha_desde= ("0000-00-00 00:00:00");
         //creamos la fecha final
+        else $this->fecha_desde=$fecha_inicio->format('Y-m-d H:i:s');
+        
         $fecha_fin = date_create($this->fecha_solo_fin." ". $this->hora_solo_fin.":00");
         //formateo y guardo
-        $this->fecha_hasta=$fecha_fin->format('Y-m-d H:i:s');
+        if ($fecha_fin == false  )
+            $this->fecha_hasta= ("0000-00-00 00:00:00");
+
+        else $this->fecha_hasta=$fecha_fin->format('Y-m-d H:i:s');
+        
         
         return true;
         

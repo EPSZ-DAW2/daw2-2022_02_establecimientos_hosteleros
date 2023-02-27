@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Local;
 
 /**
  * This is the model class for table "locales_comentarios".
@@ -54,8 +55,8 @@ class LocalesComentarios extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'local_id' => Yii::t('app', 'establecimiento/local relacionado'),
-            'valoracion' => Yii::t('app', 'Valoración dada al establecimiento/local.'),
-            'texto' => Yii::t('app', 'El texto del comentario.'),
+            'valoracion' => Yii::t('app', 'Valoración'),
+            'texto' => Yii::t('app', 'Comentario'),
             'comentario_id' => Yii::t('app', 'Comentario relacionado, si se permiten encadenar respuestas. Nodo padre de la jerarquia de comentarios, CERO si es nodo raiz.'),
             'cerrado' => Yii::t('app', 'Indicador de cierre de los comentarios: 0=No, 1=Si(No se puede responder al comentario)'),
             'num_denuncias' => Yii::t('app', 'Contador de denuncias del comentario o CERO si no ha tenido.'),
@@ -78,8 +79,41 @@ class LocalesComentarios extends \yii\db\ActiveRecord
     {
         return new LocalesComentariosQuery(get_called_class());
     }
-    public static function listarcomentarios($id){
-        return Yii::$app->db->createCommand('SELECT valoracion,texto,crea_fecha FROM '.LocalesComentarios::tableName().' WHERE id='.$id.' ORDER BY crea_fecha')->queryAll();
+    public static function listarcomentarios($local_id){
+        return Yii::$app->db->createCommand('SELECT id,valoracion,texto,crea_fecha FROM '.LocalesComentarios::tableName().' WHERE local_id='.$local_id.' AND comentario_id=0 ORDER BY crea_fecha')->queryAll();
+    }
+    public static function listarrespuestas($comentario_id){
+        return Yii::$app->db->createCommand('SELECT id,valoracion,texto,crea_fecha FROM '.LocalesComentarios::tableName().' WHERE comentario_id='.$comentario_id.' ORDER BY crea_fecha')->queryAll();
+    }
+    public function agregarcomentario($local_id,$valoracion,$texto,$cerrado,$crea_usuario_id,$comentario_id){
+        if($comentario_id==0){ 
+            Yii::$app->db->createCommand('UPDATE '.Local::tableName().' SET sumaValores = sumaValores +'.$valoracion.',totalVotos=totalVotos+1 WHERE id='.$local_id)->queryOne();
+        }
+        $crea_fecha = date('Y-m-d H:i:s');
+        return Yii::$app->db->createCommand('INSERT INTO '.LocalesComentarios::tableName().' (local_id,valoracion,texto,cerrado,crea_usuario_id,crea_fecha,comentario_id) VALUES ("'.$local_id.'","'.$valoracion.'","'.$texto.'","'.$cerrado.'","'.$crea_usuario_id.'","'.$crea_fecha.'","'.$comentario_id.'")')->queryAll();
+    }
+
+    public static function num_comentarios($local_id){
+        //return Yii::$app->db->createCommand('SELECT COUNT(id) as "count" FROM '.LocalesComentarios::tableName().' WHERE local_id= '.$local_id)->queryAll();
+        $query = LocalesComentarios::find()->where(['local_id'=>$local_id]);
+    
+        $count = $query->count();
+
+        //$count= Yii::$app->db->createCommand()->select("count(id) as 'count' ")->from('locales_comentarios')->queryAll();
+        return $count;
+    }
+
+
+    public function esCerrado($comentario_id){
+        $valor = Yii::$app->db->createCommand('SELECT cerrado FROM '.LocalesComentarios::tableName().' WHERE id='.$comentario_id)->queryAll();
+        
+        if($valor[0]['cerrado']==0){
+            return 0;
+        } elseif($valor[0]['cerrado']==1){
+            return 1;
+        } else {return 3;}
+
+        
     }
 
 }

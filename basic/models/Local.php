@@ -5,6 +5,7 @@ namespace app\models;
 use \app\models\Categoria;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\models\LocalesEtiquetas;
 
 /**
  * This is the model class for table "locales".
@@ -55,7 +56,7 @@ class Local extends \yii\db\ActiveRecord
         return [
             [['titulo'], 'required'],
             [['titulo', 'descripcion', 'lugar', 'url', 'notas_bloqueo', 'notas_admin'], 'string'],
-            [['zona_id', 'categoria_id', 'sumaValores', 'totalVotos', 'hostelero_id', 'prioridad', 'visible', 'terminado', 'num_denuncias', 'bloqueado', 'cerrado_comentar', 'cerrado_quedar', 'crea_usuario_id', 'modi_usuario_id'], 'integer'],
+            [['zona_id', 'categoria_id', 'sumaValores', 'totalVotos', 'hostelero_id', 'prioridad', 'visible', 'terminado', 'num_denuncias', 'bloqueado', 'cerrado_comentar', 'cerrado_quedar', 'crea_usuario_id', 'modi_usuario_id', 'etiqueta_id'], 'integer'],
             [['fecha_terminacion', 'fecha_denuncia1', 'fecha_bloqueo', 'crea_fecha', 'modi_fecha'], 'safe'],
             [['imagen_id'], 'string', 'max' => 25],
         ];
@@ -94,6 +95,7 @@ class Local extends \yii\db\ActiveRecord
             'modi_usuario_id' => Yii::t('app', 'Modi Usuario ID'),
             'modi_fecha' => Yii::t('app', 'Modi Fecha'),
             'notas_admin' => Yii::t('app', 'Notas Admin'),
+            'etiqueta_id' => Yii::t('app', 'Id etiqueta'),
         ];
     }
 
@@ -128,22 +130,74 @@ class Local extends \yii\db\ActiveRecord
             'local_id' => 'id',
         ]);
 
-     }
+    }
 
-   /*  public function getAsistentes(){
+    /*  public function getAsistentes(){
         //buscador de locales
-       
-       return $this->hasMany(Local::class, ['idLocal' =>'id'])->inverseOf('Asistentes');
+
+        return $this->hasMany(Local::class, ['idLocal' =>'id'])->inverseOf('Asistentes');
     
     }*/
     public function getAsistentes(){
         //buscador de locales
-       
-       return $this->hasMany(Asistentes::class, ['idLocal' =>'id'])->inverseOf('Local');
+        return $this->hasMany(Asistentes::class, ['idLocal' =>'id'])->inverseOf('Local');
     
     }
     public function getLocal(){
         return $this->hasMany(Convocatoria::class, ['local_id' =>'id'])->inverseOf('Local');
     }
-  
+
+    public function getId(){
+        if($this->id==NULL){
+            return "";
+        } else {
+            return $this->id;
+        }
+    }
+
+
+    public static function listaCategorias(){
+        $tipos=Categoria::find()->orderBy('nombre')->all();
+		$lista=ArrayHelper::map($tipos, 'id', 'nombre');
+        return $lista;
+    }
+
+    /* public function getEtiquetas(){
+        return $this->hasMany(LocalesEtiquetas::class,[
+            //campos clave de convocatorias y  local
+            'id' => 'locales_id',
+        ])->inverseOf('LocalesEtiquetas');
+    } */
+
+    public function getLocalesEtiquetas(){
+        return $this->hasOne(\app\models\LocalesEtiquetas::class, [
+            'local_id' => 'id',
+        ])->inverseOf('localesEtiquetas');
+    }
+
+    /* public function getModelo2()
+{
+    return $this->hasOne(Modelo2::className(), ['id' => 'modelo2_id']);
+}
+ */
+    /* public function getIdLocalEtiquInv(){
+        return $this->hasMany(LocalesEtiquetas::class,[
+            'local_id' => 'id',
+        ])->inverseOf('local');
+    } */
+
+    public static function listaEtiquetas(){
+        $tipos=LocalesEtiquetas::find()->orderBy('id')->all();
+		$lista=ArrayHelper::map($tipos, 'id', 'nombre');
+        return $lista;
+    }
+
+    protected $etiqueta_id=null;
+    public function getEtiqueta_id(){
+        if($this->etiqueta_id==NULL){
+            return "";
+        } else {
+            return $this->etiqueta_id;
+        }
+    }
 }

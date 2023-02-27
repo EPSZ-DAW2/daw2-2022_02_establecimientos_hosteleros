@@ -26,6 +26,7 @@ $items=[
 	['label' => 'Mensajes', 'url' => ['/mi-perfil/mensajes']],
 	['label' => 'Locales', 'url' => ['/mi-perfil/establecimientos']],
 	['label' => 'Seguidos', 'url' => ['/mi-perfil/seguimiento']],
+	['label' => 'Comentarios', 'url' => ['/mi-perfil/comentarios']],
 ];
 echo Nav::widget([
 	'options' => ['class' => 'navbar-nav'],
@@ -34,10 +35,16 @@ echo Nav::widget([
 NavBar::end();
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
-<div class="container">
-    <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
+
+<div class="form-group mt-2">
+	<?= Html::a(Yii::t('app', 'Enviar mensaje'), ['crearmensaje'], ['class' => 'btn btn-success']) ?>
 </div>
 
 <div class="container">
+   <?php echo $this->render('_avisosRecibidos',['model'=>$modelAvisosRecibidos]);?>
+</div>
+
+<div class="container">
+
     <?php echo $this->render('_avisosEnviados',['model'=>$modelAvisosEnviados]);?>
 </div>

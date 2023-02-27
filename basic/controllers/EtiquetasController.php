@@ -2,42 +2,37 @@
 
 namespace app\controllers;
 
-use app\models\LocalesMantenimiento;
-use app\models\LocalesMantenimientoSearch;
-use app\models\Usuario;
+use app\models\Etiquetas;
+use app\models\EtiquetasSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\Configuracion;
-
-use Yii;
 
 /**
- * LocalesMantenimientoController implements the CRUD actions for LocalesMantenimiento model.
+ * EtiquetasController implements the CRUD actions for Etiquetas model.
  */
-class LocalesMantenimientoController extends \yii\web\Controller
+class EtiquetasController extends Controller
 {
 
     /*
-    * Función sobreescrita para comprobar que layout usar
-    * y que homeUrl definir según el rol del usuario
-    * */
-    public function beforeAction($action)
-    {
-        if(!Yii::$app->user->isGuest){
-            if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
-                $this->layout='privada';
-                Yii::$app->homeUrl=array('usuarios/index');
-            }
+	 * Función sobreescrita para comprobar que layout usar
+	 * y que homeUrl definir según el rol del usuario
+	 * */
+	public function beforeAction($action)
+	{
+		if(!Yii::$app->user->isGuest){
+			if(Usuario::esRolAdmin(Yii::$app->user->id) || Usuario::esRolSistema(Yii::$app->user->id)){
+				$this->layout='privada';
+				Yii::$app->homeUrl=array('local/index');
+			}
 
-        }else{
-            $this->layout='publica';
-            Yii::$app->homeUrl=array('local/index');
-        }
+		}else{
+			$this->layout='publica';
+			Yii::$app->homeUrl=array('local/index');
+		}
 
-        return parent::beforeAction($action);
-    }
-
+		return parent::beforeAction($action);
+	}
 
     /**
      * @inheritDoc
@@ -58,18 +53,15 @@ class LocalesMantenimientoController extends \yii\web\Controller
     }
 
     /**
-     * Lists all LocalesMantenimiento models.
+     * Lists all Etiquetas models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
-			return $this->goHome();
-        
-        $searchModel = new LocalesMantenimientoSearch();
+        $searchModel = new EtiquetasSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
-        $dataProvider->setPagination(['pageSize' => 1]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -77,32 +69,26 @@ class LocalesMantenimientoController extends \yii\web\Controller
     }
 
     /**
-     * Displays a single LocalesMantenimiento model.
+     * Displays a single Etiquetas model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
-			return $this->goHome();
-        
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new LocalesMantenimiento model.
+     * Creates a new Etiquetas model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
-			return $this->goHome();
-        
-        $model = new LocalesMantenimiento();
+        $model = new Etiquetas();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -118,7 +104,7 @@ class LocalesMantenimientoController extends \yii\web\Controller
     }
 
     /**
-     * Updates an existing LocalesMantenimiento model.
+     * Updates an existing Etiquetas model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -126,9 +112,6 @@ class LocalesMantenimientoController extends \yii\web\Controller
      */
     public function actionUpdate($id)
     {
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
-			return $this->goHome();
-        
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -141,35 +124,32 @@ class LocalesMantenimientoController extends \yii\web\Controller
     }
 
     /**
-     * Deletes an existing LocalesMantenimiento model.
+     * Deletes an existing Etiquetas model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
-    {   
-        if(Yii::$app->user->isGuest || !Usuario::esRolAdmin(Yii::$app->user->id) || !Usuario::esRolSistema(Yii::$app->user->id))
-            return $this->goHome();
+    {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the LocalesMantenimiento model based on its primary key value.
+     * Finds the Etiquetas model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return LocalesMantenimiento the loaded model
+     * @return Etiquetas the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = LocalesMantenimiento::findOne(['id' => $id])) !== null) {
+        if (($model = Etiquetas::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
-
 }
