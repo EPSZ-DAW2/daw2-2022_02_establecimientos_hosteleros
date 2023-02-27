@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <p>
-    <a href="<?= Url::toRoute(['asistentes/create','id' => $convocatoria,'id_local'=>$local]);?> class="class="btn pl-2 pr-2 mb-0 btn-default">Añadir asistente</a>
+    <a href="<?= Url::toRoute(['asistentes/create','id' => $convocatoria,'id_local'=>$local]);?>" class="btn pl-2 pr-2 mb-0 btn-default">Añadir asistente</a>
     </p>
    
 
