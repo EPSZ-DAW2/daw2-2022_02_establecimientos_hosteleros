@@ -59,10 +59,10 @@ class Convocatoria extends \yii\db\ActiveRecord
             'local_id' => Yii::t('app', 'Local ID'),
             'titulo' => Yii::t('app', 'Local'),
             'localFoto_Id' => Yii::t('app', 'localFoto_Id'),
-            'texto' => Yii::t('app', 'Texto'),
+            'texto' => Yii::t('app', 'Convocatoria'),
             'fecha_desde' => Yii::t('app', 'Fecha Desde'),
-            'fecha_solo_inicio' =>Yii::t('app', 'Fecha Hasta'),
-            'fecha_solo_fin' =>Yii::t('app', 'Fecha Inicio'),
+            'fecha_solo_inicio' =>Yii::t('app', 'Fecha inicio'),
+            'fecha_solo_fin' =>Yii::t('app', 'Fecha fin'),
             'fecha_hasta' => Yii::t('app', 'Fecha fin'),
             'hora_solo_inicio' =>Yii::t('app', 'Hora inicio'),
             'hora_solo_fin' => Yii::t('app', 'Hora fin'),
@@ -75,6 +75,7 @@ class Convocatoria extends \yii\db\ActiveRecord
             'crea_fecha' => Yii::t('app', 'Crea Fecha'),
             'modi_usuario_id' => Yii::t('app', 'Modi Usuario ID'),
             'modi_fecha' => Yii::t('app', 'Modi Fecha'),
+            'NumParticipantes' => Yii::t('app', 'Participantes Totales'),
         ];
     }
 

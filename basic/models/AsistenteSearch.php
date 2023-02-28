@@ -11,6 +11,12 @@ use app\models\Asistente;
  */
 class AsistenteSearch extends Asistente
 {
+    public $texto;
+
+    public $fecha_desde;
+    public $fecha_hasta;
+
+    public $NumParticipantes;
     /**
      * {@inheritdoc}
      */
@@ -18,7 +24,7 @@ class AsistenteSearch extends Asistente
     {
         return [
             [['id', 'local_id', 'convocatoria_id', 'usuario_id'], 'integer'],
-            [['fecha_alta','titulo','nombre','apellidos','fecha_alta'], 'safe'],
+            [['fecha_alta','titulo','nombre','apellidos','fecha_alta','texto','fecha_desde','fecha_hasta','NumParticipantes'], 'safe'],
         ];
     }
 
@@ -30,6 +36,7 @@ class AsistenteSearch extends Asistente
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+
 
     /**
      * Creates data provider instance with search query applied
@@ -47,13 +54,33 @@ class AsistenteSearch extends Asistente
         $query->andFilterWhere(['=', 'nombre', $this->nombre]);
         $query->joinWith(['usuario']);
         $query->andFilterWhere(['=', 'apellidos', $this->apellidos]);
+        $query->joinWith(['convocatoria con']);
+        
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['attributes' => ['usuario_id', 'fecha_desde','fecha_hasta','titulo','nombre','apellidos']]
+            'sort' => ['attributes' => ['id','usuario_id', 'fecha_desde','fecha_hasta','titulo','nombre','apellidos','texto']]
         ]);
+        $sort=$dataProvider->sort;
+
+        $sort->attributes['convocatoria.fecha_desde'] = [
+            'asc' => ['con.fecha_desde' => SORT_ASC],
+            'desc' => ['con.fecha_desde' => SORT_DESC],
+        ];
+        $sort->attributes['convocatoria.fecha_hasta'] = [
+            'asc' => ['con.fecha_hasta' => SORT_ASC],
+            'desc' => ['con.fecha_hasta' => SORT_DESC],
+        ];
+        $sort->attributes['convocatoria.texto'] = [
+            'asc' => ['con.texto' => SORT_ASC],
+            'desc' => ['con.texto' => SORT_DESC],
+        ];
+        /*$sort->attributes['convocatoria.NumParticipantes']= [
+			'asc' => ['COUNT(*)' => SORT_ASC],
+			'desc' => ['COUNT(*)' => SORT_DESC],
+		];*/
 
         $this->load($params);
 
@@ -71,6 +98,11 @@ class AsistenteSearch extends Asistente
             'usuario_id' => $this->usuario_id,
             'fecha_alta' => $this->fecha_alta,
         ]);  $query->andFilterWhere(['like', 'titulo', $this->titulo]); $query->andFilterWhere(['like', 'nombre', $this->nombre]); $query->andFilterWhere(['like', 'apellidos', $this->apellidos]);
+
+        $query->andFilterWhere(['like', 'con.texto', $this->texto]);
+        
+
+
 
         return $dataProvider;
     }
