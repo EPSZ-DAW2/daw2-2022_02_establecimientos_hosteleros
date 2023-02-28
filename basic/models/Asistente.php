@@ -49,6 +49,7 @@ class Asistente extends \yii\db\ActiveRecord
             'nombre' => Yii::t('app', 'Nombre  Asistente'),
             'apellidos' => Yii::t('app', 'Apellidos Asistente'),
             'fecha_alta' => Yii::t('app', 'Fecha Alta'),
+            'texto' => Yii::t('app', 'Convocatoria'),
         ];
     }
 
@@ -157,6 +158,8 @@ class Asistente extends \yii\db\ActiveRecord
     }    public function getLocal(){
         return $this->hasOne(Local::class, ['id' =>'local_id'])->inverseOf('local');
     }
+    protected $titulo = null;
+    
     public function getTitulo(){
         //buscador de locales
            if($this->local==NULL)
@@ -178,5 +181,11 @@ class Asistente extends \yii\db\ActiveRecord
         
         }
         protected $Convocatoria = null;
+
+    public function getTexto()
+    {
+    $convocatoria= $this->convocatoria;
+        return (($convocatoria !== null) ? $convocatoria->texto : null);
+    }//getNombreCompleto    
     
 }

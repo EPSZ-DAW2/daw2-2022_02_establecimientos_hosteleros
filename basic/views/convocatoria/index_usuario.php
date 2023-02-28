@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+            //'id',
             //'local_id',
             //'convocatoria_id',
             //'fecha_alta',
@@ -51,18 +51,49 @@ $this->params['breadcrumbs'][] = $this->title;
             //'crea_fecha',
             //'modi_usuario_id',
             //'modi_fecha',
+            //'convocatoria.texto',
             [
-                'attribute'=>'Convocatoria',
-                'content'=> function(Asistente $model, $key, $index, $column){
-                    return $model->convocatoria->texto;
+                'attribute' => 'convocatoria.texto',
+                'filterAttribute' => 'texto',
+                'value' =>function($model,$key,$index,$column){
+                    $con = $model->convocatoria;
+                    return ($con!==null) ? $con->texto : null;
                 }
             ],
             [
-                'attribute'=>'Participantes',
-                'content'=> function(Asistente $model, $key, $index, $column){
-                    return $model->convocatoria->getNumParticipantes();
+                'attribute' => 'convocatoria.fecha_desde',
+                'filterAttribute' => 'fecha_desde',
+                'value' =>function($model,$key,$index,$column){
+                    $con = $model->convocatoria;
+                    return ($con!==null) ? $con->fecha_desde : null;
                 }
             ],
+            [
+                'attribute' => 'convocatoria.fecha_hasta',
+                'filterAttribute' => 'fecha_hasta',
+                'value' =>function($model,$key,$index,$column){
+                    $con = $model->convocatoria;
+                    return ($con!==null) ? $con->fecha_hasta : null;
+                }
+            ],
+            [
+                'attribute' => 'convocatoria.NumParticipantes',
+                'filterAttribute' => 'NumParticipantes',
+                'value' =>function($model,$key,$index,$column){
+                    $con = $model->convocatoria;
+                    return ($con!==null) ? $con->NumParticipantes : null;
+                }
+            ],
+            //'convocatoria.fecha_desde',
+            //'convocatoria.fecha_hasta',
+            //'convocatoria.NumParticipantes',
+            //[
+                //'attribute'=>'Convocatoria',
+               // 'content'=> function(Asistente $model, $key, $index, $column){
+               ///     return $model->convocatoria->texto;
+               // }
+            //],
+            
 
             [
                 'label' => '',

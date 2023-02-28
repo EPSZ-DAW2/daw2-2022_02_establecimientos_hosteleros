@@ -14,11 +14,17 @@ class ConvocatoriaSearch extends Convocatoria
     /**
      * {@inheritdoc}
      */
+
+    public $fecha_solo_inicio; 
+    public $fecha_solo_fin; 
+    public $hora_solo_inicio;
+    public $hora_solo_fin;
+
     public function rules()
     {
         return [
             [['id', 'local_id', 'num_denuncias', 'bloqueada', 'crea_usuario_id', 'modi_usuario_id'], 'integer'],
-            [['titulo','texto', 'fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'notas_bloqueo', 'crea_fecha', 'modi_fecha'], 'safe'],
+            [['titulo','texto', 'fecha_desde', 'fecha_hasta', 'fecha_denuncia1', 'fecha_bloqueo', 'notas_bloqueo', 'crea_fecha', 'modi_fecha','fecha_solo_inicio','fecha_solo_fin','hora_solo_inicio','hora_solo_fin'], 'safe'],
         ];
     }
 
@@ -42,6 +48,7 @@ class ConvocatoriaSearch extends Convocatoria
     {
         $query = Convocatoria::find();
         $query->joinWith('local',true);
+        //$query->joinWith('asistente',true);
         $query->andFilterWhere(['=', 'titulo', $this->titulo]);
         // add conditions that should always apply here
 
@@ -81,6 +88,10 @@ class ConvocatoriaSearch extends Convocatoria
             //filtros para que sean rangos y no un = 
             $query->andFilterWhere(['>', 'fecha_desde', $this->fecha_desde]);
             $query->andFilterWhere(['<', 'fecha_hasta', $this->fecha_hasta]);
+
+            
+
+            
         
         return $dataProvider;
     }
